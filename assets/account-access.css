@@ -1,0 +1,15 @@
+.account-access{display:flex;align-items:center;flex:0 0 44px;min-width:44px}
+.account-access shopify-account{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;--shopify-account-signed-in-avatar-size:44px;--shopify-account-signed-in-avatar-color-background:var(--color-accent);--shopify-account-signed-in-avatar-color-text:var(--color-on-accent,#fff);--shopify-account-color-background:var(--color-bg,#faf8f5);--shopify-account-color-text:var(--color-ink,#282422);--shopify-account-color-accent:var(--color-accent,#54232d);--shopify-account-color-accent-hover:var(--color-hover,#282422);--shopify-account-color-accent-text:var(--color-on-accent,#fff);--shopify-account-color-border:var(--color-line,#d8d1cb);--shopify-account-color-background-subdued:#f4eee7;--shopify-account-color-text-subdued:var(--color-muted,#68605b);--shopify-account-color-control-background:#fff;--shopify-account-color-control-text:var(--color-ink,#282422);--shopify-account-color-card-background:#fff;--shopify-account-color-card-text:var(--color-ink,#282422);--shopify-account-font-heading:var(--font-heading,Georgia,'Times New Roman',serif);--shopify-account-font-heading-weight:var(--font-heading-weight,400);--shopify-account-font-body:var(--font-body,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif);--shopify-account-font-body-weight:var(--font-body-weight,400);--shopify-account-radius-dialog:12px;--shopify-account-radius-button:8px;--shopify-account-radius-button-small:6px;--shopify-account-radius-input:8px;--shopify-account-radius-base:8px;--shopify-account-dialog-position-top:calc(var(--header-offset,96px) + 8px);--color-backdrop:rgba(40,36,34,0.45);--color-shadow:0 16px 40px -8px rgba(40,36,34,0.18),0 0 0 1px rgba(216,209,203,0.5);--shadow-focus-ring-accent:0 0 0 2px var(--color-accent,#54232d)}
+.account-access shopify-account:not(:defined){display:none}
+.account-access shopify-account:defined+.account-access__fallback{display:none}
+.account-access__icon,.header-actions .account-access__fallback{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;color:var(--color-ink);transition:color .2s ease}
+.account-access shopify-account::part(signed-out-avatar){min-width:44px;min-height:44px;color:var(--color-ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:opacity .2s ease}
+.account-access shopify-account::part(signed-out-avatar):hover,.account-access__icon:hover,.account-access__fallback:hover{opacity:.75}
+.account-access shopify-account::part(signed-out-avatar):focus-visible{outline:2px solid var(--color-accent);outline-offset:3px}
+.site-header--accounts .header-actions{gap:12px;flex-wrap:wrap}
+@media(max-width:749px){
+ .site-header--accounts .header-inner{grid-template-columns:minmax(44px,1fr) minmax(0,auto) minmax(100px,1fr);gap:8px}
+ .site-header--accounts .brand--signature{width:clamp(100px,calc(100vw - 220px),150px)}
+ .site-header--accounts .header-actions{gap:4px}
+ .site-header--accounts .header-actions>a{flex:1 1 52px;justify-content:flex-end}
+}

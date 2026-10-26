@@ -1,0 +1,37 @@
+cart-upsell{display:block}
+.cart-upsell{overflow-wrap:anywhere}
+.cart-upsell__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px 24px;list-style:none;margin:0;padding:0}
+.cart-upsell__item{display:flex;flex-direction:column;min-width:0;gap:16px;padding:22px;border:1px solid rgba(84,35,45,0.08);border-radius:20px;background:#FFFFFF;box-shadow:0 8px 30px -6px rgba(40,36,34,0.05);transition:border-color var(--motion-fast),box-shadow var(--motion-fast),transform var(--motion-fast)}
+@media(hover:hover){.cart-upsell__item:hover{border-color:rgba(197,160,89,0.35);box-shadow:0 16px 36px -8px rgba(84,35,45,0.1);transform:translateY(-3px)}}
+.cart-upsell__item .product-card{display:flex;flex-direction:column;height:100%;border:none;background:transparent}
+.cart-upsell__item .product-card>.product-card-link{display:flex;flex-direction:column;flex:1;text-decoration:none}
+.cart-upsell__item .product-card-media{border-radius:14px;overflow:hidden;aspect-ratio:4/5;background:radial-gradient(circle at 50% 30%,#ffffff 0%,#f5eee8 100%)}
+.cart-upsell__item .product-card-details{display:flex;flex-direction:column;flex:1;padding-top:14px}
+.cart-upsell__item .product-card-caption h3{font-family:var(--font-heading,Georgia,serif);font-size:1.25rem;font-weight:500;line-height:1.25;margin:0 0 6px;color:#282422}
+.cart-upsell__item .product-card-type{font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--color-accent,#54232D);margin-bottom:6px}
+.cart-upsell__item .product-card-options{font-size:.75rem;color:var(--color-muted,#726864);margin:4px 0 10px}
+.cart-upsell__item .price{font-family:var(--font-heading,Georgia,serif);font-size:1.125rem;font-weight:600;color:#282422;margin-bottom:12px}
+.cart-upsell__item .product-card-action{display:none!important}
+.cart-upsell__view{margin-block-start:auto;width:100%;min-height:46px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:#282422;color:#FAF8F5;font-size:.8125rem;font-weight:600;letter-spacing:.04em;text-decoration:none;border:1px solid rgba(255,255,255,0.1);transition:background .2s,transform .2s,box-shadow .2s}
+.cart-upsell__view:hover{background:var(--color-accent,#54232D);box-shadow:0 8px 20px -4px rgba(84,35,45,.4);transform:translateY(-1px);color:#FAF8F5}
+.cart-upsell__form{margin-block-start:auto;width:100%}
+.cart-upsell__form .button{width:100%;min-height:46px;border-radius:999px;background:#282422;color:#FAF8F5;font-size:.8125rem;font-weight:600;letter-spacing:.04em;border:1px solid rgba(255,255,255,0.1);transition:background .2s,transform .2s,box-shadow .2s}
+.cart-upsell__form .button:hover{background:var(--color-accent,#54232D);box-shadow:0 8px 20px -4px rgba(84,35,45,.4);transform:translateY(-1px)}
+.cart-upsell__item:has(.product-card-quick) .cart-upsell__view{display:none}
+.cart-upsell__item .product-card-quick{width:100%;min-height:46px;margin-top:auto;border-radius:999px;background:#282422;color:#FAF8F5;font-size:.8125rem;font-weight:600;letter-spacing:.04em;border:1px solid rgba(255,255,255,0.1);display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:background .2s,transform .2s,box-shadow .2s}
+.cart-upsell__item .product-card-quick:hover{background:var(--color-accent,#54232D);box-shadow:0 8px 20px -4px rgba(84,35,45,.4);transform:translateY(-1px);color:#FAF8F5}
+.premium-panel[data-kind="cart"] .cart-upsell__item .product-card-quick,
+dialog[data-kind="cart"] .cart-upsell__item .product-card-quick{display:none!important}
+.premium-panel[data-kind="cart"] .cart-upsell__item:has(.product-card-quick) .cart-upsell__view{display:inline-flex!important}
+.cart-upsell__notice{margin-block-start:24px;max-width:60ch}
+.cart-upsell__notice p:empty{display:none}
+.cart-upsell__notice p{margin-block-end:8px}
+.cart-upsell :focus-visible{outline:2px solid var(--color-accent);outline-offset:5px}
+.cart-upsell__form .button.is-loading,
+.cart-upsell__item .button.is-loading{position:relative;color:transparent!important;pointer-events:none}
+.cart-upsell__form .button.is-loading::after,
+.cart-upsell__item .button.is-loading::after{content:'';position:absolute;width:16px;height:16px;top:calc(50% - 8px);left:calc(50% - 8px);border:2px solid rgba(255,255,255,0.35);border-top-color:#ffffff;border-radius:50%;animation:cart-upsell-spin .6s linear infinite}
+@keyframes cart-upsell-spin{to{transform:rotate(360deg)}}
+@media(max-width:989px){.cart-upsell__grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 16px}}
+@media(max-width:479px){.cart-upsell__grid{grid-template-columns:minmax(0,1fr);gap:20px}}
+

@@ -1,0 +1,6 @@
+.cart-line-price{margin-block:0;min-width:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;text-align:end}
+.cart-line-price__totals{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:4px 12px}
+.cart-line-price__totals s{color:var(--color-muted)}
+.cart-line-price__unit{display:block;font-size:.875rem;line-height:1.6;color:var(--color-muted);margin-block-start:8px;max-width:220px;margin-inline-start:auto}
+.cart-line-price__unit>span{display:block}
+@media(max-width:749px){.cart-line-price{text-align:start}.cart-line-price__totals{justify-content:flex-start}.cart-line-price__unit{margin-inline-start:0;max-width:none}}

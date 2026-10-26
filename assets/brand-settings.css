@@ -1,0 +1,43 @@
+/* Global brand settings, loaded after the base stylesheet. */
+body { font-weight: var(--font-body-weight, 400); font-style: var(--font-body-style, normal); }
+h1, h2, h3, h4, h5, h6, .brand, .evidence-value, .shade-finder__product-title {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight, 400);
+  font-style: var(--font-heading-style, normal);
+}
+.hero-copy h1 em, .hero-copy h2 em { font-weight: inherit; }
+::selection, .announcement { color: var(--color-on-accent); }
+.product-card>a:hover .product-card-open,
+.product-card>a:focus-visible .product-card-open,
+body .shade-finder__choose[aria-pressed=true] .shade-finder__check { color: var(--color-on-accent); }
+.skip-link { background: var(--color-bg); color: var(--color-ink); }
+
+/* Touch ergonomics: elements the control layer's selector list did not reach. */
+@media (pointer: coarse) {
+  html[data-control-language] :is(
+    .header-utility-localization,
+    .mobile-localization-pill,
+    .header-promotion
+  ) { min-block-size: 44px; }
+
+  html[data-control-language] input[type="range"] {
+    min-block-size: 44px;
+  }
+
+  html[data-control-language] input[type="range"]::-webkit-slider-thumb {
+    inline-size: 26px;
+    block-size: 26px;
+  }
+
+  html[data-control-language] input[type="range"]::-moz-range-thumb {
+    inline-size: 26px;
+    block-size: 26px;
+  }
+}
+/* Theme settings: layout rhythm and product cards. */
+.section-space{padding-block:calc(clamp(48px,7vw,96px) * var(--section-scale,1))}
+.product-card-media{aspect-ratio:var(--card-ratio,4 / 5)}
+.product-card-media img,html .product-card-media .product-card-secondary{object-fit:var(--card-fit,cover)}
+.product-card[data-card-style=minimal]{background:transparent;border-color:transparent}
+.product-card[data-card-style=minimal] .product-card-media{margin:0}
+.product-card[data-card-style=minimal] .product-card-details{padding-inline:0}

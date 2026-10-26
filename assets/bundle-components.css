@@ -1,0 +1,14 @@
+.bundle-components{border-inline-start:2px solid var(--color-line);padding-inline-start:16px;margin-block:20px;min-width:0;overflow-wrap:anywhere}
+.bundle-components__heading{font-weight:600;font-size:.875rem;margin-block:0 8px}
+.bundle-components__list{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.bundle-components__item{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;min-width:0}
+.bundle-components__description{flex:1 1 150px;min-width:0}
+.bundle-components__link{display:inline-flex;align-items:center;min-height:44px;max-width:100%;font-size:.875rem;line-height:1.5}
+.bundle-components__link bdi{min-width:0}
+.bundle-components__link:focus-visible{outline:2px solid var(--color-accent);outline-offset:4px}
+.bundle-components__name,.bundle-components__variant{font-size:.875rem;line-height:1.5;margin-block:0 4px}
+.bundle-components__variant{color:var(--color-muted)}
+.bundle-components__quantity,.bundle-components__property{display:flex;flex-wrap:wrap;gap:4px 8px;font-size:.875rem;line-height:1.5;margin:0}
+.bundle-components__quantity{font-variant-numeric:tabular-nums}
+.bundle-components dt{color:var(--color-muted)}
+.bundle-components dd{margin:0;min-width:0}
