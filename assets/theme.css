@@ -256,3 +256,17 @@ h1,h2,h3 { overflow-wrap: anywhere; }
   box-shadow: 0 2px 8px rgba(243, 213, 155, 0.3);
 }
 
+/* TEMPORARY: hide Shopify's native country/currency/language selectors.
+   Re-enable them later by removing or commenting out this block.
+   Nova Multi Currency Converter is not affected. */
+.header-utility-localization,
+.mobile-menu-localization,
+.footer-localization {
+  display: none !important;
+}
+
+/* The header may render an otherwise-empty announcement bar when only
+   the native localization shortcut was present. Keep real announcements visible. */
+.announcement:not(:has(.announcement-text)) {
+  display: none !important;
+}
