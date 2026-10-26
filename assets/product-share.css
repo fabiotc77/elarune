@@ -1,0 +1,261 @@
+/* Product Share - Luxury Beauty Commerce OS */
+.product-share {
+  display: block;
+  position: relative;
+  margin-block: 16px;
+}
+
+.product-share__disclosure {
+  position: relative;
+  display: inline-block;
+}
+
+.product-share__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 18px;
+  background: transparent;
+  color: var(--color-ink, #282422);
+  border: 1px solid var(--color-line, rgba(40, 36, 34, 0.2));
+  border-radius: 9999px;
+  font-family: var(--font-body, inherit);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  list-style: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  user-select: none;
+}
+
+.product-share__trigger::-webkit-details-marker {
+  display: none;
+}
+
+.product-share__trigger:hover {
+  background: var(--color-ink, #282422);
+  color: var(--color-bg, #faf8f5);
+  border-color: var(--color-ink, #282422);
+}
+
+.product-share__trigger:focus-visible {
+  outline: 2px solid var(--color-accent, #54232d);
+  outline-offset: 3px;
+}
+
+.product-share__icon {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.product-share__trigger:hover .product-share__icon {
+  transform: scale(1.08);
+}
+
+/* Popover Modal / Dropdown */
+.product-share__popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 50;
+  width: min(340px, calc(100vw - 32px));
+  padding: 22px;
+  background: rgba(250, 248, 245, 0.96);
+  color: var(--color-ink, #282422);
+  border: 1px solid rgba(84, 35, 45, 0.14);
+  border-radius: 16px;
+  box-shadow: 0 24px 50px -12px rgba(40, 36, 34, 0.18), 0 4px 12px rgba(84, 35, 45, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: product-share-fade-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[dir="rtl"] .product-share__popover {
+  left: auto;
+  right: 0;
+}
+
+@keyframes product-share-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-share__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-end: 14px;
+}
+
+.product-share__title {
+  font-family: var(--font-heading, inherit);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink, #282422);
+}
+
+.product-share__close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  color: var(--color-muted, #736b66);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.product-share__close-btn:hover {
+  color: var(--color-ink, #282422);
+  background: rgba(40, 36, 34, 0.06);
+}
+
+.product-share__close-btn:focus-visible {
+  outline: 2px solid var(--color-accent, #54232d);
+  outline-offset: 2px;
+}
+
+/* Copy URL Row */
+.product-share__copy-row {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  margin-block-end: 16px;
+  background: rgba(40, 36, 34, 0.04);
+  border: 1px solid var(--color-line, rgba(40, 36, 34, 0.12));
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.product-share__input {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 8px;
+  font-size: 0.8125rem;
+  color: var(--color-muted, #736b66);
+  background: transparent;
+  border: 0;
+  outline: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.product-share__copy-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  background: var(--color-ink, #282422);
+  color: var(--color-bg, #faf8f5);
+  border: 0;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.product-share__copy-action:hover {
+  background: var(--color-accent, #54232d);
+}
+
+.product-share__copy-action:focus-visible {
+  outline: 2px solid var(--color-accent, #54232d);
+  outline-offset: 2px;
+}
+
+.product-share__copy-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.product-share__copy-state--success {
+  color: #1b7a42;
+  font-weight: 600;
+}
+
+/* Channels Grid */
+.product-share__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.product-share__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-line, rgba(40, 36, 34, 0.1));
+  color: var(--color-ink, #282422);
+  font-size: 0.8125rem;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.product-share__link:hover {
+  background: rgba(40, 36, 34, 0.05);
+  border-color: var(--color-ink, #282422);
+  transform: translateY(-1px);
+}
+
+.product-share__link:focus-visible {
+  outline: 2px solid var(--color-accent, #54232d);
+  outline-offset: 2px;
+}
+
+.product-share__link svg {
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.product-share__link--whatsapp:hover { color: #25d366; }
+.product-share__link--x:hover { color: #000000; }
+.product-share__link--facebook:hover { color: #1877f2; }
+.product-share__link--pinterest:hover { color: #bd081c; }
+.product-share__link--email:hover { color: var(--color-accent, #54232d); }
+
+@media (max-width: 480px) {
+  .product-share__popover {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 16px 16px 0 0;
+    padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-share__trigger,
+  .product-share__link,
+  .product-share__popover {
+    transition: none;
+    animation: none;
+    transform: none !important;
+  }
+}

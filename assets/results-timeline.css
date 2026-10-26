@@ -1,0 +1,18 @@
+.results-timeline{overflow-wrap:anywhere}
+.results-timeline .section-heading>div{min-width:0;max-width:48rem}
+.results-timeline .section-heading .eyebrow{margin-block-end:16px}
+.results-timeline__list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px 32px;list-style:none;padding:0;margin:0}
+.results-timeline__milestone{min-width:0;border-block-start:1px solid var(--color-line);padding-block-start:28px;position:relative}
+.results-timeline__milestone::before{content:"";position:absolute;inset-block-start:-5px;inset-inline-start:0;width:9px;height:9px;border-radius:50%;background:var(--color-accent)}
+.results-timeline__period{color:var(--color-accent);margin-block-end:16px}
+.results-timeline__milestone h3{font-size:clamp(1.5rem,2.4vw,2rem);margin-block-end:24px}
+.results-timeline__media{margin-block-end:24px}
+.results-timeline__media img{width:100%;height:auto}
+.results-timeline__text{margin-block-end:16px}
+.results-timeline__source{font-size:.875rem;margin-block-end:12px}
+.results-timeline__link{line-height:1.5;min-height:44px;padding-block:8px}
+.results-timeline__link:focus-visible{outline:2px solid var(--color-accent);outline-offset:5px}
+.results-timeline__context{max-width:70ch;font-size:.875rem;margin-block:40px 0;border-block-start:1px solid var(--color-line);padding-block-start:24px}
+.results-timeline__placeholder{margin:0;min-width:0}
+@media(min-width:750px) and (max-width:989px){.results-timeline__list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:749px){.results-timeline__list{grid-template-columns:minmax(0,1fr);gap:0}.results-timeline__milestone{border-block-start:0;border-inline-start:1px solid var(--color-line);padding-block:0 36px;padding-inline-start:24px}.results-timeline__milestone::before{inset-block-start:5px;inset-inline-start:-5px}.results-timeline__milestone:last-child{padding-block-end:0;border-inline-start-color:transparent}.results-timeline__milestone h3{margin-block-end:20px}.results-timeline__placeholder{margin-block-end:20px}.results-timeline__context{margin-block-start:32px}}

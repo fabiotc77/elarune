@@ -1,0 +1,4 @@
+.product-video{min-inline-size:0;margin:0}
+.product-video video{display:block;inline-size:100%;block-size:auto;max-block-size:80svh;object-fit:contain;background:var(--color-line)}
+.product-video figcaption{padding-block:12px 4px;font-size:.875rem;color:var(--color-muted);overflow-wrap:anywhere}
+.product-video video:focus-visible{outline:2px solid var(--color-accent);outline-offset:4px}

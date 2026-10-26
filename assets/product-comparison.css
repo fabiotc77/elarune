@@ -1,0 +1,158 @@
+.comparison-table{width:100%;table-layout:fixed;border-collapse:collapse;text-align:start;overflow-wrap:anywhere}
+.comparison-table th,.comparison-table td{padding:24px;vertical-align:top;text-align:start;border-block-end:1px solid var(--color-line);font-weight:400}
+.comparison-table thead th{padding-block-start:0}
+.comparison-table .comparison-attribute{width:20%;color:var(--color-muted);font-size:.875rem}
+.comparison-table tbody th{font-size:.875rem;font-weight:600}
+.comparison-product{display:grid;gap:20px}
+.comparison-image{width:100%;aspect-ratio:1;object-fit:contain;background:var(--color-bg)}
+.comparison-product h3{font-size:clamp(1.25rem,2vw,1.75rem);line-height:1.25;margin-block-end:12px}
+.comparison-product .price{font-size:.875rem}
+.comparison-product .text-link{margin-block-start:12px}
+.comparison-mobile-label{display:none}
+.comparison-value{white-space:normal}
+.comparison-scroll{position:relative}.comparison-scroll-hint{display:none}.comparison-option{display:block}.comparison-option strong{display:block;margin-block-end:5px}
+@media(max-width:749px){
+  .comparison-table,.comparison-table thead,.comparison-table tbody,.comparison-table tr{display:block}
+  .comparison-table thead tr{display:grid;gap:16px;margin-block-end:32px}
+  .comparison-table thead th{display:block;padding:0 0 16px}
+  .comparison-table .comparison-attribute{display:none}
+  .comparison-product{grid-template-columns:80px minmax(0,1fr);gap:20px;align-items:start}
+  .comparison-product-info{grid-column:2}
+  .comparison-product--text{grid-template-columns:minmax(0,1fr)}
+  .comparison-product--text .comparison-product-info{grid-column:1}
+  .comparison-product h3{font-size:1.25rem;margin-block-end:8px}
+  .comparison-product .text-link{margin-block-start:4px}
+  .comparison-table tbody tr{margin-block-end:24px}
+  .comparison-table tbody th{display:block;padding:12px 0;border-block-end:2px solid var(--color-line)}
+  .comparison-table td{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;padding:16px 0;font-size:.875rem}
+  .comparison-mobile-label{display:block;color:var(--color-muted)}
+}
+/* An optional editorial matrix, using the same native products and semantic table. */
+.product-comparison[data-editorial=true]{--color-line:#89616c;--color-muted:#eedddc;background:#381823;color:#fff6ec;padding:76px clamp(24px,5vw,88px);max-width:none;margin:0}
+.product-comparison[data-editorial=true] .section-heading{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:end;margin-bottom:48px}
+.product-comparison[data-editorial=true] .eyebrow{font-size:.875rem;font-weight:600;letter-spacing:.1em;line-height:1.5;margin:0 0 24px;color:#f2dfd7}
+.product-comparison[data-editorial=true] h2{font-size:clamp(3.4rem,6vw,6rem);line-height:1.04;letter-spacing:-.05em;margin:0;max-width:12ch;text-wrap:balance}
+.product-comparison[data-editorial=true] .section-heading>p{font-size:clamp(1.125rem,1.45vw,1.3125rem);line-height:1.55;font-weight:500;color:#f2dfd7;max-width:34ch;margin:0 0 4px}
+.product-comparison[data-editorial=true] .comparison-scroll{overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:thin;scrollbar-color:#c4a3ad #4c2733;padding-bottom:10px}
+.product-comparison[data-editorial=true] .comparison-table{min-width:850px}
+.product-comparison[data-editorial=true] .comparison-table th,.product-comparison[data-editorial=true] .comparison-table td{padding:24px 20px;font-size:1rem;line-height:1.5;color:#fff6ec}
+.product-comparison[data-editorial=true] .comparison-table .comparison-attribute{width:17%;font-size:.9375rem;font-weight:600;vertical-align:bottom}
+.product-comparison[data-editorial=true] .comparison-table tbody th{font-weight:600;font-size:.9375rem}
+.product-comparison[data-editorial=true] .comparison-product{grid-template-columns:88px minmax(0,1fr);gap:18px;align-items:center}
+.product-comparison[data-editorial=true] .comparison-image{width:88px;aspect-ratio:3/4;object-fit:cover;background:#f5eae0}
+.product-comparison[data-editorial=true] .comparison-product h3{font-size:clamp(1.35rem,1.8vw,1.8rem);line-height:1.15;letter-spacing:-.025em;margin:0 0 12px}
+.product-comparison[data-editorial=true] .comparison-product .price{font-size:1rem;font-weight:600;color:#fff6ec}
+.product-comparison[data-editorial=true] .comparison-product .text-link{display:inline-block;margin-top:14px}
+.product-comparison[data-editorial=true] .comparison-option strong{font-size:.875rem;color:#edd6d8}
+.product-comparison[data-editorial=true] .comparison-table th:first-child{position:sticky;inset-inline-start:0;background:#381823;z-index:1}
+.product-comparison[data-editorial=true] :focus-visible{outline:2px solid #fff6ec;outline-offset:-3px}
+@media(max-width:749px){
+ .product-comparison[data-editorial=true]{padding:52px 24px}
+ .product-comparison[data-editorial=true] .section-heading{display:block;margin-bottom:30px}
+ .product-comparison[data-editorial=true] h2{font-size:clamp(3.1rem,13vw,4.5rem);margin-bottom:24px}
+ .product-comparison[data-editorial=true] .section-heading>p{font-size:1.125rem}
+ .product-comparison[data-editorial=true] .comparison-table{display:table;min-width:820px}
+ .product-comparison[data-editorial=true] .comparison-table thead{display:table-header-group}
+ .product-comparison[data-editorial=true] .comparison-table tbody{display:table-row-group}
+ .product-comparison[data-editorial=true] .comparison-table tr{display:table-row}
+ .product-comparison[data-editorial=true] .comparison-table th,.product-comparison[data-editorial=true] .comparison-table td{display:table-cell;padding:20px 14px}
+ .product-comparison[data-editorial=true] .comparison-table .comparison-attribute{display:table-cell;width:130px}
+ .product-comparison[data-editorial=true] .comparison-scroll-hint{display:flex;justify-content:space-between;gap:20px;font-size:.9375rem;font-weight:600;color:#f2dfd7;margin:0 0 10px}
+ .product-comparison[data-editorial=true] .comparison-product{grid-template-columns:1fr;gap:16px}
+ .product-comparison[data-editorial=true] .comparison-product-info{grid-column:auto}
+ .product-comparison[data-editorial=true] .comparison-image{width:80px;aspect-ratio:1}
+ .product-comparison[data-editorial=true] .comparison-product h3{font-size:1.4rem;max-width:12ch}
+ .product-comparison[data-editorial=true] .comparison-mobile-label{display:none}
+}
+
+.comparison-variant-price{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 14px;margin-top:10px}.comparison-variant-price>.price{font-size:1rem;font-weight:600}
+.comparison-value:has(.comparison-variant-price)>.comparison-option{display:none}
+@media(min-width:750px){.product-comparison[data-editorial=true]{padding-block:60px}.product-comparison[data-editorial=true] .section-heading h2{font-size:clamp(2.75rem,4.4vw,4.5rem);max-width:15ch}.product-comparison[data-editorial=true] .section-heading{margin-bottom:36px}.product-comparison[data-editorial=true] .comparison-product{grid-template-columns:110px minmax(0,1fr)}.product-comparison[data-editorial=true] .comparison-image{width:110px}}
+
+/* Compact screens must give the product name a full column, not the image's remainder. */
+@media(min-width:750px) and (max-width:1199px){
+ .product-comparison[data-editorial=true] .comparison-table{min-width:0}
+ .product-comparison[data-editorial=true] .section-heading{gap:32px}
+ .product-comparison[data-editorial=true] .comparison-table th,.product-comparison[data-editorial=true] .comparison-table td{padding:20px 12px}
+ .product-comparison[data-editorial=true] .comparison-product{grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
+ .product-comparison[data-editorial=true] .comparison-product-info{grid-column:1;min-width:0}
+ .product-comparison[data-editorial=true] .comparison-image{width:100px;aspect-ratio:1;object-fit:contain}
+ .product-comparison[data-editorial=true] .comparison-product h3{font-size:1.375rem;line-height:1.2;min-height:2.4em;max-width:none}
+ .product-comparison[data-editorial=true] .comparison-product .text-link{min-height:44px;display:inline-flex;align-items:center;margin-top:8px}
+}
+/* Keep one complete product column beside the sticky labels on narrow phones. */
+@media(max-width:549px){
+ .product-comparison[data-editorial=true] .comparison-table{min-width:0;width:calc(200% - 110px)}
+ .product-comparison[data-editorial=true] .comparison-table:has(thead th:nth-child(4)){width:calc(300% - 220px)}
+ .product-comparison[data-editorial=true] .comparison-table .comparison-attribute{width:110px}
+ .product-comparison[data-editorial=true] .comparison-table th,.product-comparison[data-editorial=true] .comparison-table td{padding-inline:10px}
+ .product-comparison[data-editorial=true] .comparison-scroll{scroll-padding-inline-start:110px}
+ .product-comparison[data-editorial=true] .comparison-product h3{font-size:1.375rem;max-width:none}
+}
+@media(max-width:549px){
+ .product-comparison[data-editorial=true] .comparison-table th:first-child{font-size:.875rem;line-height:1.5}
+ .product-comparison[data-editorial=true] .comparison-scroll{scroll-snap-type:x mandatory}
+ .product-comparison[data-editorial=true] .comparison-table thead th:not(:first-child){scroll-snap-align:end}
+}
+
+/* The product comes first; the complete comparison remains one disclosure away. */
+.formula-discovery{display:grid;grid-template-columns:1.1fr 1fr;column-gap:clamp(28px,5vw,88px);position:relative;margin-top:44px}
+.formula-choices{grid-column:2;grid-row:1;align-self:start;display:flex;gap:8px;margin:0;padding:0;border:0;min-width:0;z-index:1}
+.formula-choice{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:52px;padding:10px 12px;text-align:center;cursor:pointer;transition:color var(--motion-fast),background var(--motion-fast),border-color var(--motion-fast)}
+.formula-choice input{position:absolute;width:1px;height:1px;opacity:0}
+.formula-choice:has(input:focus-visible){outline:2px solid #fff6ec;outline-offset:4px}
+.formula-panels{grid-column:1/-1;grid-row:1;min-width:0}
+.formula-panel{display:none;grid-template-columns:1.1fr 1fr;column-gap:clamp(28px,5vw,88px);align-items:center}
+.formula-discovery:has(input[data-formula-choice="1"]:checked) [data-formula-panel="1"],.formula-discovery:has(input[data-formula-choice="2"]:checked) [data-formula-panel="2"],.formula-discovery:has(input[data-formula-choice="3"]:checked) [data-formula-panel="3"]{display:grid}
+.formula-portrait{display:block;aspect-ratio:1.13;overflow:hidden;border-radius:48% 48% 6px 6px;background:#f6f1e9}
+.formula-portrait img,.formula-portrait svg{display:block;width:100%;height:100%;object-fit:contain;transition:transform var(--motion-medium)}
+@media(hover:hover){.formula-portrait:hover img{transform:scale(1.025)}}
+.formula-copy{padding-top:90px;padding-bottom:20px;min-width:0}
+.product-comparison .formula-copy h3{font-size:clamp(2rem,3.7vw,3.75rem);line-height:1.08;letter-spacing:-.035em;margin:0 0 22px;max-width:14ch;text-wrap:balance}
+.formula-copy>.price{font-size:1.375rem;font-weight:600;color:#fff6ec}
+.formula-options{display:flex;flex-wrap:wrap;gap:8px 18px;color:#eedddc;font-size:1rem;line-height:1.6;margin:12px 0 28px}
+.formula-link{display:inline-flex;align-items:center;justify-content:space-between;gap:40px;min-height:52px;padding:12px 24px;text-decoration:none;transition:background var(--motion-fast),color var(--motion-fast)}.formula-link>span[aria-hidden]{font-size:1.4rem;transition:transform var(--motion-fast)}.formula-link:hover>span[aria-hidden]{transform:translate(2px,-2px)}
+.formula-details{border-top:1px solid #89616c;margin-top:42px}
+.formula-details>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:24px;cursor:pointer;padding:24px 0;font-size:1.0625rem;font-weight:600;color:#fff6ec}
+.formula-details>summary::-webkit-details-marker{display:none}
+.formula-details>summary>span{font-size:1.75rem;line-height:1;transition:transform var(--motion-fast)}
+.formula-details[open]>summary>span{transform:rotate(45deg)}
+.formula-details>.comparison-scroll{margin-top:8px}
+@media(max-width:999px) and (min-width:750px){.formula-choice{padding:10px 8px}.formula-copy{padding-top:100px}.formula-options{font-size:.9375rem}.product-comparison .formula-copy h3{font-size:2rem}}
+@media(max-width:749px){
+ .formula-discovery{display:block;margin-top:28px}.formula-choices{margin-bottom:24px;gap:6px}.formula-choice{min-height:48px;padding:8px}
+ .formula-panel{grid-template-columns:1fr;gap:26px}.formula-portrait{aspect-ratio:1.3;max-height:340px}.formula-copy{padding:0}
+ .product-comparison .formula-copy h3{font-size:clamp(1.875rem,8vw,2.75rem);max-width:none;margin-bottom:16px}.formula-copy>.price{font-size:1.25rem}.formula-options{margin:8px 0 20px}
+ .formula-link{width:100%}.formula-details{margin-top:32px}.formula-details>summary{font-size:1rem;padding:22px 0}
+}
+@media(prefers-reduced-motion:reduce){.formula-choice{transition:none}.formula-link{transition:none}.formula-portrait img,.formula-link>span,.formula-details>summary>span{transition:none}}
+
+.formula-portrait img{object-fit:cover;object-position:center}
+.formula-panel{animation:formula-reveal var(--motion-medium,.35s) var(--ease-luxury,ease-out)}
+@keyframes formula-reveal{from{opacity:.55;transform:translateY(5px)}to{opacity:1;transform:none}}
+html[data-motion-enabled=false] .formula-panel,premium-section[data-motion=none] .formula-panel{animation:none}
+@media(prefers-reduced-motion:reduce){.formula-panel{animation:none}}
+.formula-choice{overflow-wrap:anywhere}
+@media(min-width:750px){
+ .formula-discovery{grid-template-rows:auto 1fr}.formula-choices{margin-bottom:24px}.formula-panels{grid-row:2}.formula-copy{padding-top:16px}
+ @supports(grid-template-rows:subgrid){
+  .formula-choices{margin-bottom:0}.formula-panels{grid-row:1/3;display:grid;grid-template-columns:subgrid;grid-template-rows:subgrid}
+  .formula-panel{grid-column:1/-1;grid-row:1/3;grid-template-columns:subgrid;grid-template-rows:subgrid}
+  .formula-portrait{grid-row:1/3;align-self:center}.formula-copy{grid-column:2;grid-row:2;padding-top:24px}
+ }
+}
+
+/* Visible decision support sits between the portrait, product and size selection. */
+.product-comparison[data-editorial=true] .formula-discovery{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);column-gap:clamp(28px,5vw,76px);row-gap:20px}
+.product-comparison[data-editorial=true] .formula-portrait{aspect-ratio:1;align-self:center;border-radius:48% 48% 8px 8px;background:#ebdfd5}
+.product-comparison[data-editorial=true] .formula-portrait img{object-fit:contain}
+.product-comparison[data-editorial=true] .formula-copy h3{font-size:clamp(30px,3.4vw,48px);line-height:1.08;margin-bottom:18px}
+.formula-story{font-size:18px;line-height:1.65;max-width:45ch;color:#f1ded8;margin:0 0 24px}
+.formula-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px;margin:0 0 26px;padding:22px 0;border-block:1px solid #ffffff35}
+.formula-facts>div{min-width:0}.formula-facts dt{font-size:13px;font-weight:500;letter-spacing:.055em;color:#e2c7bd;margin-bottom:8px}.formula-facts dd{font-size:17px;line-height:1.45;margin:0;color:#fff7ee}
+.formula-facts>div:nth-child(3){grid-column:1/-1}
+.formula-sizes{margin-top:18px}.formula-sizes>p{font-size:14px;color:#e2c7bd;margin:0 0 12px}.formula-sizes>div{display:flex;flex-wrap:wrap;gap:10px}.formula-sizes a{display:flex;align-items:center;gap:20px;justify-content:space-between;min-height:48px;padding:10px 18px;border:1px solid #ffffff55;border-radius:999px;font-size:16px;text-decoration:none;color:#fff7ee}.formula-sizes a:hover{background:#ffffff15;border-color:#fff7ee}.formula-sizes a:focus-visible{outline:2px solid #fff7ee;outline-offset:4px}
+.product-comparison[data-editorial=true] .formula-sizes .price{font:500 15px/1.3 var(--font-body);margin:0;color:inherit}
+.product-comparison[data-editorial=true] .formula-copy>.price{font-size:20px;margin-bottom:0}
+.product-comparison[data-editorial=true] .formula-link{margin-top:24px;min-height:50px}
+@media(max-width:749px){.product-comparison[data-editorial=true] .formula-discovery{display:block}.product-comparison[data-editorial=true] .formula-portrait{max-width:300px;aspect-ratio:1.2}.formula-story{font-size:17px;margin-bottom:20px}.formula-facts{gap:16px;padding:18px 0}.formula-facts dd{font-size:16px}.formula-copy{margin-top:24px}}

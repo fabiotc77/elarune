@@ -1,0 +1,42 @@
+.routine-section routine-chapters { display:block; }
+.routine-section .section-heading { align-items:start; gap:24px 56px; margin-block-end:28px; }
+.routine-section .section-heading>div { max-width:750px; }
+.routine-section .section-heading h2 { font-size:clamp(2.25rem,4.2vw,3.75rem); line-height:1.1; }
+.routine-section .section-heading>p { padding-block-start:8px; font-size:1rem; line-height:1.65; max-width:280px; }
+.routine-toolbar { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px 24px; margin-block-end:32px; }
+.routine-toolbar:has(.routine-filters[hidden]) { display:none; }
+.routine-section .routine-filters { display:flex; gap:4px; padding:5px; margin:0; border:1px solid var(--color-line); flex-wrap:wrap; }
+.routine-section .routine-filters button { min-height:44px; min-width:84px; padding:10px 22px; font-size:.875rem; line-height:1.5; transition:background .18s,color .18s,border-color .18s; }
+.routine-section .routine-status { margin:0; color:var(--color-muted); font-size:.875rem; font-variant-numeric:tabular-nums; }
+.routine-guide { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(240px,1fr); gap:32px 64px; padding:32px 36px; margin-block:-8px 36px; border:1px solid var(--color-line); border-inline-start:3px solid var(--color-accent); background:color-mix(in srgb,var(--color-line) 14%,var(--color-bg)); }
+.routine-guide-copy,.routine-guide-overview { min-width:0; }
+.routine-section .routine-guide-label { margin:0 0 14px; font-size:.8125rem; line-height:1.5; color:var(--color-muted); }
+.routine-section .routine-guide h3 { font-size:clamp(1.75rem,2.6vw,2.5rem); line-height:1.15; margin:0 0 14px; max-width:25ch; }
+.routine-guide [data-routine-guide]>p { max-width:60ch; margin:0; font-size:.9375rem; line-height:1.7; color:var(--color-muted); }
+.routine-guide-overview { border-inline-start:1px solid var(--color-line); padding-inline-start:32px; align-self:center; }
+.routine-guide-overview ol { list-style:none; padding:0; margin:0; display:grid; gap:12px; }
+.routine-guide-overview li { display:flex; align-items:center; gap:12px; min-width:0; line-height:1.4; font-size:.9375rem; overflow-wrap:anywhere; }
+.routine-guide-number { flex:0 0 32px; display:grid; place-items:center; min-height:32px; border:1px solid var(--color-line); border-radius:50%; font-size:.6875rem; color:var(--color-accent); font-variant-numeric:tabular-nums; }
+.routine-section .routine-grid { align-items:stretch; gap:36px 28px; }
+.routine-section .routine-card { display:flex; flex-direction:column; min-width:0; padding-block-start:18px; }
+.routine-section .routine-card-top { display:block; margin:0; padding:0; }
+.routine-card-meta { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px 16px; margin-block-end:14px; }
+.routine-card-meta :is(.eyebrow,.routine-time) { margin:0; font-size:.75rem; line-height:1.5; color:var(--color-muted); }
+.routine-section .routine-card-top h3 { margin:0 0 20px; font-size:clamp(1.5rem,2.2vw,2rem); line-height:1.2; text-align:start; min-height:2.4em; }
+.routine-section .routine-card-media { display:block; aspect-ratio:1; margin:0 0 20px; max-height:none; background:var(--color-bg); overflow:hidden; }
+.routine-section .routine-card-media img { width:100%; height:100%; object-fit:contain; transition:transform .22s; }
+.routine-card-media:hover img { transform:scale(1.025); }
+.routine-section .routine-card-description { font-size:.9375rem; line-height:1.65; margin:0 0 20px; max-width:40ch; }
+.routine-product-summary { margin-block-start:auto; padding-block-start:12px; border-block-start:1px solid var(--color-line); }
+.routine-section .routine-product-name { display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:3em; text-decoration:none; font-size:1rem; line-height:1.45; }
+.routine-product-name:hover>span:first-child { text-decoration:underline; }
+.routine-product-arrow { display:grid; place-items:center; flex:0 0 36px; width:36px; height:36px; border:1px solid var(--color-line); border-radius:50%; color:var(--color-accent); transition:background .18s,color .18s,border-color .18s; }
+.routine-product-name:hover .routine-product-arrow { background:var(--color-accent); color:var(--color-on-accent,#fff); border-color:var(--color-accent); }
+.routine-product-summary .price { margin-block-start:4px; font-size:.875rem; color:var(--color-muted); }
+.routine-section :is(h2,h3,p,a,button) { overflow-wrap:anywhere; }
+[dir=rtl] .routine-product-arrow { transform:scaleX(-1); }
+@media(min-width:1100px) { .routine-section .routine-card-top h3 { min-height:1.2em; } }
+@media(max-width:1023px) and (min-width:750px) { .routine-section .routine-grid { gap:32px 20px; } .routine-section .routine-card-top h3 { font-size:1.5rem; } .routine-section .section-heading { flex-direction:column; gap:12px; } .routine-section .section-heading>p { padding:0; max-width:480px; } }
+@media(max-width:749px) { .routine-section .section-heading { gap:12px; } .routine-section .section-heading>p { padding:0; max-width:420px; } .routine-toolbar { gap:12px; margin-block-end:24px; } .routine-section .routine-filters { width:100%; flex-wrap:wrap; } .routine-section .routine-filters button { flex:1 1 0; min-width:0; padding:10px 12px; } .routine-section .routine-status { font-size:.8125rem; } .routine-section .routine-grid { gap:36px; } .routine-section .routine-card-top h3 { min-height:0; margin-block-end:18px; font-size:1.75rem; } .routine-section .routine-card-media { aspect-ratio:1.12; } .routine-section .routine-card-description { max-width:none; } }
+@media(prefers-reduced-motion:reduce) { .routine-section *, .routine-section *::before { transition:none!important; } .routine-card-media:hover img { transform:none; } }
+@media(max-width:749px) { .routine-guide { grid-template-columns:minmax(0,1fr); gap:24px; padding:24px; margin-block:0 28px; } .routine-guide-overview { border-inline-start:0; border-block-start:1px solid var(--color-line); padding-inline-start:0; padding-block-start:20px; } .routine-section .routine-guide h3 { font-size:1.75rem; } .routine-guide-overview ol { gap:10px; } }

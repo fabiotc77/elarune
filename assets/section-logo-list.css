@@ -1,0 +1,73 @@
+/* Elarune logo list: hairline grid, marquee row and quote tabs. */
+logo-list-section{display:block}
+.logo-list__head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-block-end:clamp(28px,4vw,48px)}
+.logo-list__titles{min-inline-size:0}
+.logo-list__titles>.eyebrow{margin-block-end:12px;color:var(--color-muted)}
+.logo-list__heading{margin:0;font-size:clamp(1.75rem,2.8vw,2.5rem);text-wrap:balance;overflow-wrap:anywhere}
+.logo-list__toggle{margin-inline-start:auto}
+.logo-list__toggle>svg{inline-size:20px;block-size:20px}
+logo-list-section[data-paused] .logo-list__icon-pause,logo-list-section:not([data-paused]) .logo-list__icon-play{display:none}
+
+/* Shared logo mark. */
+.logo-list__logo{display:flex;align-items:center;justify-content:center;min-block-size:max(44px,var(--logo-height,40px));max-inline-size:100%;color:var(--color-ink);text-decoration:none}
+.logo-list__image{inline-size:auto;block-size:var(--logo-height,40px);max-inline-size:100%;object-fit:contain;transition:filter .3s ease,opacity .3s ease}
+[data-grayscale] .logo-list__image{filter:grayscale(1);opacity:.78}
+[data-grayscale] :is(a.logo-list__logo:hover,a.logo-list__logo:focus-visible,.logo-tabs__tab[aria-selected=true]) .logo-list__image{filter:none;opacity:1}
+.logo-list__wordmark{font-family:var(--font-heading);font-size:max(1rem,calc(var(--logo-height,40px) * .5));line-height:1.1;letter-spacing:-.02em;text-align:center;overflow-wrap:anywhere;color:var(--color-ink)}
+.logo-list__placeholder{inline-size:auto;block-size:var(--logo-height,40px);aspect-ratio:3/1;background:color-mix(in srgb,var(--color-ink) 6%,var(--color-bg));fill:color-mix(in srgb,var(--color-ink) 30%,transparent)}
+.logo-list__logo:focus-visible{outline:2px solid var(--color-accent);outline-offset:4px}
+
+/* Grid: quiet hairline table. */
+.logo-list__grid{display:grid;grid-template-columns:repeat(var(--logos-mobile,2),minmax(0,1fr));margin:0;padding:0;list-style:none;border-block-start:1px solid var(--color-line)}
+.logo-list__cell{display:flex;align-items:center;justify-content:center;min-inline-size:0;padding:clamp(20px,3vw,40px) clamp(12px,2vw,28px);border-block-end:1px solid var(--color-line)}
+@media(min-width:750px){.logo-list__grid{grid-template-columns:repeat(var(--logos-tablet,4),minmax(0,1fr))}}
+@media(min-width:990px){.logo-list__grid{grid-template-columns:repeat(var(--logos-desktop,5),minmax(0,1fr))}}
+
+/* Marquee: two identical halves, shifted by half their combined width. */
+.logo-marquee{overflow:hidden;border-block:1px solid var(--color-line);-webkit-mask-image:linear-gradient(90deg,transparent,rgb(0 0 0) 8%,rgb(0 0 0) 92%,transparent);mask-image:linear-gradient(90deg,transparent,rgb(0 0 0) 8%,rgb(0 0 0) 92%,transparent)}
+.logo-marquee__track{display:flex;inline-size:max-content;animation:logo-marquee var(--marquee-duration,48s) linear infinite}
+.logo-marquee__group{display:flex;flex:none;align-items:center;margin:0;padding:0;list-style:none}
+.logo-marquee__item{flex:none;padding:clamp(20px,2.6vw,32px) clamp(24px,3.5vw,56px)}
+.logo-marquee__item .logo-list__wordmark{white-space:nowrap}
+.logo-marquee:is(:hover,:focus-within) .logo-marquee__track,logo-list-section:is([data-paused],[data-offscreen],[data-editor-paused]) .logo-marquee__track{animation-play-state:paused}
+[dir=rtl] .logo-marquee__track{animation-name:logo-marquee-rtl}
+@keyframes logo-marquee{to{transform:translateX(-50%)}}
+@keyframes logo-marquee-rtl{to{transform:translateX(50%)}}
+
+/* Quote tabs. */
+.logo-tabs__list{display:flex;justify-content:safe center;overflow-x:auto;scrollbar-width:none;border-block-end:1px solid var(--color-line)}
+.logo-tabs__list::-webkit-scrollbar{display:none}
+.logo-tabs__tab{position:relative;flex:1 0 auto;display:flex;align-items:center;justify-content:center;min-inline-size:min(180px,42vw);min-block-size:max(72px,calc(var(--logo-height,40px) + 32px));margin:0;padding:16px 24px;border:0;border-radius:0;background:transparent;color:var(--color-muted);cursor:pointer}
+.logo-tabs__tab .logo-list__logo{pointer-events:none;color:inherit}
+.logo-tabs__tab .logo-list__wordmark{color:inherit;white-space:nowrap}
+.logo-tabs__tab:not([aria-selected=true]) .logo-list__image{opacity:.5}
+.logo-tabs__tab[aria-selected=true]{color:var(--color-ink)}
+.logo-tabs__tab::after{content:'';position:absolute;inset-inline:24px;inset-block-end:-1px;block-size:1px;background:var(--color-ink);transform:scaleX(0);transition:transform .35s ease}
+.logo-tabs__tab[aria-selected=true]::after{transform:scaleX(1)}
+.logo-tabs__tab:hover{color:var(--color-ink)}
+.logo-tabs__tab:focus-visible{outline:2px solid var(--color-accent);outline-offset:-6px}
+.logo-tabs__panel{padding-block-start:clamp(36px,5vw,64px);text-align:center}
+.logo-tabs__panel:focus-visible{outline:2px solid var(--color-accent);outline-offset:6px}
+.logo-tabs__figure{margin:0}
+.logo-tabs__quote{margin:0 auto;max-inline-size:32ch;font-family:var(--font-heading);font-size:clamp(1.5rem,2.8vw,2.5rem);line-height:1.3;letter-spacing:-.02em;color:var(--color-ink);text-wrap:balance;overflow-wrap:anywhere}
+.logo-tabs__quote>*{margin:0}
+.logo-tabs__quote>*+*{margin-block-start:.6em}
+.logo-tabs__quote a{color:inherit}
+.logo-tabs__cite{display:flex;justify-content:center;margin-block-start:24px;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--color-muted)}
+.logo-tabs+.editor-note{margin-block-start:32px}
+
+@media(max-width:749px){
+  .logo-list__head{margin-block-end:24px}
+  .logo-tabs__list{justify-content:flex-start}
+  .logo-tabs__tab{padding-inline:16px}
+  .logo-tabs__tab::after{inset-inline:16px}
+}
+
+/* Reduced motion: the marquee settles into a static, wrapping row. */
+@media(prefers-reduced-motion:reduce){
+  .logo-marquee{-webkit-mask-image:none;mask-image:none}
+  .logo-marquee__track{inline-size:auto;animation:none}
+  .logo-marquee__group{flex:1 1 auto;flex-wrap:wrap;justify-content:center}
+  .logo-marquee__group[aria-hidden=true],.logo-marquee__item--copy{display:none}
+  .logo-list__image,.logo-tabs__tab::after{transition:none}
+}

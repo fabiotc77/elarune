@@ -1,0 +1,67 @@
+/* Elarune collapsible content: native details rows in stacked, split or card layouts. */
+.collapsible{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"header" "media" "rows";gap:clamp(28px,4vw,56px) clamp(32px,5vw,96px);align-items:start;interpolate-size:allow-keywords}
+.collapsible-header{grid-area:header;max-width:46rem}
+.collapsible-media{grid-area:media;min-width:0}
+.collapsible-rows{grid-area:rows;display:block;min-width:0}
+
+@media(min-width:990px){
+  .collapsible:is([data-layout=stacked],[data-layout=cards])[data-image=start]{grid-template-columns:minmax(0,5fr) minmax(0,7fr);grid-template-areas:"header header" "media rows"}
+  .collapsible:is([data-layout=stacked],[data-layout=cards])[data-image=end]{grid-template-columns:minmax(0,7fr) minmax(0,5fr);grid-template-areas:"header header" "rows media"}
+  .collapsible[data-layout=split]{grid-template-columns:minmax(0,5fr) minmax(0,7fr);grid-template-areas:"header rows" "media rows"}
+  .collapsible[data-layout=split][data-image=end]{grid-template-columns:minmax(0,7fr) minmax(0,5fr);grid-template-areas:"rows header" "rows media"}
+  .collapsible[data-layout=split][data-image=none]{grid-template-rows:auto;grid-template-areas:"header rows"}
+  .collapsible[data-layout=split][data-image=none] .collapsible-header{position:sticky;inset-block-start:calc(var(--header-offset,0px) + 32px)}
+}
+
+.collapsible-eyebrow{margin-block:0 16px;color:var(--color-muted)}
+.collapsible-heading{margin:0;font-size:clamp(2rem,3.4vw,3.25rem);line-height:1.1;letter-spacing:-.04em;text-wrap:balance;overflow-wrap:anywhere}
+.collapsible-heading em{font-style:italic;color:var(--color-accent)}
+.collapsible-intro{max-width:52ch;margin-block-start:20px}
+.collapsible-intro>:last-child{margin-block-end:0}
+
+.collapsible-media img{inline-size:100%;block-size:auto;aspect-ratio:4/5;object-fit:cover}
+
+.collapsible-rows{border-block-start:1px solid var(--color-line)}
+.collapsible-row{border-block-end:1px solid var(--color-line)}
+.collapsible-summary{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:64px;padding-block:18px;list-style:none;font-family:var(--font-heading);font-size:clamp(1.125rem,1.5vw,1.3125rem);line-height:1.35;letter-spacing:-.015em;color:var(--color-ink)}
+.collapsible-summary::-webkit-details-marker{display:none}
+.collapsible-summary::marker{content:''}
+.collapsible-summary:focus-visible{outline:2px solid var(--color-accent);outline-offset:4px}
+.collapsible-question{flex:1;min-width:0;overflow-wrap:anywhere}
+
+.collapsible-icon{position:relative;flex:none;inline-size:36px;block-size:36px;border:1px solid var(--color-line);border-radius:50%;color:var(--color-ink);transition:border-color .2s,background-color .2s}
+.collapsible-summary:hover .collapsible-icon{border-color:currentColor}
+.collapsible-row[open]>.collapsible-summary .collapsible-icon{border-color:var(--color-ink)}
+.collapsible[data-icon=plus] .collapsible-icon::before,.collapsible[data-icon=plus] .collapsible-icon::after{content:'';position:absolute;inset:0;inline-size:12px;block-size:1px;margin:auto;background:currentColor;transition:rotate .3s}
+.collapsible[data-icon=plus] .collapsible-icon::after{rotate:90deg}
+.collapsible[data-icon=plus] .collapsible-row[open] .collapsible-icon::after{rotate:0deg}
+/* A downward chevron is symmetric, so physical borders keep it identical in RTL. */
+.collapsible[data-icon=chevron] .collapsible-icon::before{content:'';position:absolute;inset:0;inline-size:8px;block-size:8px;margin:auto;border-right:1px solid currentColor;border-bottom:1px solid currentColor;translate:0 -2px;rotate:45deg;transition:rotate .3s,translate .3s}
+.collapsible[data-icon=chevron] .collapsible-row[open] .collapsible-icon::before{translate:0 2px;rotate:-135deg}
+
+.collapsible-answer{max-width:68ch;padding-block:0 26px;padding-inline-end:60px}
+.collapsible-answer>:last-child{margin-block-end:0}
+.collapsible[data-icon=none] .collapsible-answer{padding-inline-end:0}
+
+.collapsible[data-layout=cards] .collapsible-rows{display:grid;gap:12px;border:0}
+.collapsible[data-layout=cards] .collapsible-row{padding-inline:clamp(20px,2.4vw,32px);border:1px solid var(--color-line);border-radius:6px;background:var(--color-bg);transition:border-color .2s}
+.collapsible[data-layout=cards] .collapsible-row[open]{border-color:color-mix(in srgb,var(--color-ink) 45%,var(--color-bg))}
+.collapsible[data-layout=cards] .collapsible-summary{min-height:72px}
+
+@supports selector(::details-content){
+  .collapsible-row::details-content{block-size:0;overflow:clip;transition:block-size .32s cubic-bezier(.2,.65,.3,1),content-visibility .32s allow-discrete}
+  .collapsible-row[open]::details-content{block-size:auto}
+}
+
+@media(max-width:989px){
+  .collapsible-media{max-width:560px}
+  .collapsible-media img{aspect-ratio:3/2}
+}
+@media(max-width:749px){
+  .collapsible-summary{gap:16px;min-height:56px;font-size:1.0625rem}
+  .collapsible-icon{inline-size:32px;block-size:32px}
+  .collapsible-answer{padding-inline-end:0;padding-block-end:22px}
+}
+@media(prefers-reduced-motion:reduce){
+  .collapsible-icon,.collapsible-icon::before,.collapsible-icon::after,.collapsible-row,.collapsible-row::details-content{transition:none}
+}

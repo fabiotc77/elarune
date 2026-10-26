@@ -1,0 +1,24 @@
+[data-editorial=true] .sensory.sensory-selection[data-ritual-shelf=true]{padding-block:76px 88px;background:#faf7f2}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-section-heading{grid-template-columns:1fr 1fr;align-items:end;margin-bottom:40px}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-section-heading h2{font-size:clamp(42px,4.5vw,72px);line-height:1.06;max-width:none}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-section-heading>p{justify-self:end;max-width:32ch}
+[data-editorial=true] .sensory.sensory-selection[data-ritual-shelf=true] .sensory-product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,44px);overflow:visible;scroll-snap-type:none;padding:0}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-product{display:flex;flex-direction:column;min-width:0;width:100%;margin:0;padding:0}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-product-meta{border-top:1px solid #cbb8aa;padding:18px 0;gap:10px}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-product-meta>span:first-child{width:38px;height:38px;border-radius:50%;font-size:21px;background:#e9dace}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-product-meta>span:nth-child(2){text-transform:uppercase;font-size:13px;letter-spacing:.15em}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-product-media{position:relative;background:#f1e9de;overflow:visible}
+[data-editorial=true] .sensory.sensory-selection[data-ritual-shelf=true] .sensory-product:nth-child(n) .sensory-product-media>a:not(.sensory-peek){aspect-ratio:1/1.1;overflow:hidden;border-radius:0}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-product-media>a img{object-fit:contain;mix-blend-mode:multiply;max-height:100%}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .ritual-shelf__swatch{position:absolute;inset-inline-end:18px;bottom:18px;width:88px;height:88px;border:5px solid #faf7f2;border-radius:50%;overflow:hidden;box-shadow:0 4px 15px #38151f1a;pointer-events:none}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .ritual-shelf__swatch img{width:100%;height:100%;object-fit:cover;transform:none;mix-blend-mode:normal}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-product-title{padding-top:24px;gap:10px;flex:1}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-product-title h3{font-size:clamp(23px,2.2vw,31px);min-height:0;line-height:1.2}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .ritual-shelf__concern{font-size:16px;font-style:italic;line-height:1.5;color:#6b494e;margin:0}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-product-title .price{font-size:19px;margin-top:5px}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-product-actions{margin-top:20px}
+html[data-control-language] [data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-product-actions .sensory-peek{width:100%;border-radius:999px;min-height:52px;justify-content:space-between;padding:12px 20px}
+@media(max-width:749px){[data-editorial=true] .sensory.sensory-selection[data-ritual-shelf=true]{padding-block:48px}[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-section-heading{grid-template-columns:1fr;gap:16px}[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-section-heading>p{justify-self:start;margin:0}[data-editorial=true] .sensory.sensory-selection[data-ritual-shelf=true] .sensory-product-grid{grid-template-columns:1fr;gap:38px}[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-product-title{padding-top:20px}}
+[data-editorial=true] .sensory.sensory-selection[data-ritual-shelf=true] .sensory-product-grid{margin-inline:0;width:100%;max-width:none;align-items:stretch}
+[data-editorial=true] .sensory.sensory-selection[data-ritual-shelf=true] .sensory-product:nth-child(n){width:100%;max-width:none;flex-basis:auto;margin:0;padding-top:0}
+[data-editorial=true] .sensory-selection[data-ritual-shelf=true] .sensory-section-heading{display:grid}

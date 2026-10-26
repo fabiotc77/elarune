@@ -1,0 +1,49 @@
+/* Movement belongs to the page's material story, not to an isolated effect demonstration. */
+sensory-scene{display:block;position:relative;--progress:0;--drift:0px;--pointer-x:0px;--pointer-y:0px;--wave-y:80px}
+.sensory-opening .sensory-opening-copy{position:relative;z-index:2}.sensory-opening-top,.sensory-opening-caption{position:relative;z-index:3}
+.sensory-orbit{position:absolute;inset-inline-end:5%;top:19%;width:32%;max-width:510px;z-index:1;text-decoration:none;transform:translate(var(--pointer-x),var(--pointer-y));transition:transform var(--motion-slow) var(--ease-luxury)}
+.sensory-orbit-media{position:relative;aspect-ratio:1;border-radius:48% 52% 57% 43% / 55% 42% 58% 45%;background:#f6f1e9;overflow:hidden;box-shadow:0 24px 100px #16071050,inset 0 0 60px #fff8e4}
+.sensory-orbit-media img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply;transform:scale(1.12);transition:transform var(--motion-slow)}.sensory-orbit:hover img{transform:scale(1.2)}
+.sensory-orbit:before,.sensory-orbit:after{content:'';position:absolute;inset:-5%;border:1px solid #f6f1e94a;border-radius:42% 58% 60% 40% / 55% 40% 60% 45%;transform:rotate(-15deg);pointer-events:none}.sensory-orbit:after{inset:-10%;opacity:.4;transform:rotate(30deg)}
+.sensory-orbit-caption{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:28px;font-size:0.6875rem;letter-spacing:.06em;padding:0 10px}.sensory-orbit-caption .price{font-size:0.6875rem;flex:none}.sensory-orbit-caption>span{max-width:160px}
+.sensory-opening[data-has-product] h1{max-width:72%;font-size:clamp(4.4rem,8.4vw,8.3rem);text-shadow:0 2px 40px #30101970}.sensory-opening[data-has-product] h1 em{padding-inline-start:5%}
+.sensory-liquid-edge{position:absolute;bottom:-2px;left:0;width:100%;height:120px;pointer-events:none;z-index:0;transform:translateY(80px)}.sensory-liquid-edge svg{width:100%;height:100%;max-width:none;fill:#f6f1e9;stroke:none}.sensory-opening-caption{margin-bottom:95px}.sensory-opening-caption span:last-child{animation:sensory-scroll-cue 2.5s ease-in-out 3}
+sensory-scene[data-scene=opening][data-motion-ready]{height:155svh;min-height:1040px;background:#38151f}
+sensory-scene[data-scene=opening][data-motion-ready]>.sensory-opening{position:sticky;top:0;height:100svh;min-height:650px;max-height:none}
+sensory-scene[data-scene=opening][data-motion-ready] .sensory-opening-art{transform:translateY(calc(var(--progress) * -75px)) scale(calc(1 + var(--progress) * .15));transform-origin:60% 70%}
+sensory-scene[data-scene=opening][data-motion-ready] .sensory-opening-copy{transform:translateY(calc(var(--progress) * -45px))}
+sensory-scene[data-scene=opening][data-motion-ready] .sensory-orbit{translate:calc(var(--progress) * -60px) calc(var(--progress) * 35px);rotate:calc(var(--progress) * 8deg)}
+sensory-scene[data-scene=opening][data-motion-ready] .sensory-liquid-edge{height:150px;transform:translateY(var(--wave-y))}
+sensory-scene[data-scene=opening][data-motion-ready] .sensory-opening-top .sensory-star{transform:rotate(calc(var(--progress) * 150deg))}
+sensory-scene[data-scene=selection]{background:#f6f1e9;z-index:2}.sensory-selection{padding-top:65px}
+sensory-scene[data-scene=selection][data-motion-ready] .sensory-product:nth-child(odd) .sensory-product-media{translate:0 calc(var(--drift) * -.25)}
+sensory-scene[data-scene=selection][data-motion-ready] .sensory-product:nth-child(even) .sensory-product-media{translate:0 calc(var(--drift) * .4)}
+.sensory-product-media{border-radius:40% 40% 2px 2px;transition:box-shadow var(--motion-medium)}.sensory-product-media:hover{box-shadow:0 16px 40px #38151f12}
+.sensory-peek{overflow:hidden}.sensory-peek:before{content:'';position:absolute;width:120%;height:150%;left:-130%;top:-20%;transition:transform var(--motion-medium);pointer-events:none}.sensory-peek:hover:before{transform:translateX(110%)}.sensory-peek span{position:relative}
+.sensory-dialog[open]{animation:none}.sensory-dialog-copy{position:relative}.sensory-dialog[open] .sensory-dialog-copy{animation:sensory-copy-unfold .7s .12s cubic-bezier(.2,.8,.3,1) backwards}
+.sensory-dialog::backdrop{transition:background .4s,backdrop-filter .4s}.sensory-dialog.sensory-closing{pointer-events:none}
+sensory-scene[data-scene=atelier]{padding-top:65px;background:#f6f1e9;overflow:clip}
+sensory-scene[data-scene=atelier]:before{content:'';position:absolute;top:0;left:-10%;width:120%;height:125px;border-radius:50% 50% 0 0 / 100% 100% 0 0;background:#38151f;transform:translateY(calc(var(--drift) * .4));pointer-events:none}
+sensory-scene[data-scene=atelier] .sensory-atelier{position:relative;min-height:760px}.sensory-texture-stage{min-height:760px}
+sensory-scene[data-scene=atelier][data-motion-ready] .sensory-texture-photo img{transform:scale(1.12) translateY(calc(var(--drift) * -.8));transform-origin:50% 60%}
+sensory-scene[data-scene=atelier][data-motion-ready] .sensory-atelier-intro{translate:0 calc(var(--drift) * .3)}
+.sensory-atelier[data-playing] .sensory-texture-controls>p{opacity:.65;transition:opacity .4s}.sensory-texture-controls button{transition:background .4s,color .4s,transform .4s}.sensory-texture-controls button:hover{transform:translateY(-1px)}
+sensory-scene[data-scene=ritual]{background:#38151f;padding-top:55px;overflow:clip}
+sensory-scene[data-scene=ritual]:before{content:'';position:absolute;top:0;left:-10%;width:120%;height:120px;background:#f6f1e9;border-radius:50% 50% 0 0 / 100% 100% 0 0;transform:translateY(calc(var(--drift) * .4))}
+.sensory-ritual{position:relative;padding-top:75px}.sensory-step-body{animation:sensory-copy-unfold .6s cubic-bezier(.2,.8,.3,1)}.sensory-ritual-seal svg{rotate:calc(var(--progress) * 35deg)}
+@keyframes sensory-copy-unfold{from{transform:translateY(22px);opacity:.7}to{transform:none;opacity:1}}
+@keyframes sensory-scroll-cue{0%,100%{translate:0 0}50%{translate:0 9px}}
+@media(max-width:749px){
+ sensory-scene[data-scene=opening][data-motion-ready]{height:145svh;min-height:1000px}
+ sensory-scene[data-scene=opening][data-motion-ready]>.sensory-opening{height:100svh;min-height:720px;max-height:none}
+ .sensory-opening[data-has-product] h1{max-width:100%;font-size:clamp(3.3rem,12.5vw,5.5rem);line-height:1}.sensory-opening[data-has-product] h1 em{padding-inline-start:0}
+ .sensory-opening[data-has-product] .sensory-opening-copy{padding:24px 0;justify-content:space-between;gap:210px}.sensory-opening[data-has-product] h1{margin-bottom:0}
+ .sensory-orbit{width:53%;top:35%;inset-inline-end:10%;max-width:280px}.sensory-orbit-caption{font-size:0.6875rem;margin-top:15px;padding:0}.sensory-orbit-caption .price{font-size:0.6875rem}.sensory-orbit-caption>span{max-width:100px}
+ sensory-scene[data-scene=opening][data-motion-ready] .sensory-orbit{translate:calc(var(--progress) * -22px) calc(var(--progress) * -30px)}
+ .sensory-opening-bottom{align-items:end}.sensory-opening-caption{margin-bottom:70px}.sensory-opening-bottom>p{font-size:.72rem;max-width:180px}.sensory-orbit-link{width:84px;height:84px;font-size:0.6875rem}
+ sensory-scene[data-scene=opening][data-motion-ready] .sensory-liquid-edge{height:calc(85px + var(--progress) * 60px)}
+ .sensory-selection{padding-top:44px}.sensory-product-grid{gap:26px}.sensory-product-media>a:not(.sensory-peek){aspect-ratio:1}.sensory-product:nth-child(2){width:88%;margin-inline-start:auto}.sensory-product:nth-child(3){width:92%}
+ sensory-scene[data-scene=atelier]{padding-top:40px}sensory-scene[data-scene=atelier]:before{height:80px}.sensory-texture-stage{min-height:540px}sensory-scene[data-scene=atelier] .sensory-atelier{min-height:0}
+ sensory-scene[data-scene=ritual]{padding-top:36px}sensory-scene[data-scene=ritual]:before{height:75px}.sensory-ritual{padding-top:45px}
+}
+@media(prefers-reduced-motion:reduce){sensory-scene[data-scene=opening]{height:auto!important;min-height:0!important}sensory-scene[data-scene=opening]>.sensory-opening{position:relative!important}.sensory-opening-caption span:last-child,.sensory-dialog[open] .sensory-dialog-copy,.sensory-step-body{animation:none!important}.sensory-texture-controls button{transition:none!important}.sensory-orbit,.sensory-product-media{transition:none!important}.sensory-liquid-edge{display:none}.sensory-orbit:hover img{transform:scale(1.12)}.sensory-texture-stage .sensory-texture-photo img{transform:none!important}}
