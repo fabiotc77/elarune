@@ -1,8 +1,7 @@
 {%- comment -%}
   Quantity tiers
-  Each card sets the product form quantity. Tier prices are the selected variant's real price multiplied by the
-  tier quantity; the theme never calculates or applies a discount. Savings labels appear only when the merchant
-  enables "Show tier discount labels" after creating a matching automatic discount in Shopify Discounts.
+  Each card sets the product form quantity. Tier totals shown here use the discount percentages configured
+  in this block. Shopify automatic discounts remain responsible for applying the actual discount at checkout.
   Tiers are only offered when they satisfy the variant's quantity rules, so a card never selects a quantity checkout rejects.
 {%- endcomment -%}
 
@@ -37,6 +36,25 @@
   assign base_price = variant.price | default: 0
   assign tier2_total_price = base_price | times: tier2_qty
   assign tier3_total_price = base_price | times: tier3_qty
+
+  assign tier2_discount = block.settings.tier2_discount | default: 0 | plus: 0
+  assign tier3_discount = block.settings.tier3_discount | default: 0 | plus: 0
+
+  if tier2_discount < 0
+    assign tier2_discount = 0
+  elsif tier2_discount > 100
+    assign tier2_discount = 100
+  endif
+  if tier3_discount < 0
+    assign tier3_discount = 0
+  elsif tier3_discount > 100
+    assign tier3_discount = 100
+  endif
+
+  assign tier2_factor = 100 | minus: tier2_discount
+  assign tier3_factor = 100 | minus: tier3_discount
+  assign tier2_discounted_price = tier2_total_price | times: tier2_factor | divided_by: 100.0 | round
+  assign tier3_discounted_price = tier3_total_price | times: tier3_factor | divided_by: 100.0 | round
 
   assign rule_min = variant.quantity_rule.min | default: 1
   assign rule_increment = variant.quantity_rule.increment | default: 1
@@ -100,7 +118,7 @@
           {% endif %}
         </span>
         <span class="volume-tier-card__pricing">
-          <span class="volume-tier-card__price">{{ tier2_total_price | money }}</span>
+          {% if tier2_discount > 0 %}<span class="volume-tier-card__price">{{ tier2_discounted_price | money }}</span><span class="volume-tier-card__compare-price"><s>{{ tier2_total_price | money }}</s></span>{% else %}<span class="volume-tier-card__price">{{ tier2_total_price | money }}</span>{% endif %}
           <span class="volume-tier-card__per-unit">{{ base_price | money }}/{{ 'volume_pricing.each' | t }}</span>
         </span>
       </label>
@@ -122,7 +140,7 @@
           {% endif %}
         </span>
         <span class="volume-tier-card__pricing">
-          <span class="volume-tier-card__price">{{ tier3_total_price | money }}</span>
+          {% if tier3_discount > 0 %}<span class="volume-tier-card__price">{{ tier3_discounted_price | money }}</span><span class="volume-tier-card__compare-price"><s>{{ tier3_total_price | money }}</s></span>{% else %}<span class="volume-tier-card__price">{{ tier3_total_price | money }}</span>{% endif %}
           <span class="volume-tier-card__per-unit">{{ base_price | money }}/{{ 'volume_pricing.each' | t }}</span>
         </span>
       </label>
