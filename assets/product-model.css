@@ -1,0 +1,18 @@
+elarune-product-model { display: block; min-width: 0; }
+.product-model { margin: 0; min-width: 0; }
+.product-model__toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; font-size: .875rem; }
+.product-model__close { padding: 8px 0; text-decoration: underline; }
+.product-model__stage { background: var(--color-bg); border: 1px solid var(--color-line); min-width: 0; }
+.product-model__open { display: flex; position: relative; align-items: center; justify-content: center; min-height: 280px; aspect-ratio: 1; color: var(--color-ink); }
+.product-model__open>img { width: 100%; height: 100%; object-fit: contain; position: absolute; inset: 0; }
+.product-model__action { position: relative; align-self: flex-end; margin: 20px; max-width: calc(100% - 40px); padding: 12px 20px; background: var(--color-bg); border: 1px solid var(--color-ink); text-align: center; overflow-wrap: anywhere; }
+.product-model__player { width: 100%; }
+.product-model__player model-viewer { display: block; width: 100%; height: clamp(280px, 50vw, 620px); background: var(--color-bg); --poster-color: transparent; }
+.product-model__player .shopify-model-viewer-ui { width: 100%; }
+.product-model__player .shopify-model-viewer-ui model-viewer { background: var(--color-bg); }
+.product-model__player .shopify-model-viewer-ui__controls-area { background: var(--color-bg); color: var(--color-ink); }
+.product-model__player .shopify-model-viewer-ui__button { color: var(--color-ink); min-width: 44px; min-height: 44px; }
+.product-model__ar { margin: 16px; max-width: calc(100% - 32px); }
+.product-model__ar[data-shopify-xr-hidden] { display: none; }
+.product-model figcaption { margin-block-start: 12px; overflow-wrap: anywhere; }
+.product-model__hint, .product-model [data-model-error] { font-size: .875rem; margin-block: 12px; overflow-wrap: anywhere; }

@@ -1,0 +1,19 @@
+/* Collection pagination: load more, infinite loading and mobile column choice. Tokens only. */
+.collection-paging{display:grid;justify-items:center;gap:16px;margin-block-start:48px;text-align:center}
+.collection-paging__progress{margin:0;color:var(--color-muted);font-size:.875rem;font-variant-numeric:tabular-nums}
+.collection-paging__button{min-width:min(100%,260px);min-height:48px}
+.collection-paging__button[aria-disabled=true]{cursor:progress;opacity:.72}
+.collection-paging+.pagination{margin-block-start:24px}
+.pagination__step{font-size:1.125rem;line-height:1}
+.pagination__gap{color:var(--color-muted)}
+@media (max-width:749px){
+  .product-grid[data-mobile-columns]{grid-template-columns:repeat(var(--product-columns-mobile,2),minmax(0,1fr))}
+  .collection-paging__button{width:100%}
+}
+@media (max-width:359px){
+  .product-grid[data-mobile-columns]{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .product-grid>[data-paging-new]{animation:collection-paging-in .42s cubic-bezier(.2,.65,.3,1) both}
+  @keyframes collection-paging-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+}

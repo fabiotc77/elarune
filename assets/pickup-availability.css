@@ -1,0 +1,16 @@
+.pickup-availability{border-block:1px solid var(--color-line);overflow-wrap:anywhere}
+.pickup-availability summary{min-height:64px;padding:18px 4px;cursor:pointer;list-style-position:outside;margin-inline-start:20px}
+.pickup-availability summary::marker{color:var(--color-accent);font-size:.85em}
+.pickup-availability summary:focus-visible{outline:2px solid var(--color-accent);outline-offset:4px}
+.pickup-availability__summary{display:inline-grid;gap:4px;vertical-align:middle;max-width:100%}
+.pickup-availability__title{font-weight:600}
+.pickup-availability__status,.pickup-availability__time,.pickup-availability__address,.pickup-availability__note{font-size:.875rem;line-height:1.6}
+.pickup-availability__status{color:var(--color-muted);margin-block:0 4px}
+.pickup-availability__content{padding-block:4px 24px}
+.pickup-availability__variant{margin-block:0 16px;font-weight:600}
+.pickup-availability__locations{list-style:none;margin:0;padding:0;display:grid;gap:20px}
+.pickup-availability__location+.pickup-availability__location{border-block-start:1px solid var(--color-line);padding-block-start:20px}
+.pickup-availability__location h3{font-family:var(--font-body);font-size:1rem;font-weight:600;line-height:1.5;letter-spacing:0;margin-block:0 4px}
+.pickup-availability__time{margin-block:0 12px}
+.pickup-availability__address p{margin:0}
+.pickup-availability__note{color:var(--color-muted);margin-block:20px 0}

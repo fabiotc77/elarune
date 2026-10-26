@@ -1,0 +1,11 @@
+.page-not-found{max-width:1000px;min-height:55vh;display:grid;align-content:center;gap:32px;overflow-wrap:anywhere}
+.page-not-found__intro .eyebrow{margin-block-end:16px;color:var(--color-muted)}
+.page-not-found h1{font-size:clamp(2.5rem,6vw,5.5rem);line-height:1.05;margin:0;max-width:16ch}
+.page-not-found__recovery{max-width:700px}
+.page-not-found__recovery>p{color:var(--color-muted);margin-block:0 24px;max-width:50ch}
+.page-not-found__recovery>label{display:block;margin-block-end:8px;font-size:.875rem}
+.page-not-found__form{display:flex;align-items:stretch;gap:12px;margin-block-end:24px}
+.page-not-found__form input{min-width:0;flex:1;width:100%;min-height:48px}
+.page-not-found__form button{flex:none}
+.page-not-found__continue{display:inline-flex;align-items:center;min-height:44px;gap:12px}
+@media(max-width:749px){.page-not-found{gap:24px;min-height:50vh}.page-not-found__form{flex-wrap:wrap}.page-not-found__form input{flex-basis:100%;width:100%}.page-not-found__form button{flex-basis:100%;width:100%}}

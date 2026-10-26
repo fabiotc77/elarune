@@ -1,0 +1,17 @@
+elarune-gift-recipient{display:block;min-width:0}
+.gift-recipient__fieldset{min-width:0;margin:8px 0;padding:24px;border:1px solid var(--color-line);background:var(--color-bg);overflow-wrap:anywhere}
+.gift-recipient__fieldset legend{font-family:var(--font-heading);font-size:1.65rem;padding-inline:8px;line-height:1.2}
+.gift-recipient .gift-recipient__toggle{display:flex;align-items:flex-start;gap:12px;min-height:44px;cursor:pointer;line-height:1.6}
+.gift-recipient .gift-recipient__toggle input{appearance:auto;width:20px;height:20px;padding:0;margin:3px 0 0;flex:none;accent-color:var(--color-accent)}
+.gift-recipient__fields{display:grid;gap:20px;border-block-start:1px solid var(--color-line);margin-block-start:12px;padding-block-start:24px}
+.gift-recipient__field{min-width:0}
+.gift-recipient__field label{margin-block-end:8px}
+.gift-recipient__field input{display:block;width:100%;min-width:0;min-height:48px}
+.gift-recipient__field textarea{display:block;width:100%;min-width:0;min-height:48px}
+.gift-recipient__field textarea{resize:vertical;line-height:1.6}
+.gift-recipient__field input[type=email]{direction:ltr;text-align:start}
+.gift-recipient__field input[type=date]{direction:ltr;text-align:start}
+.gift-recipient__hint{font-size:.75rem;color:var(--color-muted);line-height:1.5;margin:8px 0 0}
+.gift-recipient__error{color:var(--color-accent);font-size:.8125rem;margin:8px 0 0}
+.gift-recipient [aria-invalid=true]{border-color:var(--color-accent);border-width:2px}
+@media(max-width:749px){.gift-recipient__fieldset{padding:18px}.gift-recipient__fieldset legend{font-size:1.45rem}}

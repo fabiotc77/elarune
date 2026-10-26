@@ -1,0 +1,25 @@
+.ingredient-library__heading .eyebrow{margin-block-end:16px}
+.ingredient-library__heading>div:first-child{min-width:0}
+.ingredient-library__heading h2{max-width:760px;overflow-wrap:anywhere}
+.ingredient-library__introduction{max-width:420px}
+.ingredient-library__cards{display:flex;flex-wrap:wrap;gap:40px 28px}
+.ingredient-library__card{flex:1 1 280px;min-width:0;overflow-wrap:anywhere;border-block-start:1px solid var(--color-line);padding-block-start:16px}
+.ingredient-library__image{aspect-ratio:4/3;overflow:hidden;background:var(--color-line)}
+.ingredient-library__image img{width:100%;height:100%;object-fit:cover}
+.ingredient-library__copy{padding-block-start:24px}
+.ingredient-library__meta{display:flex;align-items:baseline;gap:20px;margin-block-end:20px}
+.ingredient-library__number{flex:none;white-space:nowrap;font-size:.75rem;line-height:1.5;font-variant-numeric:tabular-nums;color:var(--color-accent)}
+.ingredient-library__meta .eyebrow{margin:0;min-width:0;color:var(--color-muted);letter-spacing:.08em}
+.ingredient-library__copy h3{font-size:clamp(1.75rem,3vw,2.5rem);line-height:1.12;margin-block:0 20px}
+.ingredient-library__copy .rte{max-width:600px;color:var(--color-muted);line-height:1.75}
+.ingredient-library__source{display:flex;justify-content:space-between;gap:24px;max-width:600px;align-items:center;padding-block:12px;margin-block-start:20px;text-decoration:none}
+.ingredient-library__source span{font-size:1.25rem}
+[dir=rtl] .ingredient-library__source span{transform:scaleX(-1)}
+.ingredient-library__card--featured{flex-basis:100%;display:grid;grid-template-columns:1.08fr 1fr;padding:0;border:0;background:color-mix(in srgb,var(--color-line) 22%,var(--color-bg))}
+.ingredient-library__card--featured .ingredient-library__image{aspect-ratio:1.15;min-height:100%}
+.ingredient-library__card--featured .ingredient-library__copy{padding:clamp(28px,5vw,72px);align-self:center}
+.ingredient-library__card--featured h3{font-size:clamp(2.5rem,4vw,4rem);letter-spacing:-.04em}
+.ingredient-library__card--featured .ingredient-library__meta{margin-block-end:32px}
+.ingredient-library__card--text-only .ingredient-library__copy{padding-block:20px}
+.ingredient-library__empty{min-height:160px;flex:1 1 280px;border:1px dashed var(--color-accent)}
+@media(max-width:749px){.ingredient-library__cards{gap:32px}.ingredient-library__card{flex-basis:100%}.ingredient-library__card--featured{display:block}.ingredient-library__card--featured .ingredient-library__image{aspect-ratio:4/3;min-height:0}.ingredient-library__card--featured .ingredient-library__copy{padding:28px 24px 32px}.ingredient-library__card--featured h3{font-size:2.5rem}}

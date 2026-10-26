@@ -1,0 +1,249 @@
+/* Elarune editorial controls. Native semantics and merchant palette remain authoritative. */
+:root{--control-height:54px;--control-small:44px;--control-radius:5px;--control-field-radius:6px;--control-fill:var(--color-accent,#54232d);--control-on-fill:var(--color-on-accent,#fff);--control-paper:var(--color-bg,#faf8f5);--control-ink:var(--color-ink,#282422);--control-line:color-mix(in srgb,var(--color-ink,#282422) 24%,var(--color-bg,#faf8f5));--control-speed:var(--motion-fast,180ms);--control-ease:var(--ease-standard,cubic-bezier(.2,.65,.3,1));--control-error:#a42a3a;--control-focus:var(--color-accent,#54232d)}
+[data-control]{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+[data-control]:focus-visible{outline:2px solid var(--control-focus);outline-offset:4px}
+/* Purchase is the solid surface. Supporting actions are line and type. */
+html[data-control-language] :is([data-control=primary],[data-control=secondary]){display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:var(--control-height);max-width:100%;padding:14px 28px;border:1px solid var(--control-fill);border-radius:var(--control-radius);box-shadow:none;background-image:none;font:500 16px/1.4 var(--font-body,Arial,Helvetica,sans-serif);letter-spacing:.015em;text-align:center;text-decoration:none;white-space:normal;overflow-wrap:anywhere;cursor:pointer;transition:background-color var(--control-speed) var(--control-ease),color var(--control-speed),border-color var(--control-speed),transform var(--control-speed)}
+html[data-control-language] [data-control=primary]{position:relative;overflow:hidden;background:var(--control-fill);color:var(--control-on-fill);border-color:var(--control-fill);letter-spacing:.03em}
+html[data-control-language] [data-control=primary]::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-20deg);pointer-events:none;transition:none}
+html[data-control-language] [data-control=secondary]{background:transparent;color:var(--control-ink);border-color:var(--control-line);font-weight:400;letter-spacing:.02em}
+@media(hover:hover){html[data-control-language] [data-control=primary]:hover:not(:disabled):not([aria-disabled=true]){background:var(--control-hover-fill,var(--color-hover,var(--control-ink)));color:var(--control-hover-ink,var(--color-on-hover,var(--control-on-fill)));border-color:var(--control-hover-fill,var(--color-hover,var(--control-ink)));box-shadow:0 6px 20px -4px color-mix(in srgb,var(--control-fill) 28%,transparent)}html[data-control-language] [data-control=primary]:hover:not(:disabled):not([aria-disabled=true])::after{left:150%;transition:left 750ms cubic-bezier(.2,.65,.3,1)}html[data-control-language] [data-control=secondary]:hover:not(:disabled):not([aria-disabled=true]){background:color-mix(in srgb,var(--control-fill) 6%,var(--control-paper));border-color:var(--control-fill);box-shadow:0 4px 14px -3px color-mix(in srgb,var(--control-ink) 12%,transparent)}}
+:is([data-control=primary],[data-control=secondary],[data-control=icon]):active:not(:disabled):not([aria-disabled=true]){transform:translateY(1px);filter:none}
+:is([data-control=primary],[data-control=secondary])>svg{width:22px;height:22px;flex:none;stroke-width:1.5}
+html[data-control-language] .product-form>[data-control=primary]{margin-block-start:8px;font-weight:500}
+html[data-control-language] .premium-panel[data-kind=product] .product-form>button[data-control=primary]{font-weight:500}
+html[data-control-language] [data-control=text]{display:inline-flex;align-items:center;gap:20px;min-height:44px;padding-block:8px;border:0;border-block-end:1px solid color-mix(in srgb,currentColor 45%,transparent);border-radius:0;background:transparent;color:inherit;box-shadow:none;font:400 15px/1.4 var(--font-body,Arial,Helvetica,sans-serif);text-decoration:none;transition:border-color var(--control-speed),color var(--control-speed)}
+html[data-control-language] [data-control=text]:hover{border-block-end-color:currentColor}
+[data-control=text]>:is(svg,[aria-hidden=true]){flex:none;transition:transform var(--control-speed) var(--control-ease)}
+@media(hover:hover){[data-control=text]:hover>:is(svg,[aria-hidden=true]){transform:translateX(3px)}[dir=rtl] [data-control=text]:hover>:is(svg,[aria-hidden=true]){transform:translateX(-3px)}}
+/* Choice is not another purchase button. Color, border and weight indicate its state. */
+html[data-control-language] [data-control=choice]{border:1px solid var(--control-line);border-radius:4px;background:transparent;color:var(--control-ink);min-height:48px;padding:11px 18px;font:400 15px/1.35 var(--font-body,Arial,Helvetica,sans-serif);text-decoration:none;box-shadow:none;cursor:pointer;transition:background-color var(--control-speed),border-color var(--control-speed)}
+html[data-control-language] [data-control=choice]:is([aria-pressed=true],[aria-current=true],.is-selected),html[data-control-language] [data-control=choice]:has(input:checked){background:color-mix(in srgb,var(--control-fill) 9%,var(--control-paper));color:var(--control-ink);border-color:var(--control-fill);font-weight:500}
+html[data-control-language] [data-control=choice]:hover{border-color:currentColor}[data-control=choice].is-unavailable{border-style:dashed}
+/* Writing surfaces remain calm and fully native. */
+html[data-control-language] :is(input,select,textarea)[data-control=field],quantity-stepper:not(:defined)>input,[data-control=quantity]{min-height:52px;padding:13px 16px;border:1px solid var(--control-line);border-radius:var(--control-field-radius);background:var(--control-paper);color:var(--control-ink);box-shadow:none;font:400 16px/1.5 var(--font-body,Arial,Helvetica,sans-serif);letter-spacing:normal;transition:border-color var(--control-speed),background-color var(--control-speed)}
+[data-control=field]::placeholder{color:var(--color-muted,#68605b);opacity:1}
+select[data-control=field]{appearance:auto;padding-inline-end:32px}textarea[data-control=field]{min-height:140px;resize:vertical}
+[data-control=field]:hover:not(:disabled):not(:focus){border-color:color-mix(in srgb,var(--control-fill) 65%,var(--control-paper))}
+html[data-control-language] [data-control=field]:focus{border-color:var(--control-focus);outline:2px solid var(--control-focus);outline-offset:3px;box-shadow:none}
+html[data-control-language] [data-control=field]:is([aria-invalid=true],:user-invalid){border-color:var(--control-error)}
+html[data-control-language] [data-control=field]:-webkit-autofill{-webkit-text-fill-color:var(--control-ink);box-shadow:inset 0 0 0 1000px var(--control-paper)}
+:is(label,legend):has(+[data-control=field]),label[for]{line-height:1.5}
+label:has(>[data-control=check]):not([data-control=choice]){display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer}
+input[data-control=check]{appearance:auto;accent-color:var(--control-fill);width:20px;height:20px;flex:none;padding:0;margin:0;border:1px solid var(--control-line);box-shadow:none}
+[data-control=range]{appearance:none;min-height:44px;padding:0;border:0;background:transparent;color:var(--control-fill);accent-color:var(--control-fill)}
+[data-control=range]::-webkit-slider-runnable-track{height:2px;background:var(--control-line)}[data-control=range]::-webkit-slider-thumb{appearance:none;width:22px;height:22px;margin-top:-10px;border:1px solid var(--control-fill);border-radius:50%;background:var(--control-paper);box-shadow:none}
+[data-control=range]::-moz-range-track{height:2px;background:var(--control-line)}[data-control=range]::-moz-range-thumb{width:22px;height:22px;border:1px solid var(--control-fill);border-radius:50%;background:var(--control-paper)}
+/* Quiet circular tools; the quantity rail retains a rectangular writing surface. */
+html[data-control-language] [data-control=icon],quantity-stepper:defined>button{display:inline-grid;place-items:center;flex:none;min-width:44px;min-height:44px;width:44px;height:44px;padding:9px;border:1px solid var(--control-line);border-radius:50%;color:var(--control-ink);background:transparent;box-shadow:none;font:400 20px/1 var(--font-body,Arial,Helvetica,sans-serif);cursor:pointer;transition:background-color var(--control-speed),border-color var(--control-speed),transform var(--control-speed)}
+[data-control=icon]:hover:not(:disabled){border-color:var(--control-fill);background:color-mix(in srgb,var(--control-fill) 5%,var(--control-paper))}
+[data-control=icon]>svg{width:22px;height:22px;stroke-width:1.5}
+html[data-control-language] .premium-panel .premium-panel-close[data-control=icon],html[data-control-language] .campaign-dialog__close[data-control=icon]{border-radius:50%;padding:9px}
+.product-zoom-hint{min-width:44px;min-height:44px;border:1px solid var(--control-line);border-radius:50%;background:var(--control-paper);color:var(--control-ink)}
+[data-control=disclosure]{min-height:48px;cursor:pointer;border-radius:0;transition:color var(--control-speed)}[data-control=disclosure]:hover{color:var(--control-fill)}
+[data-control=navigation]{min-height:44px;cursor:pointer}
+[data-control=media]{border:0;padding:0;border-radius:0;box-shadow:none;background:transparent;color:inherit}
+quantity-stepper:defined{border:1px solid var(--control-line);border-radius:5px;background:transparent;padding:2px;overflow:visible;gap:0}
+quantity-stepper:defined>button{border:0;border-radius:3px;background:transparent;box-shadow:none;width:44px;min-height:44px;height:44px;padding:8px}
+quantity-stepper:defined>[data-control=quantity]{border:0;border-radius:0;box-shadow:none;min-height:44px;height:44px;padding:8px 4px;background:transparent;color:var(--control-ink)}
+.pagination :is(a,[aria-current=page]){display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:8px 12px;border:1px solid var(--control-line);border-radius:4px;text-decoration:none}
+.pagination [aria-current=page]{background:var(--control-fill);color:var(--control-on-fill);border-color:var(--control-fill)}
+.premium-gallery-thumbs a{min-width:44px;min-height:44px;border-radius:3px;overflow:hidden}.premium-gallery-thumbs a[aria-current=true]{outline:2px solid var(--control-fill);outline-offset:3px}
+/* Surface-specific contrast roles. */
+.newsletter{--control-fill:var(--newsletter-foreground,#faf8f5);--control-on-fill:var(--newsletter-background,#54232d);--control-line:color-mix(in srgb,var(--newsletter-foreground,#faf8f5) 45%,transparent);--control-focus:var(--newsletter-foreground,#faf8f5);--control-hover-fill:var(--newsletter-foreground,#faf8f5);--control-hover-ink:var(--newsletter-background,#54232d)}
+html[data-control-language] .newsletter__fields{border:0;padding-bottom:0;gap:16px}.newsletter [data-control=field]{--control-focus:var(--color-accent,#54232d)}
+.product-comparison[data-editorial=true]{--control-fill:var(--color-on-accent,#fff);--control-on-fill:var(--color-accent,#54232d);--control-ink:var(--color-on-accent,#fff);--control-line:color-mix(in srgb,var(--color-on-accent,#fff) 45%,transparent);--control-focus:var(--color-on-accent,#fff);--control-paper:transparent}
+html[data-control-language] .product-comparison[data-editorial=true] .formula-link,html[data-control-language] .product-comparison[data-editorial=true] .formula-link:hover:not(:disabled):not([aria-disabled=true]){background:var(--control-fill);color:var(--control-on-fill);border-color:var(--control-fill);box-shadow:none}
+html[data-control-language] .product-comparison .formula-sizes [data-control=choice]{display:flex;align-items:center;gap:20px;justify-content:space-between;min-height:46px;padding:10px 16px;border-radius:4px}
+.product-comparison .formula-sizes [data-control=choice] .price{font:500 15px/1.3 var(--font-body,Arial,Helvetica,sans-serif)}
+.footer--atelier{--control-fill:var(--color-ink);--control-on-fill:var(--color-bg);--control-focus:var(--color-ink);--control-line:var(--color-line);--control-paper:var(--color-bg);--control-ink:var(--color-ink)}
+/* Search owns one field frame; localized Clear remains an unboxed text action. */
+html[data-control-language] .search-page__query,html[data-control-language] .premium-panel[data-kind=search] .search-page__query{gap:12px}
+html[data-control-language] .search-page__query>.predictive-search__field,html[data-control-language] .premium-panel[data-kind=search] .search-page__query>.predictive-search__field{border:0;border-radius:0;background:transparent;gap:8px}
+html[data-control-language] .premium-panel[data-kind=search] .predictive-search__field:has(input:focus-visible){outline:none}
+html[data-control-language] .premium-panel[data-kind=search] .predictive-search__field input[data-control=field]:focus-visible{outline:2px solid var(--control-focus);outline-offset:3px}
+html[data-control-language] .predictive-search__clear[data-control=text]{font-size:14px;white-space:nowrap;padding-inline:8px;min-width:44px;justify-content:center}
+/* Header stays compact and quiet; no change to the accepted750px layout. */
+html[data-control-language] premium-header .header-actions .header-bag[data-control]{border-radius:5px;border:1px solid color-mix(in srgb,currentColor 25%,transparent);background:transparent;box-shadow:none;color:inherit}
+html[data-control-language] premium-header .header-actions .search-link[data-control],html[data-control-language] premium-header :is(.account-access__icon,.account-access__fallback){border-radius:3px;box-shadow:none}
+premium-header .account-access shopify-account::part(signed-out-avatar){border-radius:3px;color:inherit}
+premium-header .account-access shopify-account::part(signed-out-avatar):focus-visible{outline:2px solid var(--control-focus);outline-offset:3px}
+@media(hover:hover){html[data-control-language] premium-header .header-actions .header-bag[data-control]:hover{background:color-mix(in srgb,currentColor 5%,transparent);color:inherit;box-shadow:none;border-color:currentColor}premium-header :is(.search-link[data-control],.account-access__fallback,.account-access__icon):hover{background:color-mix(in srgb,currentColor 5%,transparent)}}
+premium-header [data-control=navigation]:focus-visible{outline:2px solid var(--control-focus);outline-offset:3px}
+premium-header[data-overlay=true]:not([data-solid]):not([data-menu-open]):not(:has(details[open])){--control-focus:currentColor}
+html[data-control-language] .shade-finder__choose[data-control=choice]{padding:10px 8px;gap:6px;font-size:14px;min-height:44px}.shade-finder__choose .shade-finder__check{width:20px;height:20px}
+/* The general drawer page-width reset must not erase this section's breathing room. */
+html[data-control-language] .premium-panel[data-kind=cart] .cart-upsell.page-width{padding-block:32px 16px;margin-block-start:0}
+html[data-control-language] .premium-panel[data-kind=cart] .cart-upsell .section-heading{margin-block:0 24px}
+html[data-control-language] .premium-panel[data-kind=cart] .cart-upsell h2{font-size:clamp(24px,3vw,29px);line-height:1.15;margin:0}
+html[data-control-language] [data-control]:is(:disabled,[aria-disabled=true]),quantity-stepper button:disabled{opacity:.48;cursor:not-allowed;filter:none;transform:none}
+[data-control][aria-busy=true],form[aria-busy=true] [data-control=primary]{cursor:progress;opacity:.72}
+@media(max-width:749px){html[data-control-language] :is([data-control=primary],[data-control=secondary]){padding-inline:24px}.newsletter__fields{flex-wrap:wrap}.newsletter__fields input{flex:1 1 200px}.newsletter__submit{flex:1 1 auto}}
+/* Static accessibility equivalents, including decorative child arrows. */
+[dir=rtl] .newsletter__submit>span:last-child{--control-arrow-rest:scaleX(-1)}
+@media(prefers-reduced-motion:reduce){html[data-control-language] [data-control],quantity-stepper>button,premium-header .account-access__icon{transition:none;animation:none}[data-control]:active{transform:none}html[data-control-language] :is([data-control=primary],[data-control=secondary],[data-control=text])>:is(svg,[aria-hidden=true]),html[data-control-language] :is([data-control=primary],[data-control=secondary],[data-control=text]):is(:hover,:focus-visible)>:is(svg,[aria-hidden=true]){transition:none;transform:var(--control-arrow-rest,none)}}
+html[data-motion-enabled=false] [data-control],html[data-motion-enabled=false] quantity-stepper>button,html[data-motion-enabled=false] premium-header .account-access__icon{transition:none;animation:none;transform:none}
+html[data-motion-enabled=false] :is([data-control=primary],[data-control=secondary],[data-control=text])>:is(svg,[aria-hidden=true]),html[data-motion-enabled=false] :is([data-control=primary],[data-control=secondary],[data-control=text]):is(:hover,:focus-visible)>:is(svg,[aria-hidden=true]){transition:none;transform:var(--control-arrow-rest,none)}
+@media(prefers-reduced-motion:reduce){html[data-control-language] :is([data-control=primary],[data-control=secondary],[data-control=icon]):active:not(:disabled):not([aria-disabled=true]){transform:none}}
+html[data-motion-enabled=false] :is([data-control=primary],[data-control=secondary],[data-control=icon]):active:not(:disabled):not([aria-disabled=true]){transform:none}
+@media(forced-colors:active){html[data-control-language] [data-control]{forced-color-adjust:auto;box-shadow:none;background-image:none}html[data-control-language] [data-control]:is([aria-current=true],[aria-pressed=true],.is-selected),html[data-control-language] [data-control=choice]:has(input:checked){border:2px solid Highlight;outline:1px solid Highlight}html[data-control-language] [data-control]:focus-visible,premium-header .account-access shopify-account::part(signed-out-avatar):focus-visible{outline:2px solid Highlight}html[data-control-language] [data-control=field]:is([aria-invalid=true],:user-invalid){border:2px dashed CanvasText}[data-control=range]{appearance:auto}[data-control=range]::-webkit-slider-thumb{appearance:auto;background:ButtonFace;border-color:ButtonText}html[data-control-language] premium-header .header-actions .header-bag[data-control]{border-color:ButtonText}}
+/* A shared Elarune select surface; native keyboard and mobile pickers remain intact. */
+html[data-control-language] select[data-control="field"]:not([multiple]):not([size]) {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 56px;
+  max-width: 100%;
+  min-width: 0;
+  padding: 14px 18px;
+  padding-inline-end: 64px;
+  border: 1px solid color-mix(in srgb, var(--control-fill) 48%, var(--control-paper));
+  border-radius: 10px;
+  background-color: var(--control-paper);
+  color: var(--control-ink);
+  font: 500 16px/1.5 var(--font-body, Arial, sans-serif);
+  letter-spacing: normal;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--control-fill) 50%),
+    linear-gradient(135deg, var(--control-fill) 50%, transparent 50%),
+    linear-gradient(var(--control-line), var(--control-line)),
+    linear-gradient(color-mix(in srgb, var(--control-fill) 7%, var(--control-paper)), color-mix(in srgb, var(--control-fill) 7%, var(--control-paper)));
+  background-position: right 26px center, right 20px center, right 52px center, right center;
+  background-size: 6px 6px, 6px 6px, 1px 26px, 52px 100%;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: border-color var(--control-speed), background-color var(--control-speed);
+}
+html[data-control-language] select[data-control="field"]:not([multiple]):not([size]):hover:not(:disabled) { border-color: var(--control-fill); }
+html[data-control-language] select[data-control="field"]:focus-visible { outline: 2px solid var(--control-focus); outline-offset: 3px; }
+html[data-control-language] select[data-control="field"]:is([aria-invalid="true"], :user-invalid) { border-color: var(--control-error); }
+html[data-control-language] select[data-control="field"]:disabled { opacity: .55; cursor: not-allowed; }
+html[data-control-language] select[data-control="field"] option { background: var(--control-paper); color: var(--control-ink); font-weight: 400; }
+html[data-control-language] select[data-control="field"] option:disabled { color: var(--color-muted, #68605b); }
+html[data-control-language] select[data-control="field"]:dir(rtl) { background-position: left 26px center, left 20px center, left 52px center, left center; }
+@media (prefers-reduced-motion: reduce) {
+  html[data-control-language] select[data-control="field"] { transition: none; }
+}
+@media (forced-colors: active) {
+  html[data-control-language] select[data-control="field"]:not([multiple]):not([size]) { appearance: auto; -webkit-appearance: auto; background-image: none; padding-inline-end: 18px; border-color: ButtonText; forced-color-adjust: auto; }
+}
+/* Supporting browsers also render the option list in the theme palette. */
+@supports (appearance: base-select) {
+  html[data-control-language] select[data-control="field"]:not([multiple]):not([size]),
+  html[data-control-language] select[data-control="field"]:not([multiple]):not([size])::picker(select) { appearance: base-select; }
+  html[data-control-language] select[data-control="field"]::picker-icon { display: none; }
+  html[data-control-language] select[data-control="field"]::picker(select) {
+    padding: 6px;
+    margin-block-start: 8px;
+    max-block-size: min(360px, 60vh);
+    max-inline-size: calc(100vw - 32px);
+    border: 1px solid var(--control-line);
+    border-radius: 12px;
+    background: var(--control-paper);
+    color: var(--control-ink);
+    box-shadow: 0 14px 32px color-mix(in srgb, var(--control-fill) 14%, transparent);
+  }
+  html[data-control-language] select[data-control="field"] option {
+    min-block-size: 44px;
+    padding: 12px 14px;
+    border-radius: 6px;
+    gap: 12px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    font: 400 16px/1.4 var(--font-body, Arial, sans-serif);
+  }
+  html[data-control-language] select[data-control="field"] option:checked { background: color-mix(in srgb, var(--control-fill) 10%, var(--control-paper)); font-weight: 600; }
+  html[data-control-language] select[data-control="field"] option:is(:hover, :focus-visible):not(:disabled) { background: var(--control-fill); color: var(--control-on-fill); }
+  html[data-control-language] select[data-control="field"] option::checkmark { color: currentColor; }
+}
+@media (forced-colors: active) {
+  html[data-control-language] select[data-control="field"]:not([multiple]):not([size]),
+  html[data-control-language] select[data-control="field"]:not([multiple]):not([size])::picker(select) { appearance: auto; }
+}
+
+
+/* ==========================================================================
+   Interaction targets — guarantees a comfortable hit area on touch pointers
+   without changing desktop density or any component's own decoration.
+   ========================================================================== */
+@media (pointer: coarse) {
+  html[data-control-language] :is(
+    button,
+    [role="button"],
+    summary,
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    select,
+    input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+    nav a[href],
+    .announcement a[href],
+    .footer a[href],
+    .header-actions a[href],
+    .button,
+    .text-link,
+    .hero-acquire-btn,
+    .sensory-tab,
+    .skin-timeline__step,
+    .volume-toggle-btn,
+    .product-card-swatches a
+  ):not(.skip-link) {
+    min-block-size: 44px;
+  }
+
+  html[data-control-language] :is(
+    .premium-panel-close,
+    .back-in-stock-close,
+    .product-share__close-btn,
+    .sensory-step-mark,
+    .product-card-swatches a,
+    [data-control="icon"]
+  ) {
+    min-inline-size: 44px;
+    min-block-size: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  html[data-control-language] .sensory-tab {
+    padding-block: 10px;
+    padding-inline: 14px;
+  }
+
+  html[data-control-language] .cart-line__controls quantity-stepper,
+  html[data-control-language] .cart-line__controls input {
+    min-block-size: 44px;
+  }
+
+  html[data-control-language] .cart-line__controls quantity-stepper button {
+    min-inline-size: 40px;
+    min-block-size: 40px;
+  }
+
+  html[data-control-language] :is(input[type="checkbox"], input[type="radio"]) {
+    inline-size: 22px;
+    block-size: 22px;
+  }
+
+  html[data-control-language] label:has(> input[type="checkbox"]),
+  html[data-control-language] label:has(> input[type="radio"]),
+  html[data-control-language] :is(input[type="checkbox"], input[type="radio"]) + label {
+    min-block-size: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  html[data-control-language] [data-control="range"] {
+    min-block-size: 44px;
+  }
+
+  html[data-control-language] [data-control="range"]::-webkit-slider-thumb {
+    inline-size: 26px;
+    block-size: 26px;
+  }
+
+  html[data-control-language] [data-control="range"]::-moz-range-thumb {
+    inline-size: 26px;
+    block-size: 26px;
+  }
+}
