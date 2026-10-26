@@ -1,0 +1,284 @@
+{%- capture premium_section_body -%}
+{{ 'sensory-home.css' | asset_url | stylesheet_tag }}
+{{ 'sensory-motion.css' | asset_url | stylesheet_tag }}
+{{ 'sensory-discovery.css' | asset_url | stylesheet_tag }}
+{% if section.settings.editorial_composition %}{{ 'sensory-editorial.css' | asset_url | stylesheet_tag }}{% endif %}
+{% if section.settings.editorial_composition and section.settings.ritual_constellation %}{{ 'ritual-constellation.css' | asset_url | stylesheet_tag }}{% endif %}
+<script src="{{ 'sensory-motion.js' | asset_url }}" type="module"></script>
+<script src="{{ 'sensory-discovery.js' | asset_url }}" type="module"></script>
+<sensory-scene data-editorial="{{ section.settings.editorial_composition }}" data-constellation="{{ section.settings.ritual_constellation }}" data-scene="opening">
+<section class="sensory sensory-opening" aria-labelledby="SensoryHero-{{ section.id }}">
+ <div class="sensory-opening-art" aria-hidden="true">{% if section.settings.image != blank and section.settings.editorial_composition != true %}{{ section.settings.image | image_url: width: 2000 | image_tag: widths: '600, 900, 1400, 2000', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: '' }}{% endif %}</div>
+ <div class="sensory-opening-top"><p class="sensory-kicker">{{ section.settings.eyebrow | escape }}</p><span class="sensory-star" aria-hidden="true">✳</span></div>
+ {% assign campaign_heading_length = section.settings.heading | append: section.settings.heading_accent | size %}
+ <sensory-discovery class="sensory-opening-layout" data-long-heading="{% if campaign_heading_length > 55 %}true{% else %}false{% endif %}" data-selected="{{ section.settings.product.handle }}">
+  <div class="sensory-opening-copy"><h1 id="SensoryHero-{{ section.id }}"><span data-discovery-heading>{{ section.settings.heading | escape }}</span> <em data-discovery-accent>{{ section.settings.heading_accent | escape }}</em></h1><p class="sensory-opening-description" data-discovery-description>{{ section.settings.text | escape }}</p>
+   {% if section.settings.link != blank %}<a data-control="text" class="sensory-discovery-all" href="{{ section.settings.link }}">{{ section.settings.button_label | escape }} <span aria-hidden="true">↓</span></a>{% endif %}
+    <div class="sensory-chapters">{% for block in section.blocks %}{% assign chapter = block.settings.product %}{% if chapter != blank %}{% assign raw_label = block.settings.label | strip %}{% if raw_label != blank %}{% assign chapter_label = raw_label | escape %}{% else %}{% assign chapter_label = chapter.title | escape %}{% endif %}<div {{ block.shopify_attributes }}><a data-discovery-fallback href="{{ chapter.url }}" aria-label="{{ chapter_label }}"><span aria-hidden="true">0{{ forloop.index }}</span>{{ chapter_label }}</a><button data-control="choice" type="button" data-discovery-key="{{ block.id }}" data-handle="{{ chapter.handle }}" aria-pressed="false" aria-label="{{ chapter_label }}" hidden><span aria-hidden="true">0{{ forloop.index }}</span>{{ chapter_label }}<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4C13 10 8 16 8 21a8 8 0 0 0 16 0c0-5-5-11-8-17Z"/></svg></button></div>{% endif %}{% endfor %}</div>
+  </div>
+  <div class="sensory-discovery-product" aria-live="polite">{% render 'sensory-campaign-product', item: section.settings.product, campaign: section.settings.campaign_image, mobile_campaign: section.settings.mobile_campaign_image, constellation: section.settings.ritual_constellation, editorial: section.settings.editorial_composition, priority: 'high' %}</div>
+  {% for block in section.blocks %}{% assign chapter = block.settings.product %}{% if chapter != blank %}<template data-discovery-template="{{ block.id }}" data-heading="{{ block.settings.heading | escape }}" data-accent="{{ block.settings.heading_accent | escape }}" data-description="{{ block.settings.text | escape }}">{% render 'sensory-campaign-product', item: chapter, campaign: block.settings.campaign_image, mobile_campaign: block.settings.mobile_campaign_image, constellation: section.settings.ritual_constellation, editorial: section.settings.editorial_composition %}</template>{% endif %}{% endfor %}
+ </sensory-discovery>
+ {% if section.settings.note != blank or section.settings.caption != blank %}<div class="sensory-opening-caption"><span>{{ section.settings.note | escape }}</span><span>{{ section.settings.caption | escape }}</span></div>{% endif %}
+ <div class="sensory-liquid-edge" aria-hidden="true"><svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path d="M0 110C220 210 310 20 580 64S990 180 1140 74 1350 45 1440 84V200H0Z"/></svg></div>
+</section></sensory-scene>
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:sensory.hero",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "ritual_constellation",
+      "label": "t:sensory.ritual_constellation",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "editorial_composition",
+      "label": "t:sensory.editorial_composition",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "campaign_image",
+      "label": "t:sensory.campaign_image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_campaign_image",
+      "label": "t:sensory.mobile_campaign_image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "t:editor.text.italic_heading_line_1ccf8b"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:editor.text.description_526e00"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:editor.text.campaign_image_e11542"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:editor.text.button_label_57a953"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:editor.text.button_link_168eeb"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "t:editor.text.heading_b34f17"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "t:editor.text.heading_b34f17"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:editor.text.product_fb9ef8"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "presets": [
+    {
+      "name": "t:sensory.hero"
+    }
+  ],
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "chapter",
+      "name": "t:editor.text.product_fb9ef8",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:editor.text.product_fb9ef8"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:editor.text.heading_b34f17"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:editor.text.heading_b34f17"
+        },
+        {
+          "type": "text",
+          "id": "heading_accent",
+          "label": "t:editor.text.italic_heading_line_1ccf8b"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "t:editor.text.description_526e00"
+        },
+        {
+          "type": "image_picker",
+          "id": "campaign_image",
+          "label": "t:sensory.campaign_image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_campaign_image",
+          "label": "t:sensory.mobile_campaign_image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

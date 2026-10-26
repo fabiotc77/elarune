@@ -1,0 +1,263 @@
+{%- capture premium_section_body -%}
+{% liquid
+  assign country_code = localization.country.iso_code
+  assign currency_code = cart.currency.iso_code
+  assign matching_rules = 0
+  assign shipping_rule = nil
+  for block in section.blocks
+    assign rule_country = block.settings.country | strip | upcase
+    assign rule_currency = block.settings.currency | strip | upcase
+    if rule_country != blank and rule_currency != blank and rule_country == country_code and rule_currency == currency_code
+      assign matching_rules = matching_rules | plus: 1
+      assign shipping_rule = block
+    endif
+  endfor
+  assign threshold = shipping_rule.settings.threshold | default: 0 | times: 100 | round
+  assign supported_cart = cart.requires_shipping
+  for item in cart.items
+    unless item.requires_shipping
+      assign supported_cart = false
+    endunless
+    if item.gift_card or item.selling_plan_allocation
+      assign supported_cart = false
+    endif
+  endfor
+  assign show_indicator = false
+  if section.settings.enabled and matching_rules == 1 and threshold > 0 and supported_cart and cart.item_count > 0
+    assign show_indicator = true
+  endif
+%}
+{% if show_indicator %}
+  {% liquid
+    assign cart_total = cart.total_price | at_least: 0
+    assign remaining = threshold | minus: cart_total | at_least: 0
+    assign progress = cart_total | times: 100.0 | divided_by: threshold | at_most: 100
+    assign remaining_money = remaining | money_with_currency | strip_html
+    if remaining > 0
+      assign shipping_message = 'free_shipping.remaining' | t: amount: remaining_money
+    else
+      assign shipping_message = 'free_shipping.reached' | t
+    endif
+    assign shipping_policy_url = section.settings.policy_url | default: shop.shipping_policy.url
+    assign destination = localization.country.name | escape
+  %}
+  {{ 'free-shipping-progress.css' | asset_url | stylesheet_tag }}
+  <section class="free-shipping-progress page-width" aria-labelledby="ShippingTitle-{{ section.id }}" {{ shipping_rule.shopify_attributes }}>
+    <div class="free-shipping-progress__panel">
+      <div class="free-shipping-progress__heading">
+        <h2 id="ShippingTitle-{{ section.id }}">{{ 'free_shipping.title' | t }}</h2>
+        <p class="free-shipping-progress__destination">{{ 'free_shipping.destination' | t: country: destination }}</p>
+      </div>
+      <p class="free-shipping-progress__message" id="ShippingMessage-{{ section.id }}">{{ shipping_message }}</p>
+      <meter class="free-shipping-progress__meter" min="0" max="100" value="{{ progress }}" aria-labelledby="ShippingTitle-{{ section.id }}" aria-describedby="ShippingMessage-{{ section.id }}">{{ progress | round }}%</meter>
+      <p class="free-shipping-progress__note">{{ 'free_shipping.checkout_note' | t }}</p>
+      {% if shipping_rule.settings.conditions != blank %}<p class="free-shipping-progress__conditions">{{ shipping_rule.settings.conditions | escape }}</p>{% endif %}
+      {% if shipping_policy_url != blank %}<a data-control="text" class="free-shipping-progress__policy text-link" href="{{ shipping_policy_url | escape }}">{{ 'free_shipping.policy' | t }}</a>{% endif %}
+    </div>
+  </section>
+{% elsif request.design_mode %}
+  <div class="page-width"><p class="editor-note">{% if matching_rules > 1 %}{{ 'free_shipping.duplicate' | t }}{% else %}{{ 'free_shipping.setup' | t }}{% endif %}</p></div>
+{% endif %}
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.free_shipping_progress_ee8c80",
+  "tag": "section",
+  "enabled_on": {
+    "templates": [
+      "cart"
+    ]
+  },
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:editor.text.use_this_only_when_your_free_shipping_rate_is_based_on_the_cart_t_039edc"
+    },
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "t:editor.text.show_shipping_progress_f23b17",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "policy_url",
+      "label": "t:editor.text.shipping_details_link_ae0a77",
+      "info": "t:editor.text.leave_blank_to_use_your_store_s_shipping_policy_38dfcb"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "shipping_rule",
+      "name": "t:editor.text.country_and_currency_330c19",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:editor.text.rule_name_7c9de4",
+          "info": "t:editor.text.for_your_reference_in_the_editor_9fa929"
+        },
+        {
+          "type": "text",
+          "id": "country",
+          "label": "t:editor.text.country_code_b5bf7a",
+          "info": "t:editor.text.two_letters_such_as_tr_de_or_us_add_one_rule_per_country_and_curr_ead88b"
+        },
+        {
+          "type": "text",
+          "id": "currency",
+          "label": "t:editor.text.currency_code_378b65",
+          "info": "t:editor.text.three_letters_such_as_try_eur_or_usd_no_currency_conversion_is_ap_046653"
+        },
+        {
+          "type": "number",
+          "id": "threshold",
+          "label": "t:editor.text.free_shipping_minimum_d864ce",
+          "info": "t:editor.text.enter_the_full_amount_in_this_currency_without_a_currency_symbol_9b31f4"
+        },
+        {
+          "type": "textarea",
+          "id": "conditions",
+          "label": "t:editor.text.delivery_conditions_35fa30",
+          "info": "t:editor.text.optional_details_such_as_the_delivery_service_or_excluded_regions_e19c31"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:editor.text.free_shipping_progress_ee8c80",
+      "blocks": [
+        {
+          "type": "shipping_rule"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,249 @@
+{% render 'section-scheme', section: section %}
+{%- capture premium_section_body -%}
+{% liquid
+  assign use_recommendations = false
+  if section.settings.source == 'discovery' and product != blank
+    assign use_recommendations = true
+  endif
+  assign suggested_products = section.settings.products
+  assign resolved = false
+  if use_recommendations and recommendations.performed? and recommendations.intent == 'complementary'
+    assign resolved = true
+    assign suggested_products = recommendations.products
+  endif
+  assign product_count = 0
+  assign product_limit = section.settings.product_limit | default: 4
+  assign complementary_title = section.settings.heading
+  if complementary_title == blank
+    assign complementary_title = 'complementary_products.title' | t
+  endif
+%}
+{% capture product_cards %}
+  {% for suggested_product in suggested_products %}
+    {% if suggested_product == blank or suggested_product.id == product.id %}{% continue %}{% endif %}
+    {% unless suggested_product.available %}{% continue %}{% endunless %}
+    <li>{% render 'product-card', card_product: suggested_product %}</li>
+    {% assign product_count = product_count | plus: 1 %}
+    {% if product_count >= product_limit %}{% break %}{% endif %}
+  {% endfor %}
+{% endcapture %}
+{% if product_count > 0 or use_recommendations or request.design_mode %}
+  {{ 'complementary-products.css' | asset_url | stylesheet_tag }}
+  {% if use_recommendations and resolved == false %}<script src="{{ 'complementary-products.js' | asset_url }}" type="module"></script>{% endif %}
+  <complementary-products
+    data-section-id="{{ section.id }}"
+    data-product-id="{{ product.id }}"
+    data-resolved="{{ resolved }}"
+    {% if use_recommendations and resolved == false %}data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id | url_encode }}&amp;product_id={{ product.id }}&amp;limit={{ product_limit }}&amp;intent=complementary"{% endif %}
+  >
+    <div data-complementary-content>
+      {% if product_count > 0 %}
+        <section class="complementary-products page-width section-space" aria-labelledby="ComplementaryTitle-{{ section.id }}">
+          <div class="section-heading">
+            <h2 id="ComplementaryTitle-{{ section.id }}">{{ complementary_title | escape }}</h2>
+            {% if section.settings.introduction != blank %}<p class="muted">{{ section.settings.introduction | escape }}</p>{% endif %}
+          </div>
+          <ul class="complementary-products__grid" role="list">{{ product_cards }}</ul>
+        </section>
+      {% elsif request.design_mode %}
+        <div class="page-width"><p class="editor-note">{{ 'complementary_products.empty' | t }}</p></div>
+      {% endif %}
+    </div>
+  </complementary-products>
+{% endif %}
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.complementary_products_e3d771",
+  "tag": "section",
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:editor.text.help_customers_complete_their_routine_product_cards_link_to_the_p_674d2b"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17"
+    },
+    {
+      "type": "textarea",
+      "id": "introduction",
+      "label": "t:editor.text.introduction_b60535"
+    },
+    {
+      "type": "select",
+      "id": "source",
+      "label": "t:editor.text.product_source_f0d647",
+      "default": "manual",
+      "options": [
+        {
+          "value": "manual",
+          "label": "t:editor.text.choose_products_here_9c2d8a"
+        },
+        {
+          "value": "discovery",
+          "label": "t:editor.text.shopify_search_discovery_28777a"
+        }
+      ],
+      "info": "t:editor.text.for_shopify_recommendations_configure_complementary_products_in_s_36fa4e"
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "label": "t:editor.text.products_fallback_products_05b455",
+      "limit": 4,
+      "info": "t:editor.text.choose_products_or_connect_a_product_list_metafield_for_suggestio_9615f2"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "t:editor.text.maximum_products_shown_9918ec",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:scheme.section",
+      "default": "porcelain"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:editor.text.complementary_products_e3d771"
+    }
+  ]
+}
+{% endschema %}

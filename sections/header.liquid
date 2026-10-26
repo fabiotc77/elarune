@@ -1,0 +1,174 @@
+{{ 'premium-navigation.css' | asset_url | stylesheet_tag }}
+{% if section.settings.announcement != blank or localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
+  <div class="announcement">
+    <div class="page-width announcement-inner">
+      {% if section.settings.announcement != blank %}
+        <p class="announcement-text">{{ section.settings.announcement | escape }}</p>
+      {% endif %}
+      {% if localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
+        <a href="#Footer" class="header-utility-localization" aria-label="{{ 'localization.heading' | t }}">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+          <span>{{ localization.country.currency.iso_code }}{% if localization.country.currency.symbol != blank %} {{ localization.country.currency.symbol }}{% endif %} · {{ localization.language.iso_code | upcase }}</span>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+{{ 'brand.css' | asset_url | stylesheet_tag }}
+{% if shop.customer_accounts_enabled %}{{ 'account-access.css' | asset_url | stylesheet_tag }}{% endif %}
+<premium-header data-hover="{{ section.settings.experience_menu_hover }}" data-mode="{{ section.settings.experience_header_mode | default: 'sticky' }}" data-overlay="{% if request.page_type == 'index' %}{{ section.settings.experience_header_overlay }}{% else %}false{% endif %}"><header class="site-header{% if shop.customer_accounts_enabled %} site-header--accounts{% endif %}">
+  <div class="page-width header-inner">
+    {% if section.settings.signature_note != blank %}<div class="header-signature-note"><svg width="34" height="42" viewBox="0 0 34 42" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M17 38V17M17 28C1 27 2 12 3 8c10 0 17 8 14 20ZM17 21C32 20 32 5 31 2c-10 1-17 9-14 19Z"/></svg><span>{{ section.settings.signature_note | escape }}</span></div>{% endif %}
+    <nav class="header-nav" aria-label="{{ 'general.navigation' | t }}">
+      {% for link in section.settings.menu.links %}
+        {% assign has_promotion = false %}{% for block in section.blocks %}{% if block.settings.menu_title == link.title %}{% assign has_promotion = true %}{% endif %}{% endfor %}
+        {% if link.links != blank or has_promotion %}
+          <details class="header-disclosure"><summary data-control="navigation">{{ link.title | escape }}<span class="nav-disclosure-icon" aria-hidden="true"></span></summary>
+            <ul class="header-mega">
+              <li class="header-menu-intro"><span class="eyebrow">{{ shop.name | escape }}</span><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}<span aria-hidden="true">↗</span></a><span class="header-browse-label">{{ 'general.view_all' | t }}</span></li>
+              {% if link.links != blank %}<li class="header-menu-directory"><ul>{% for child in link.links %}<li class="header-menu-column"><a href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title | escape }}</a>{% if child.links != blank %}<ul>{% for grandchild in child.links %}<li><a href="{{ grandchild.url }}"{% if grandchild.current %} aria-current="page"{% endif %}>{{ grandchild.title | escape }}</a></li>{% endfor %}</ul>{% endif %}</li>{% endfor %}</ul></li>{% endif %}
+              {% if has_promotion %}<li class="header-menu-editorials">{% for block in section.blocks %}{% if block.settings.menu_title == link.title %}<div class="premium-menu-promotion" {{ block.shopify_attributes }}>{% render 'header-promotion', block: block %}</div>{% endif %}{% endfor %}</li>{% endif %}
+            </ul>
+          </details>
+        {% else %}<a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>{% endif %}
+      {% endfor %}
+    </nav>
+    <details class="mobile-nav"><summary data-control="navigation"><span class="header-menu-icon" aria-hidden="true"><i></i><i></i></span><span>{{ 'general.menu' | t }}</span></summary>
+      <nav class="mobile-nav-panel" aria-label="{{ 'general.navigation' | t }}">
+        <div class="mobile-menu-top"><span class="eyebrow">{{ shop.name | escape }}</span><button data-control="icon" type="button" data-header-close aria-label="{{ 'image_zoom.close' | t }}" hidden>×</button></div>
+        <ul class="mobile-menu-links">
+        {% for link in section.settings.menu.links %}<li>{% if link.links != blank %}
+          <details class="mobile-menu-branch"><summary data-control="navigation">{{ link.title | escape }}<span class="header-plus" aria-hidden="true"></span></summary><ul><li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ 'general.view_all' | t }}<span aria-hidden="true">↗</span></a></li>{% for child in link.links %}<li><a href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title | escape }}</a>{% if child.links != blank %}<ul>{% for grandchild in child.links %}<li><a href="{{ grandchild.url }}"{% if grandchild.current %} aria-current="page"{% endif %}>{{ grandchild.title | escape }}</a></li>{% endfor %}</ul>{% endif %}</li>{% endfor %}</ul></details>
+        {% else %}<a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}<span aria-hidden="true">↗</span></a>{% endif %}</li>{% endfor %}
+        </ul>
+        <a data-control="secondary" class="mobile-menu-search" {% if settings.experience_search_drawer %}data-premium-open="search" data-panel-title="{{ 'general.search' | t | escape }}"{% endif %} href="{{ routes.search_url }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>{{ 'general.search' | t }}<span aria-hidden="true">↗</span></a>
+        {% if section.blocks.size > 0 %}<div class="mobile-menu-promotions">{% for block in section.blocks %}<div {{ block.shopify_attributes }}>{% render 'header-promotion', block: block %}</div>{% endfor %}</div>{% endif %}
+        {% if localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
+          <div class="mobile-menu-localization">
+            <a href="#Footer" class="mobile-localization-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+              <span>{{ localization.country.name }} ({{ localization.country.currency.iso_code }} · {{ localization.language.endonym_name }})</span>
+              <span class="mobile-localization-change" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        {% endif %}
+        <div class="mobile-menu-social">
+          {% render 'social-links', settings: settings %}
+        </div>
+      </nav>
+    </details>
+    <a class="brand{% if section.settings.logo == blank and section.settings.show_signature_logo %} brand--signature{% endif %}" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+      {% if section.settings.logo != blank %}{{ section.settings.logo | image_url: width: 360 | image_tag: widths: '120, 180, 240, 360', sizes: '180px', alt: shop.name }}{% elsif section.settings.show_signature_logo %}<img src="{{ 'elarune-wordmark.svg' | asset_url }}" width="558" height="94" alt="{{ shop.name | escape }}">{% else %}{{ shop.name | escape }}{% endif %}
+    </a>
+    <div class="header-actions">{% render 'account-access', shop: shop, routes: routes, section: section %}<a data-control="navigation" class="search-link" {% if settings.experience_search_drawer %}data-premium-open="search" data-panel-title="{{ 'general.search' | t | escape }}"{% endif %} href="{{ routes.search_url }}"><svg class="header-action-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span>{{ 'general.search' | t }}</span></a><a data-control="navigation" class="header-bag" href="{{ routes.cart_url }}" {% if settings.experience_cart_drawer %}data-premium-open="cart" data-panel-title="{{ 'cart.title' | t | escape }}"{% endif %}><svg class="header-action-icon" width="22" height="24" viewBox="0 0 24 26" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 9h14l2 14H3L5 9Z" stroke-linejoin="round"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke-linecap="round"/></svg><span class="header-bag-label">{{ 'cart.title' | t }}</span><span class="header-bag-count">({{ cart.item_count }})</span></a></div>
+  </div>
+</header><button class="header-scrim" type="button" data-header-close aria-label="{{ 'image_zoom.close' | t }}" tabindex="-1" hidden></button></premium-header>
+<script src="{{ 'premium-header.js' | asset_url }}" type="module"></script>
+{% render 'launch-check', source_section: section, kind: 'header' %}
+{% schema %}
+{
+  "name": "t:editor.text.header_ba5caa",
+  "settings": [
+    {"type":"text","id":"signature_note","label":"t:premium.heading"},
+    {
+      "type": "text",
+      "id": "announcement",
+      "label": "t:editor.text.announcement_028cd1",
+      "info": "t:editor.text.use_a_factual_message_leave_blank_to_hide_6f5684"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:editor.text.logo_d707dc"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_signature_logo",
+      "label": "t:editor.text.use_elarune_demo_signature_3cf63e",
+      "default": false,
+      "info": "t:editor.text.uses_the_included_vector_wordmark_when_no_custom_logo_is_selected_db1e8a"
+    },
+    {
+      "type": "link_list",
+      "id": "customer_account_menu",
+      "label": "t:editor.text.customer_account_menu_e69ba1"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:editor.text.menu_99af66",
+      "default": "main-menu"
+    },
+    {
+      "type": "select",
+      "id": "experience_header_mode",
+      "label": "t:premium.header_mode",
+      "options": [
+        {
+          "value": "static",
+          "label": "t:premium.static"
+        },
+        {
+          "value": "sticky",
+          "label": "t:premium.sticky"
+        },
+        {
+          "value": "smart",
+          "label": "t:premium.smart"
+        }
+      ],
+      "default": "sticky"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_header_overlay",
+      "label": "t:premium.overlay",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_menu_hover",
+      "label": "t:premium.menu_hover",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promotion",
+      "name": "t:premium.promotions",
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_title",
+          "label": "t:premium.menu_match"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:premium.image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:premium.heading"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:premium.link"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:premium.product"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:premium.collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,355 @@
+{%- capture premium_section_body -%}
+{{ 'premium-editorial.css' | asset_url | stylesheet_tag }}
+<premium-campaign data-autoplay="{{ section.settings.autoplay }}" data-interval="{{ section.settings.interval | times: 1000 }}" class="premium-campaign" data-layout="{{ section.settings.mode }}" data-height="{{ section.settings.height }}" data-position="{{ section.settings.position }}" data-mobile-position="{{ section.settings.mobile_position }}" style="--campaign-overlay:{{ section.settings.overlay_opacity | divided_by: 100.0 }};--campaign-transition:{{ section.settings.duration }}ms">
+ <div class="premium-slides" tabindex="0" role="region" aria-label="{{ section.settings.heading | default: shop.name | escape }}">
+ {% for block in section.blocks %}<article class="premium-slide" {{ block.shopify_attributes }}>
+  <div class="premium-campaign-media">{% if block.settings.video != blank %}{{ block.settings.video | video_tag: image_size: '1800x', controls: true, autoplay: false, loop: false, muted: true, playsinline: true, preload: 'none' }}{% elsif block.settings.image != blank %}<picture>{% if block.settings.mobile_image != blank %}<source media="(max-width:749px)" srcset="{{ block.settings.mobile_image | image_url: width: 900 }}">{% endif %}{% assign campaign_loading = 'lazy' %}{% if section.index == 1 and forloop.first %}{% assign campaign_loading = 'eager' %}{% endif %}{{ block.settings.image | image_url: width: 2200 | image_tag: widths: '600, 900, 1400, 1800, 2200', sizes: '100vw', loading: campaign_loading }}</picture>{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}</div>
+  <div class="premium-campaign-copy">{% if block.settings.eyebrow != blank %}<p class="eyebrow">{{ block.settings.eyebrow | escape }}</p>{% endif %}<h2>{{ block.settings.heading | escape }}</h2>{% if block.settings.text != blank %}<p>{{ block.settings.text | escape }}</p>{% endif %}{% if block.settings.link != blank %}<a data-control="primary" class="button" href="{{ block.settings.link }}">{{ block.settings.label | escape }} <span aria-hidden="true">↗</span></a>{% endif %}</div>
+ </article>{% endfor %}
+ </div>
+ {% if section.blocks.size > 1 %}<div class="premium-rail-controls" hidden><button data-control="icon" type="button" data-previous aria-label="{{ 'premium.previous' | t }}">←</button><button data-control="icon" type="button" data-play aria-label="{{ 'premium.pause' | t }}" data-pause-label="{{ 'premium.pause' | t }}" data-play-label="{{ 'premium.play' | t }}">Ⅱ</button><button data-control="icon" type="button" data-next aria-label="{{ 'premium.next' | t }}">→</button></div>{% endif %}
+</premium-campaign><script src="{{ 'premium-rails.js' | asset_url }}" type="module"></script>
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:premium.campaign",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:premium.heading"
+    },
+    {
+      "type": "select",
+      "id": "mode",
+      "label": "t:premium.mode",
+      "options": [
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "split",
+          "label": "t:premium.split"
+        }
+      ],
+      "default": "full"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "t:premium.height",
+      "options": [
+        {
+          "value": "large",
+          "label": "t:premium.large"
+        },
+        {
+          "value": "viewport",
+          "label": "t:premium.viewport"
+        }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "position",
+      "label": "t:premium.position",
+      "options": [
+        {
+          "value": "top_left",
+          "label": "t:premium.top_left"
+        },
+        {
+          "value": "center_left",
+          "label": "t:premium.center_left"
+        },
+        {
+          "value": "bottom_left",
+          "label": "t:premium.bottom_left"
+        },
+        {
+          "value": "center",
+          "label": "t:premium.center"
+        },
+        {
+          "value": "bottom_center",
+          "label": "t:premium.bottom_center"
+        },
+        {
+          "value": "top_right",
+          "label": "t:premium.top_right"
+        },
+        {
+          "value": "center_right",
+          "label": "t:premium.center_right"
+        },
+        {
+          "value": "bottom_right",
+          "label": "t:premium.bottom_right"
+        }
+      ],
+      "default": "center_left"
+    },
+    {
+      "type": "select",
+      "id": "mobile_position",
+      "label": "t:premium.mobile_position",
+      "options": [
+        {
+          "value": "top_left",
+          "label": "t:premium.top_left"
+        },
+        {
+          "value": "center_left",
+          "label": "t:premium.center_left"
+        },
+        {
+          "value": "bottom_left",
+          "label": "t:premium.bottom_left"
+        },
+        {
+          "value": "center",
+          "label": "t:premium.center"
+        },
+        {
+          "value": "bottom_center",
+          "label": "t:premium.bottom_center"
+        },
+        {
+          "value": "top_right",
+          "label": "t:premium.top_right"
+        },
+        {
+          "value": "center_right",
+          "label": "t:premium.center_right"
+        },
+        {
+          "value": "bottom_right",
+          "label": "t:premium.bottom_right"
+        }
+      ],
+      "default": "bottom_left"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:premium.overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:premium.autoplay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "interval",
+      "label": "t:premium.autoplay",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "default": 7,
+      "unit": "s"
+    },
+    {
+      "type": "range",
+      "id": "duration",
+      "label": "t:premium.duration",
+      "min": 200,
+      "max": 1000,
+      "step": 100,
+      "default": 600,
+      "unit": "ms"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "t:premium.slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "t:premium.label"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:premium.heading"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "t:premium.text"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:premium.image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "t:premium.mobile_image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "t:premium.video"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:premium.link"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:premium.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:premium.campaign"
+    }
+  ]
+}
+{% endschema %}

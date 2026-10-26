@@ -1,0 +1,213 @@
+{%- capture premium_section_body -%}
+{{ 'sensory-home.css' | asset_url | stylesheet_tag }}
+{{ 'sensory-motion.css' | asset_url | stylesheet_tag }}
+{{ 'sensory-discovery.css' | asset_url | stylesheet_tag }}
+{% if section.settings.editorial_composition %}{{ 'sensory-editorial.css' | asset_url | stylesheet_tag }}{% endif %}
+<script src="{{ 'sensory-motion.js' | asset_url }}" type="module"></script>
+<sensory-scene data-editorial="{{ section.settings.editorial_composition }}" data-scene="atelier">
+<script src="{{ 'sensory-atelier.js' | asset_url }}" type="module"></script>
+<sensory-atelier class="sensory sensory-atelier" id="atelier" data-mode="cream">
+  <div class="sensory-atelier-intro"><p class="sensory-kicker">{{ section.settings.eyebrow | escape }}</p><h2>{{ section.settings.heading | escape }} <em>{{ section.settings.heading_accent | escape }}</em></h2><p>{{ section.settings.text | escape }}</p>{% if section.settings.link != blank %}<a data-control="text" class="sensory-text-link" href="{{ section.settings.link }}">{{ section.settings.button_label | escape }} <span aria-hidden="true">↗</span></a>{% endif %}</div>
+  <div class="sensory-texture-stage">
+    <div class="sensory-texture-photo" aria-hidden="true">{% if section.settings.image != blank %}{{ section.settings.image | image_url: width: 1400 | image_tag: widths: '500, 900, 1400', sizes: '(min-width: 750px) 60vw, 100vw', loading: 'lazy', alt: '' }}{% endif %}</div>
+    <canvas class="sensory-texture-canvas" aria-hidden="true"></canvas>
+    <div class="sensory-texture-head"><span class="sensory-kicker">{{ section.settings.caption | escape }}</span><span class="sensory-star" aria-hidden="true">✳</span></div>
+    <div class="sensory-texture-controls" hidden>{% if section.settings.editorial_composition %}<label class="sensory-touch-slider">{{ 'sensory.texture_position' | t }}<label class="visually-hidden" for="TexturePosition-{{ section.id }}">{{ 'beauty.compare' | t }}</label><input data-control="range" id="TexturePosition-{{ section.id }}" type="range" min="0" max="100" value="50" data-texture-position aria-label="{{ 'beauty.compare' | t | escape }}"></label>{% endif %}<p>{{ section.settings.note | escape }}</p><div><button data-control="choice" type="button" data-texture="cream" aria-pressed="true"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 23c3-14 16-16 22-8-10-1-8 14-22 8Z"/></svg>{{ 'sensory.cream' | t }}</button><button data-control="choice" type="button" data-texture="spray" aria-pressed="false"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 13h7v13H5zM7 9h7v4H7zM14 9l5-2m-5 2 6 2m-6-2 5 6"/><circle cx="24" cy="5" r=".8"/><circle cx="26" cy="12" r=".8"/><circle cx="23" cy="18" r=".8"/></svg>{{ 'sensory.spray' | t }}</button><button data-control="secondary" class="sensory-replay" type="button" data-replay aria-label="{{ 'sensory.replay' | t }}">↻</button></div></div>
+  </div>
+</sensory-atelier>
+</sensory-scene>
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:sensory.atelier",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "editorial_composition",
+      "label": "t:sensory.editorial_composition",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "t:editor.text.italic_heading_line_1ccf8b"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:editor.text.description_526e00"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:editor.text.campaign_image_e11542"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:editor.text.button_label_57a953"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:editor.text.button_link_168eeb"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "t:editor.text.heading_b34f17"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "t:editor.text.heading_b34f17"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "presets": [
+    {
+      "name": "t:sensory.atelier"
+    }
+  ]
+}
+{% endschema %}

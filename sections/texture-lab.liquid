@@ -1,0 +1,20 @@
+{{ 'texture-lab.css' | asset_url | stylesheet_tag }}
+<section class="texture-lab" aria-labelledby="TextureLab-{{ section.id }}">
+  <header class="texture-lab__heading"><p class="texture-lab__eyebrow">{{ section.settings.eyebrow | escape }}</p><h2 id="TextureLab-{{ section.id }}">{{ section.settings.heading | escape }}</h2></header>
+  <div class="texture-lab__grid">
+  {% for block in section.blocks %}
+    {% assign texture_product = block.settings.product %}
+    <article class="texture-lab__panel" data-texture="{{ block.settings.motion }}" {{ block.shopify_attributes }}>
+      {% if texture_product != blank %}<a class="texture-lab__surface" href="{{ texture_product.url }}" aria-labelledby="TextureIndex-{{ section.id }}-{{ block.id }} TextureName-{{ section.id }}-{{ block.id }} TextureProduct-{{ section.id }}-{{ block.id }}">{% else %}<div class="texture-lab__surface">{% endif %}
+      {% assign texture_image = block.settings.image | default: texture_product.featured_image %}{% assign texture_alt = block.settings.alt | default: texture_product.title %}<div class="texture-lab__media">{% if texture_image != blank %}{{ texture_image | image_url: width: 1400 | image_tag: widths: '360, 540, 750, 1000, 1400', sizes: '(min-width: 750px) 33vw, 100vw', loading: 'lazy', alt: texture_alt }}{% else %}{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}</div>
+      <span class="texture-lab__index" id="TextureIndex-{{ section.id }}-{{ block.id }}">0{{ forloop.index }}</span>
+      <div class="texture-lab__caption"><h3 id="TextureName-{{ section.id }}-{{ block.id }}">{% if block.settings.heading != blank %}{{ block.settings.heading | escape }}{% else %}{{ texture_product.title | escape }}{% endif %}</h3>{% if block.settings.text != blank %}<p>{{ block.settings.text | escape }}</p>{% endif %}
+      {% if texture_product != blank %}<span class="texture-lab__link" id="TextureProduct-{{ section.id }}-{{ block.id }}">{{ texture_product.title | escape }} <span aria-hidden="true">↗</span></span>{% endif %}</div>
+      {% if texture_product != blank %}</a>{% else %}</div>{% endif %}
+    </article>
+  {% endfor %}
+  </div>
+</section>
+{% schema %}
+{"name":"t:texture_lab.name","tag":"section","disabled_on":{"groups":["header","footer"]},"max_blocks":3,"settings":[{"type":"text","id":"eyebrow","label":"t:editor.text.eyebrow_d821dd","default":"Texture Lab"},{"type":"text","id":"heading","label":"t:editor.text.heading_b34f17","default":"Feel it before you try it."}],"blocks":[{"type":"texture","name":"t:texture_lab.texture","settings":[{"type":"text","id":"heading","label":"t:editor.text.heading_b34f17"},{"type":"text","id":"text","label":"t:editor.text.description_526e00"},{"type":"image_picker","id":"image","label":"t:texture_lab.image"},{"type":"text","id":"alt","label":"t:texture_lab.alt"},{"type":"product","id":"product","label":"t:editor.text.product_fb9ef8"},{"type":"select","id":"motion","label":"t:texture_lab.motion","default":"melt","options":[{"value":"melt","label":"t:texture_lab.melt"},{"value":"drop","label":"t:texture_lab.drop"},{"value":"veil","label":"t:texture_lab.veil"}]}]}],"presets":[{"name":"t:texture_lab.name","blocks":[{"type":"texture","settings":{"heading":"Melt","motion":"melt"}},{"type":"texture","settings":{"heading":"Drop","motion":"drop"}},{"type":"texture","settings":{"heading":"Veil","motion":"veil"}}]}]}
+{% endschema %}

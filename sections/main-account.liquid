@@ -1,0 +1,69 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+<section class="customer customer--account page-width section-space" aria-labelledby="CustomerAccount-{{ section.id }}-title">
+  <header class="customer__header">
+    <div>
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="eyebrow customer__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h1 class="customer__title" id="CustomerAccount-{{ section.id }}-title">{{ 'customer.account.title' | t }}</h1>
+      <p class="customer__intro">{{ 'customer.account.welcome' | t: name: customer.name }}</p>
+    </div>
+    <a data-control="text" class="text-link" href="{{ routes.account_logout_url }}">{{ 'customer.account.log_out' | t }}</a>
+  </header>
+
+  <div class="customer__layout">
+    <div class="customer__orders">
+      <h2 class="customer__subtitle">{{ 'customer.orders.title' | t }}</h2>
+      {%- paginate customer.orders by 12 -%}
+        {%- if customer.orders.size == 0 -%}
+          <p class="customer__note">{{ 'customer.orders.none' | t }}</p>
+          <a data-control="primary" class="button" href="{{ routes.all_products_collection_url }}">{{ 'general.continue' | t }}</a>
+        {%- else -%}
+          <div class="customer__table-scroll">
+            <table class="customer__table">
+              <caption class="visually-hidden">{{ 'customer.orders.title' | t }}</caption>
+              <thead>
+                <tr>
+                  <th scope="col">{{ 'customer.orders.order_number' | t }}</th>
+                  <th scope="col">{{ 'customer.orders.date' | t }}</th>
+                  <th scope="col">{{ 'customer.orders.payment_status' | t }}</th>
+                  <th scope="col">{{ 'customer.orders.fulfillment_status' | t }}</th>
+                  <th scope="col">{{ 'customer.orders.total' | t }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for order in customer.orders -%}
+                  <tr>
+                    <th scope="row" data-label="{{ 'customer.orders.order_number' | t | escape }}">
+                      <a data-control="text" class="text-link" href="{{ order.customer_url }}">{{ order.name }}</a>
+                    </th>
+                    <td data-label="{{ 'customer.orders.date' | t | escape }}">{{ order.created_at | date: format: 'date' }}</td>
+                    <td data-label="{{ 'customer.orders.payment_status' | t | escape }}">{{ order.financial_status_label }}</td>
+                    <td data-label="{{ 'customer.orders.fulfillment_status' | t | escape }}">{{ order.fulfillment_status_label }}</td>
+                    <td data-label="{{ 'customer.orders.total' | t | escape }}">{{ order.total_net_amount | money_with_currency }}</td>
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+          </div>
+          {%- if paginate.pages > 1 -%}
+            {% render 'pagination', paginate: paginate %}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endpaginate -%}
+    </div>
+
+    <aside class="customer__sidebar">
+      <h2 class="customer__subtitle">{{ 'customer.account.default_address' | t }}</h2>
+      {%- if customer.default_address -%}
+        <address class="customer__address">{{ customer.default_address | format_address }}</address>
+      {%- else -%}
+        <p class="customer__note">{{ 'customer.addresses.none' | t }}</p>
+      {%- endif -%}
+      <a data-control="secondary" class="button button--secondary" href="{{ routes.account_addresses_url }}">{{ 'customer.account.view_addresses' | t: count: customer.addresses_count }}</a>
+    </aside>
+  </div>
+</section>
+{% schema %}
+{"name":"t:customer.account.name","tag":"section","settings":[{"type":"text","id":"eyebrow","label":"t:editor.text.eyebrow_d821dd","default":"Account"}]}
+{% endschema %}

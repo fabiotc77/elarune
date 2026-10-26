@@ -1,0 +1,692 @@
+{
+  "general": {
+    "skip": "コンテンツへスキップ",
+    "menu": "メニュー",
+    "navigation": "メインナビゲーション",
+    "search": "検索",
+    "footer": "フッターナビゲーション",
+    "view_all": "すべて見る",
+    "continue": "買い物を続ける",
+    "pagination": "ページ切り替え",
+    "previous": "前へ",
+    "next": "次へ",
+    "not_found": "ページが見つかりません",
+    "meta": {
+      "tags": "「{{ tags }}」タグ付き",
+      "page": "{{ page }} ページ"
+    }
+  },
+  "cart": {
+    "title": "カート",
+    "empty": "カートは空です。",
+    "remove": "削除",
+    "note": "注文メモ",
+    "total": "見積合計",
+    "update": "カートを更新",
+    "checkout": "購入手続きへ",
+    "checkout_notice": "税金、割引、送料は購入手続き時に計算されます。"
+  },
+  "product": {
+    "variant": "オプションを選択",
+    "quantity": "数量",
+    "add": "カートに追加",
+    "sold_out": "売り切れ",
+    "from": "最低価格",
+    "regular_price": "通常価格",
+    "share": "共有",
+    "share_product": "この処方を共有",
+    "copy_link": "リンクをコピー",
+    "link_copied": "リンクをクリップボードにコピーしました",
+    "close_share": "共有メニューを閉じる",
+    "share_on": "{{ platform }}で共有",
+    "share_whatsapp": "WhatsApp",
+    "share_facebook": "Facebook",
+    "share_pinterest": "Pinterest",
+    "share_email": "メール"
+  },
+  "collection": {
+    "products": "商品",
+    "sort": "並び替え",
+    "empty": "商品が見つかりません。"
+  },
+  "search": {
+    "empty": "検索結果がありません。"
+  },
+  "localization": {
+    "country": "国 / 地域",
+    "language": "言語",
+    "apply": "適用",
+    "heading": "地域と言語",
+    "notice": "国や地域によって、利用できる言語や価格が異なる場合があります。"
+  },
+  "beauty": {
+    "before": "使用前",
+    "after": "使用後",
+    "compare": "画像を比較",
+    "morning": "朝",
+    "evening": "夜",
+    "all": "すべてのルーティン",
+    "editor_note": "ビフォー／アフター：同一被写体の画像を2枚選び、正確な期間と条件を記載してください。生成された結果を臨床的根拠として提示しないでください。"
+  },
+  "product_comparison": {
+    "title": "定番アイテムを比較",
+    "view_product": "商品を見る",
+    "empty": "テーマエディターで商品を選択し、比較情報を追加してください。",
+    "not_provided": "未記載",
+    "attribute": "商品詳細",
+    "available_options": "選択できるオプション",
+    "scroll_hint": "スワイプして比較",
+    "choose_cream": "クリームを選ぶ",
+    "compare_details": "サイズと詳細を比較"
+  },
+  "contact": {
+    "name": "お名前",
+    "email": "メールアドレス",
+    "phone": "電話番号",
+    "message": "メッセージ",
+    "send": "メッセージを送信",
+    "success": "ありがとうございます。メッセージを送信しました。",
+    "error_heading": "次の項目をご確認ください：",
+    "atelier": {
+      "eyebrow": "美しさを語るひととき",
+      "invitation": "美しいケアは、会話から。",
+      "intro": "毎日のリチュアル、気になること、ご注文について。お話をお聞かせください。",
+      "caption": "少しのケアに、あなたらしさを。",
+      "note": "私たちへのメッセージ",
+      "form_title": "どんなお話ですか？",
+      "topic": "お問い合わせ内容",
+      "ritual": "ケアについて",
+      "order": "注文について",
+      "other": "その他",
+      "ritual_tip": "今のケアルーティンや気になる製品についてお聞かせください。",
+      "order_tip": "お分かりであれば注文番号をご記入ください。決済情報は記入しないでください。",
+      "other_tip": "アイデア、コラボレーション、ちょっとしたご挨拶も。お気軽にどうぞ。",
+      "required": "* メールアドレスとメッセージは必須です。"
+    }
+  },
+  "beauty_video_gallery": {
+    "heading": "お客様の言葉で",
+    "scroll_hint": "スクロールして動画を見る",
+    "shop_product": "{{ product }}を見る",
+    "transcript": "文字起こしを読む",
+    "empty": "テーマエディターで動画と詳細を追加してください。"
+  },
+  "results_timeline": {
+    "title": "時間とともに歩むルーティン",
+    "evidence": "補足情報を読む",
+    "empty": "テーマエディターで各段階と補足情報を追加してください。",
+    "editor_method": "根拠と背景を記載してください：試験の種類、サンプル数、期間、該当する場合は出典。主張には裏付けが必要です。",
+    "editor_empty": "検証済みの結果、信頼に関する記述、またはタイムライン項目を追加してください。主張は自動生成されません。"
+  },
+  "editorial": {
+    "read_article": "記事を読む",
+    "empty": "記事はまだありません。",
+    "back_to_blog": "{{ blog }}に戻る",
+    "tags": "トピック",
+    "comments": "コメント",
+    "comment_name": "名前",
+    "comment_email": "メールアドレス",
+    "comment_body": "コメント",
+    "comment_send": "コメントを送信",
+    "comment_success": "ありがとうございます。コメントを送信しました。",
+    "comment_pending": "ありがとうございます。コメントを送信しました。承認後に表示されます。",
+    "comment_error": "以下をご確認ください：",
+    "moderation_notice": "コメントは公開前に確認されます。"
+  },
+  "gift_card": {
+    "title": "ギフトカード",
+    "balance": "利用可能残高",
+    "initial_value": "当初の金額",
+    "code": "ギフトカードコード",
+    "instruction": "お支払い時にこのコードを使用してください。",
+    "disabled": "このギフトカードは無効になっています。",
+    "expired": "このギフトカードは有効期限が切れています。",
+    "empty_balance": "このギフトカードの残高はありません。",
+    "expires_on": "有効期限：{{ date }}",
+    "expired_on": "有効期限切れ：{{ date }}",
+    "copy": "コードをコピー",
+    "copied": "コードをコピーしました",
+    "copy_failed": "コードを選択して手動でコピーしてください。",
+    "print": "ギフトカードを印刷",
+    "shop": "ストアを見る",
+    "wallet": "Apple Walletに追加",
+    "unavailable": "ギフトカードの詳細を表示できません。",
+    "message": "あなたへのメッセージ"
+  },
+  "complementary_products": {
+    "title": "お手入れをもっと充実させる",
+    "empty": "組み合わせる商品を選択するか、Shopify Search & Discoveryでおすすめ商品を設定してください。"
+  },
+  "password_page": {
+    "title": "ストアへのアクセス",
+    "introduction": "ストアを閲覧するにはパスワードを入力してください。",
+    "password": "パスワード",
+    "enter": "ストアに入る",
+    "error_heading": "パスワードを確認してください。",
+    "owner": "ストアオーナーログイン"
+  },
+  "skin_concerns": {
+    "title": "肌のためのお手入れを見つける",
+    "empty": "このケアカテゴリーに表示するコレクションを選択してください。"
+  },
+  "collection_list": {
+    "title": "コレクション",
+    "empty": "現在公開されているコレクションはありません。",
+    "shop_all": "すべての商品",
+    "product_count_one": "{{ count }}点の商品",
+    "product_count_other": "{{ count }}点の商品"
+  },
+  "newsletter": {
+    "heading": "ケアの便りを、あなたへ。",
+    "email": "メールアドレス",
+    "subscribe": "登録する",
+    "consent": "{{ shop }}のニュースやお得な情報をメールで受け取るには、ご登録ください。いつでも配信を停止できます。",
+    "success": "ありがとうございます。登録リクエストを受け付けました。",
+    "error_heading": "次の項目をご確認ください："
+  },
+  "free_shipping": {
+    "title": "送料無料",
+    "remaining": "送料無料の対象金額まで、あと{{ amount }}です。",
+    "reached": "送料無料の対象金額に達しました。",
+    "destination": "お届け先の国・地域：{{ country }}",
+    "checkout_note": "配送方法と送料は購入手続きで確定します。",
+    "policy": "配送について",
+    "setup": "この国・地域と通貨に対応する最低注文金額を入力し、表示を有効にしてください。定期購入ではない配送商品のみがカートに入っている場合に表示されます。",
+    "duplicate": "この国・地域と通貨に対応する配送ルールが複数あります。表示するには、ルールを1つにしてください。"
+  },
+  "facets": {
+    "title": "絞り込み",
+    "apply": "絞り込みを適用",
+    "clear": "絞り込みを解除",
+    "remove": "{{ value }}を解除",
+    "minimum": "最低価格",
+    "maximum": "最高価格"
+  },
+  "search_page": {
+    "results": "「{{ terms }}」の検索結果：{{ count }}",
+    "article": "記事",
+    "page": "ページ",
+    "filter_note": "商品フィルターは商品の検索結果に適用されます。",
+    "start": "商品、ガイド、ストア情報を検索してください。",
+    "eyebrow": "出会いを楽しむ",
+    "heading": "次のケアリチュアルを見つけて。",
+    "empty_heading": "小さな発見が待っています。",
+    "empty_help": "短い言葉で検索するか、下のコレクションをご覧ください。",
+    "explore": "コレクションを見る",
+    "discover": "ここから始まる出会い",
+    "placeholder": "商品、成分、ケアリチュアル…"
+  },
+  "cart_upsell": {
+    "title": "こちらもおすすめ",
+    "adding": "カートに追加しています…",
+    "uncertain": "商品はすでにカートに追加されている可能性があります。もう一度操作する前に、カートをご確認ください。",
+    "review": "カートを確認する",
+    "empty": "おすすめ商品を選択してください。カートに商品がある場合に表示されます。追加済みの商品と売り切れの商品は表示されません。"
+  },
+  "shade_finder": {
+    "heading": "色を見比べる。",
+    "view_all": "すべてのオプションを見る",
+    "instruction": "比較する色を2つまで選んでください。",
+    "selected_count": "{{ count }} / 2 選択済み",
+    "limit": "別の色を追加する前に、選択した色を1つ解除してください。",
+    "no_swatch": "色見本が登録されていません",
+    "view_shade": "この色を見る",
+    "view_options": "オプションを見る",
+    "compare": "比較する",
+    "comparison": "並べて比較",
+    "clear": "選択を解除",
+    "screen_note": "画面によって色の見え方が異なる場合があります。商品詳細も参考にお選びください。",
+    "empty": "色見本が登録された商品を選ぶか、色のオプションの順番を指定してください。"
+  },
+  "predictive_search": {
+    "title": "検索候補",
+    "loading": "候補を読み込み中…",
+    "count": "候補数：{{ count }}",
+    "clear": "クリア",
+    "all": "「{{ terms }}」を検索"
+  },
+  "launch_check": {
+    "title": "設定チェック",
+    "review": "確認項目：{{ count }}",
+    "clear": "このセクションに未入力の項目は見つかりませんでした。",
+    "scope": "セクションの入力項目のみを確認します。公開前に表示内容、配送、翻訳、モバイルでの購入を確認してください。",
+    "location": "このセクションの設定で該当項目を更新してください。",
+    "menu": "リンクを含むメニューを選択してください。",
+    "image": "キャンペーン画像を選択し、モバイルでの焦点位置を確認してください。",
+    "alt": "空の代替テキストを確認してください。情報を伝える画像には説明を追加してください。",
+    "heading": "見出しまたは斜体の見出し行を追加してください。",
+    "primary": "メインボタンのラベルとリンクを入力するか、両方を空にしてください。",
+    "secondary": "サブリンクのラベルとリンク先を入力するか、両方を空にしてください。",
+    "collection": "コレクションを選択してください。",
+    "empty_collection": "このコレクションにはここで表示できる商品がありません。商品とマーケットでの公開状況を確認してください。",
+    "steps": "ルーティンのステップを追加してください。",
+    "step_title": "ステップ {{ number }}：タイトルを追加してください。",
+    "step_product": "ステップ {{ number }}：商品へリンクする場合は商品を選択してください。テキストのみのステップも使用できます。",
+    "step_availability": "ステップ {{ number }}：選択した商品はここでは利用できません。マーケットと在庫を確認してください。",
+    "step_copy": "ステップ {{ number }}：商品の実際の使用方法を追加してください。"
+  },
+  "pickup": {
+    "title": "店舗受け取り",
+    "available": "店舗で受け取れます",
+    "unavailable": "現在、店舗では受け取れません",
+    "locations": "受け取り店舗",
+    "note": "利用できる受け取り方法は、ご購入手続きの際に確定します。",
+    "empty": "このバリエーションの受け取り店舗がありません。Shopifyで店舗受け取りと在庫の設定をご確認ください。"
+  },
+  "gift_recipient": {
+    "title": "心を込めた贈り物。",
+    "enable": "このギフトカードを別の方に送る",
+    "email": "受取人のメールアドレス",
+    "name": "受取人の名前",
+    "message": "メッセージ",
+    "send_on": "送信日",
+    "email_hint": "別の方に送る場合は必須です。",
+    "name_hint": "任意。255文字まで。",
+    "message_hint": "任意。200文字まで。",
+    "schedule_note": "任意。90日以内の日付を選んでください。空欄の場合は購入後に送信されます。",
+    "scheduled": "送信予定日：{{ date }}"
+  },
+  "bundle_components": {
+    "title": "セット内容"
+  },
+  "cart_relationship": {
+    "parent": "関連商品：{{ product }}",
+    "quantity_fixed": "この商品の数量だけを変更することはできません。",
+    "remove_fixed": "この商品だけを削除することはできません。"
+  },
+  "image_zoom": {
+    "open": "画像を拡大",
+    "title": "商品画像",
+    "close": "閉じる",
+    "original": "元のサイズで画像を開く",
+    "error": "この画像を読み込めませんでした。画像を直接開いてみてください。"
+  },
+  "purchase_options": {
+    "title": "購入オプション",
+    "hint": "オプションを選ぶと購入内容が更新されます。表示価格はすべて商品1点あたりです。",
+    "one_time": "1回限りの購入",
+    "choose": "購入オプションを選択",
+    "unavailable": "このバリエーションには利用可能な購入プランがありません。",
+    "per_delivery": "1回の配送あたり",
+    "checkout": "チェックアウト時のお支払い",
+    "after_orders": "{{ count }}回の注文後：商品1点あたり{{ price }}。"
+  },
+  "cart_price": {
+    "original_total": "割引前の商品小計",
+    "total": "商品小計",
+    "unit": "単位あたりの価格"
+  },
+  "external_video": {
+    "watch": "動画を見る",
+    "close": "動画を閉じる",
+    "direct": "動画を直接開く"
+  },
+  "account_access": {
+    "title": "アカウント"
+  },
+  "related_products": {
+    "title": "こちらもおすすめ",
+    "empty": "代わりに表示する商品を選択するか、Shopify Search & Discoveryで関連商品のおすすめを設定してください。"
+  },
+  "custom_liquid": {
+    "empty": "このセクションの設定にLiquidまたはHTMLを追加してください。"
+  },
+  "product_model": {
+    "open": "3Dで見る",
+    "close": "3D表示を閉じる",
+    "loading": "3D表示を読み込み中…",
+    "error": "3D表示を読み込めませんでした。もう一度試すか、下からモデルをダウンロードしてください。",
+    "download": "3Dモデルをダウンロード",
+    "ar": "実際の空間で見る",
+    "hint": "ドラッグまたは矢印キーで回転できます。ビューアの操作ボタンで拡大・縮小できます。Escapeキーで閉じます。"
+  },
+  "product_options": {
+    "unavailable_choice": "この組み合わせでは選択できません",
+    "unavailable_combination": "この組み合わせはご用意がありません。別のオプションを選択してください。"
+  },
+  "product_purchase_notices": {
+    "taxes_included": "税込み。",
+    "duties_included": "関税込み。",
+    "shipping_policy": "配送ポリシー"
+  },
+  "cart_design": {
+    "eyebrow": "毎日のケアリチュアル",
+    "empty_heading": "ここに、少しのケアを。",
+    "empty_text": "コレクションから、次のケアリチュアルに寄り添うアイテムを見つけてください。",
+    "summary": "ご注文内容",
+    "update_hint": "数量の変更は「カートを更新」で保存してください。"
+  },
+  "footer_design": {
+    "discover": "見つける",
+    "information": "カスタマーサービス",
+    "theme_credit": "テーマ制作: Mufatech"
+  },
+  "routine_chapters": {
+    "steps_one": "{{ count }}ステップ",
+    "steps_other": "{{ count }}ステップ",
+    "guide_label": "ケアリチュアルをひと目で",
+    "morning_heading": "自分のペースで、すがすがしい始まりを。",
+    "morning_text": "最初のステップから仕上げのケアまで、朝のセレクションをご覧ください。商品ページで剤形や選べるオプションを確認できます。",
+    "evening_heading": "夜のケアリチュアルに、ひとときを。",
+    "evening_text": "夜のセレクションと、各商品の位置づけをご覧ください。詳細や使い方は商品ページで確認できます。",
+    "all_heading": "毎日のケアを、一緒に見渡して。",
+    "all_text": "選ばれたすべてのステップを一か所でご覧いただけます。一日のケアに使う商品を比較し、ご自身のリチュアルに合うセレクションをお選びください。",
+    "overview": "このセレクションのステップ"
+  },
+  "routine_purchase": {
+    "title": "ルーティンを選ぶ",
+    "instruction": "商品とオプションを選択してください。選択した各バリエーションを1点ずつカートに追加します。",
+    "include": "ルーティンに含める",
+    "add_selected": "選択した商品をカートに追加",
+    "uncertain": "一部の商品はすでにカートに追加されている可能性があります。再度追加する前にカートをご確認ください。",
+    "empty": "テーマエディターでこのルーティンの商品を選択してください。"
+  },
+  "cart_purchase": {
+    "shipping_calculated": "配送料はチェックアウト時に計算されます。"
+  },
+  "cart_feedback": {
+    "updating": "カートを更新しています…",
+    "updated": "カートは最新の状態です。",
+    "uncertain": "この変更を確認できませんでした。再試行する前にカートを確認してください。",
+    "review": "カートを確認"
+  },
+  "sensory": {
+    "quick_view": "詳しく見る",
+    "added": "バッグに追加しました。",
+    "cream": "クリームを伸ばす",
+    "spray": "ミストを吹きかける",
+    "replay": "質感をもう一度体験",
+    "texture_position": "テクスチャーを体験"
+  },
+  "premium": {
+    "new": "新着",
+    "previous": "前へ",
+    "next": "次へ",
+    "pause": "一時停止",
+    "play": "再生",
+    "loading": "読み込み中…",
+    "unavailable": "プレビューを利用できません。下のリンクからページ全体を開いてください。",
+    "rating": "評価",
+    "increase": "数量を増やす",
+    "decrease": "数量を減らす",
+    "details": "商品詳細"
+  },
+  "stories": {
+    "title": "あなたの習慣を、あなたの言葉で。",
+    "share": "体験を共有する",
+    "experience": "ご感想",
+    "send": "感想を送信",
+    "rating": "5つ星中{{ value }}つ星",
+    "demo_label": "サンプルレビュー · デモコンテンツ"
+  },
+  "editorial_gallery": {
+    "title": "ビジュアルセレクション"
+  },
+  "vanity": {
+    "choose": "選ぶ",
+    "change": "変更",
+    "remove": "削除",
+    "hint": "商品に触れて、自分だけのルーティンを。",
+    "yours": "あなたのルーティン",
+    "empty": "テーブルに置く商品を選びましょう。各ステップは任意です。",
+    "total": "商品合計",
+    "close": "閉じる",
+    "select": "テーブルに置く",
+    "setup": "テーマエディターで各ステップに商品を追加してください。",
+    "product_page": "購入方法は商品ページをご覧ください。"
+  },
+  "ritual_builder": {
+    "heading": "Build Your Ritual",
+    "intro": "Three steps. Made for your skin.",
+    "need": "What does your skin need?",
+    "feel": "How does your skin feel?",
+    "level": "Your routine?",
+    "hydration": "Hydration",
+    "glow": "Glow",
+    "calm": "Calm",
+    "firmness": "Firmness",
+    "dry": "Dry",
+    "balanced": "Balanced",
+    "oily": "Oily",
+    "sensitive": "Sensitive",
+    "essential": "Essential",
+    "complete": "Complete",
+    "cleanse": "Cleanse",
+    "treat": "Treat",
+    "finish": "Finish",
+    "yours": "Your ritual",
+    "add": "Add complete ritual",
+    "note": "Explore a three-step edit based on your preferences. Review each product to find your fit.",
+    "unavailable": "A complete ritual is not available for this selection. Explore the products individually.",
+    "updated": "Your ritual has been updated."
+  },
+  "ingredient_spotlight": {
+    "demo": "Illustrative formula · Demo content"
+  },
+  "skin_timeline": {
+    "select": "Move through the timeline",
+    "demo": "Illustrative timeline · Images and days do not represent product results."
+  },
+  "social_media": {
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "pinterest": "Pinterest",
+    "youtube": "YouTube",
+    "tiktok": "TikTok",
+    "whatsapp": "WhatsApp",
+    "x": "X",
+    "threads": "Threads",
+    "snapchat": "Snapchat",
+    "linkedin": "LinkedIn",
+    "follow": "フォローする"
+  },
+  "inventory": {
+    "in_stock": "在庫あり",
+    "low_stock": "在庫わずか · 残り{{ count }}点",
+    "very_low_stock": "まもなく完売 · 残り{{ count }}点",
+    "sold_out": "完売 · 現在お取り扱いできません",
+    "batch_passport": "バッチ {{ batch }}",
+    "authenticity": "ロット情報",
+    "notify_me": "入荷時に通知を受け取る",
+    "notify_eyebrow": "再入荷通知リスト",
+    "notify_title": "再入荷時にお知らせします",
+    "notify_subtext": "{{ product }}が再入荷した際に通知を受け取るメールアドレスをご入力ください。",
+    "notify_email_label": "メールアドレス",
+    "notify_email_placeholder": "メールアドレスを入力",
+    "notify_submit": "リストに登録",
+    "notify_reassurance": "メールアドレスはこのリクエストとともにストアに送信されます。",
+    "volume_ml": "ml",
+    "volume_floz": "fl. oz.",
+    "volume_toggle": "容量単位を切り替え",
+    "notify_success_title": "リクエストを送信しました",
+    "notify_success_subtext": "ありがとうございます。ストアがリクエストを受け付けました。"
+  },
+  "Share": "共有",
+  "volume_pricing": {
+    "title": "セット購入でお得",
+    "select_tier": "数量を選択",
+    "single_pack": "単品",
+    "double_pack": "デュオセット（2本）",
+    "trio_pack": "トリオセット（3本）",
+    "standard_pack": "通常",
+    "popular": "一番人気",
+    "best_value": "一番お得",
+    "save_pct": "{{ percent }}% お得",
+    "each": "本",
+    "per_unit": "1本あたり"
+  },
+  "customer": {
+    "login": {
+      "title": "ログイン",
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "submit": "ログイン",
+      "forgot": "パスワードをお忘れですか？",
+      "no_account": "アカウントをお持ちでない場合",
+      "disabled": "このストアではカスタマーアカウントが有効になっていません。"
+    },
+    "recover_password": {
+      "title": "パスワードの再設定",
+      "subtext": "パスワードを再設定するためのメールをお送りします。",
+      "success": "パスワードを更新するためのリンクをメールでお送りしました。",
+      "submit": "リンクを送信",
+      "cancel": "ログインに戻る"
+    },
+    "register": {
+      "title": "アカウントを作成",
+      "first_name": "名",
+      "last_name": "姓",
+      "submit": "アカウントを作成",
+      "has_account": "すでにアカウントをお持ちですか？"
+    },
+    "activate_account": {
+      "title": "アカウントを有効化",
+      "subtext": "アカウントを有効にするためにパスワードを作成してください。",
+      "password": "パスワード",
+      "password_confirm": "パスワードの確認",
+      "submit": "アカウントを有効化",
+      "decline": "招待を辞退"
+    },
+    "reset_password": {
+      "title": "新しいパスワードを設定",
+      "subtext": "アカウントの新しいパスワードを入力してください。",
+      "password": "新しいパスワード",
+      "password_confirm": "パスワードの確認",
+      "submit": "パスワードを保存"
+    },
+    "account": {
+      "title": "アカウント",
+      "welcome": "おかえりなさい、{{ name }}さん。",
+      "log_out": "ログアウト",
+      "default_address": "デフォルトの住所",
+      "view_addresses": "住所を表示（{{ count }}）"
+    },
+    "orders": {
+      "title": "注文履歴",
+      "none": "まだご注文はありません。",
+      "order_number": "注文",
+      "date": "日付",
+      "payment_status": "支払い",
+      "fulfillment_status": "配送",
+      "total": "合計"
+    },
+    "order": {
+      "title": "注文 {{ name }}",
+      "date": "{{ date }} に注文",
+      "return": "アカウントに戻る",
+      "cancelled": "{{ date }} に注文がキャンセルされました",
+      "product": "商品",
+      "sku": "SKU",
+      "price": "価格",
+      "quantity": "数量",
+      "total": "合計",
+      "subtotal": "小計",
+      "shipping": "配送料",
+      "tax": "税",
+      "fulfilled_at": "{{ date }} に発送",
+      "billing_address": "請求先住所",
+      "shipping_address": "配送先住所",
+      "payment_status": "支払いステータス",
+      "fulfillment_status": "配送ステータス"
+    },
+    "addresses": {
+      "title": "住所",
+      "none": "保存された住所はまだありません。",
+      "add_new": "新しい住所を追加",
+      "add": "住所を追加",
+      "update": "住所を更新",
+      "edit": "編集",
+      "delete": "削除",
+      "default": "デフォルト",
+      "set_default": "デフォルトの住所に設定",
+      "company": "会社名",
+      "address1": "住所",
+      "address2": "建物名・部屋番号など",
+      "city": "市区町村",
+      "zip": "郵便番号",
+      "country": "国／地域",
+      "province": "都道府県",
+      "phone": "電話番号"
+    }
+  },
+  "editorial_hero": {
+    "acquire": "{{ product }} を購入 — {{ price }}"
+  },
+  "faq": {
+    "editor_note": "この質問を公開するには回答を追加してください。"
+  },
+  "product_card": {
+    "sale": "セール",
+    "save_amount": "{{ amount }} お得"
+  },
+  "multicolumn": {
+    "list_label": "コンテンツの列"
+  },
+  "collapsible": {
+    "editor_note": "この行を公開するには、内容を追加するかページを選択してください。"
+  },
+  "consent": {
+    "region": "Cookieの設定",
+    "heading": "Cookieの設定",
+    "message": "当ストアでは、ストアの運営のため、またお客様の同意に基づき分析とマーケティングのために、Cookieおよび類似の技術を使用しています。",
+    "accept": "すべて許可",
+    "decline": "すべて拒否",
+    "manage": "設定を管理",
+    "save": "設定を保存",
+    "preferences_title": "Cookieのカテゴリー",
+    "necessary": "必須",
+    "necessary_description": "カートや購入手続きなど、ストアの動作に必要です。常に有効です。",
+    "analytics": "分析",
+    "analytics_description": "ストアの利用状況を把握し、改善するために役立ちます。",
+    "marketing": "マーケティング",
+    "marketing_description": "関連性の高いご案内の表示や広告の効果測定に使用します。",
+    "preferences": "機能性",
+    "preferences_description": "言語や地域などの選択内容を記憶します。",
+    "privacy_policy": "プライバシーポリシー",
+    "saved": "Cookieの設定を保存しました。",
+    "error": "設定を保存できませんでした。もう一度お試しください。"
+  },
+  "collection_paging": {
+    "load_more": "さらに表示",
+    "loaded": "追加で読み込んだ商品: {{ count }}",
+    "showing": "{{ total }}件中{{ shown }}件を表示"
+  },
+  "slideshow": {
+    "label": "スライドショー",
+    "slide_label": "スライド {{ index }} / {{ count }}",
+    "go_to": "スライド {{ index }} を表示"
+  },
+  "video_section": {
+    "play": "動画を再生",
+    "pause": "動画を一時停止",
+    "load_video": "動画を再生: {{ title }}",
+    "fallback_title": "動画",
+    "editor_empty": "このセクションを表示するには、Shopify でホストされた動画、または YouTube か Vimeo の URL を追加してください。"
+  },
+  "logo_list": {
+    "list_label": "ロゴ",
+    "play": "ロゴのスクロールを再開",
+    "pause": "ロゴのスクロールを一時停止",
+    "editor_empty": "このセクションを表示するにはロゴブロックを追加してください。",
+    "editor_no_quote": "引用タブにこのロゴを表示するには引用を追加してください。"
+  },
+  "countdown": {
+    "days": "日",
+    "hours": "時間",
+    "minutes": "分",
+    "seconds": "秒",
+    "timer_label": "残り時間",
+    "ends_on_html": "終了: {{ date }}",
+    "ended": "このカウントダウンは終了しました。",
+    "editor_missing": "このカウントダウンを表示するには終了日を入力してください。それまで訪問者には何も表示されません。",
+    "editor_invalid": "終了日と終了時刻を確認してください。YYYY-MM-DD と HH:MM の形式を使用します。",
+    "editor_hidden": "カウントダウンは終了しました。このセクションは訪問者には表示されません。"
+  },
+  "neutral": {
+    "back_in_stock_request": "再入荷のお知らせリクエスト：{{ product }}（{{ variant }}）",
+    "volume_pricing": {
+      "pack_of": "{{ quantity }}個セット",
+      "discount_at_checkout": "チェックアウト時に{{ percent }}%オフ"
+    }
+  }
+}

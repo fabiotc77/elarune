@@ -1,0 +1,322 @@
+{%- capture premium_section_body -%}
+{{ 'premium-editorial.css' | asset_url | stylesheet_tag }}
+{% if section.settings.editorial_composition %}{{ 'sensory-editorial.css' | asset_url | stylesheet_tag }}{% endif %}
+<section data-editorial="{{ section.settings.editorial_composition }}" class="shoppable-editorial page-width section-space" data-presentation="{{ section.settings.presentation }}"><div class="section-heading"><div><p class="eyebrow">{{ section.settings.eyebrow | escape }}</p><h2>{{ section.settings.heading | escape }}</h2></div><p>{{ section.settings.text | escape }}</p></div>
+ <premium-hotspots><div class="shoppable-image">{% if section.settings.image != blank %}<picture>{% if section.settings.mobile_image != blank %}<source media="(max-width:749px)" srcset="{{ section.settings.mobile_image | image_url: width: 900 }}">{% endif %}{{ section.settings.image | image_url: width: 2000 | image_tag: widths: '600, 900, 1400, 2000', sizes: '100vw', loading: 'lazy' }}</picture>{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
+ {% for block in section.blocks %}{% if block.type == 'product' %}{% assign item = block.settings.product %}{% if item != blank %}<a class="premium-hotspot" href="{{ item.url }}" data-premium-open="product" data-presentation="hotspot" data-panel-title="{{ item.title | escape }}" style="--hotspot-x:{{ block.settings.x }}%;--hotspot-y:{{ block.settings.y }}%;--hotspot-mobile-x:{{ block.settings.mobile_x }}%;--hotspot-mobile-y:{{ block.settings.mobile_y }}%" {{ block.shopify_attributes }}><span aria-hidden="true">＋</span><span class="visually-hidden">{{ item.title | escape }}</span></a>{% endif %}{% else %}<details class="premium-hotspot premium-ingredient-hotspot" style="--hotspot-x:{{ block.settings.x }}%;--hotspot-y:{{ block.settings.y }}%;--hotspot-mobile-x:{{ block.settings.mobile_x }}%;--hotspot-mobile-y:{{ block.settings.mobile_y }}%;--hotspot-shift:{{ block.settings.x | times: -2.7 }}px" {{ block.shopify_attributes }}><summary data-control="disclosure"><span aria-hidden="true">＋</span><span class="visually-hidden">{{ block.settings.heading | escape }}</span></summary><div class="premium-ingredient-popover"><h3>{{ block.settings.heading | escape }}</h3><p>{{ block.settings.text | escape }}</p>{% if block.settings.link != blank %}<a data-control="text" class="text-link" href="{{ block.settings.link }}">{{ block.settings.label | escape }} ↗</a>{% endif %}</div></details>{% endif %}{% endfor %}
+ {% if section.settings.product != blank %}<div class="premium-floating-product">{% render 'product-card', card_product: section.settings.product %}</div>{% endif %}
+ </div><dialog class="premium-panel premium-ingredient-dialog" aria-label="{{ section.settings.heading | escape }}"><div class="premium-panel-bar"><button data-control="icon" type="button" class="premium-panel-close" data-ingredient-close aria-label="{{ 'image_zoom.close' | t }}">×</button></div><div data-ingredient-content></div></dialog></premium-hotspots><script src="{{ 'premium-hotspots.js' | asset_url }}" type="module"></script></section>
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:premium.hotspots",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "editorial_composition",
+      "label": "t:sensory.editorial_composition",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "presentation",
+      "label": "t:premium.mode",
+      "options": [
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "hero",
+          "label": "t:premium.campaign"
+        }
+      ],
+      "default": "editorial"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:premium.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:premium.heading"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:premium.text"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:premium.image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "t:premium.mobile_image"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:premium.product"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "t:premium.hotspot",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:premium.product"
+        },
+        {
+          "type": "range",
+          "id": "x",
+          "label": "t:premium.x",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "y",
+          "label": "t:premium.y",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "mobile_x",
+          "label": "t:premium.mobile_x",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "mobile_y",
+          "label": "t:premium.mobile_y",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "type": "ingredient",
+      "name": "t:premium.map",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:premium.heading"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "t:premium.text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:premium.link"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:premium.label"
+        },
+        {
+          "type": "range",
+          "id": "x",
+          "label": "t:premium.x",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "y",
+          "label": "t:premium.y",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "mobile_x",
+          "label": "t:premium.mobile_x",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "mobile_y",
+          "label": "t:premium.mobile_y",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "default": 50,
+          "unit": "%"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:premium.hotspots"
+    }
+  ]
+}
+{% endschema %}

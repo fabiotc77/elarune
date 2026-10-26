@@ -1,0 +1,231 @@
+{%- capture premium_section_body -%}
+{% assign upsell_count = 0 %}
+{% assign quick_add_count = 0 %}
+{% capture upsell_cards %}
+  {% for suggested_product in section.settings.products %}
+    {% liquid
+      assign already_in_cart = false
+      for item in cart.items
+        if item.product_id == suggested_product.id
+          assign already_in_cart = true
+        endif
+      endfor
+    %}
+    {% if suggested_product == blank or already_in_cart or suggested_product.available == false %}{% continue %}{% endif %}
+    {% liquid
+      assign suggested_variant = suggested_product.selected_or_first_available_variant
+      assign quantity_min = suggested_variant.quantity_rule.min | default: 1
+      assign quantity_step = suggested_variant.quantity_rule.increment | default: 1
+      assign quick_add = false
+      if suggested_product.has_only_default_variant and suggested_variant.available and quantity_min == 1 and quantity_step == 1
+        assign quick_add = true
+      endif
+      if suggested_product.requires_selling_plan or suggested_variant.requires_selling_plan or suggested_product.gift_card?
+        assign quick_add = false
+      endif
+      if suggested_variant.quantity_rule.max != blank and suggested_variant.quantity_rule.max < 1
+        assign quick_add = false
+      endif
+      assign upsell_form_id = 'UpsellForm-' | append: section.id | append: '-' | append: suggested_product.id
+    %}
+    <li class="cart-upsell__item">
+      {% render 'product-card', card_product: suggested_product %}
+      {% if quick_add %}
+        {% assign quick_add_count = quick_add_count | plus: 1 %}
+        {% form 'product', suggested_product, id: upsell_form_id, class: 'cart-upsell__form', data-upsell-form: '' %}
+          {{ form.errors | default_errors }}
+          <input type="hidden" name="id" value="{{ suggested_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button data-control="secondary" class="button button--secondary" type="submit" name="add" aria-label="{{ 'product.add' | t | escape }}: {{ suggested_product.title | escape }}">{{ 'product.add' | t }}</button>
+        {% endform %}
+      {% else %}
+        <a data-control="text" class="cart-upsell__view text-link" href="{{ suggested_product.url | escape }}" aria-label="{{ 'product_comparison.view_product' | t | escape }}: {{ suggested_product.title | escape }}">{{ 'product_comparison.view_product' | t }}</a>
+      {% endif %}
+    </li>
+    {% assign upsell_count = upsell_count | plus: 1 %}
+    {% if upsell_count >= 4 %}{% break %}{% endif %}
+  {% endfor %}
+{% endcapture %}
+{% if upsell_count > 0 and cart.item_count > 0 %}
+  {{ 'cart-upsell.css' | asset_url | stylesheet_tag }}
+  {% if quick_add_count > 0 %}<script src="{{ 'cart-upsell.js' | asset_url }}" type="module"></script>{% endif %}
+  <cart-upsell data-cart-url="{{ routes.cart_url }}" data-loading="{{ 'cart_upsell.adding' | t | escape }}" data-uncertain="{{ 'cart_upsell.uncertain' | t | escape }}">
+    <section class="cart-upsell page-width section-space" aria-labelledby="UpsellTitle-{{ section.id }}">
+      <div class="section-heading">
+        <h2 id="UpsellTitle-{{ section.id }}">{% if section.settings.heading != blank %}{{ section.settings.heading | escape }}{% else %}{{ 'cart_upsell.title' | t }}{% endif %}</h2>
+        {% if section.settings.introduction != blank %}<p class="muted">{{ section.settings.introduction | escape }}</p>{% endif %}
+      </div>
+      <ul class="cart-upsell__grid" role="list">{{ upsell_cards }}</ul>
+      <div class="cart-upsell__notice" role="status" aria-live="polite" aria-atomic="true">
+        <p data-upsell-message></p>
+        <a data-control="text" class="text-link" data-upsell-review href="{{ routes.cart_url }}" hidden>{{ 'cart_upsell.review' | t }}</a>
+      </div>
+    </section>
+  </cart-upsell>
+{% elsif request.design_mode %}
+  <div class="page-width"><p class="editor-note">{{ 'cart_upsell.empty' | t }}</p></div>
+{% endif %}
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.cart_recommendations_e44ef3",
+  "tag": "section",
+  "enabled_on": {
+    "templates": [
+      "cart"
+    ]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:editor.text.choose_products_that_complement_your_range_suggestions_appear_in_ef65de"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17"
+    },
+    {
+      "type": "textarea",
+      "id": "introduction",
+      "label": "t:editor.text.introduction_b60535"
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "label": "t:editor.text.recommended_products_675ffd",
+      "limit": 8,
+      "info": "t:editor.text.up_to_four_eligible_products_are_shown_simple_products_can_be_add_2b46cb"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:editor.text.cart_recommendations_e44ef3"
+    }
+  ]
+}
+{% endschema %}

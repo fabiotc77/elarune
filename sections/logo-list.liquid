@@ -1,0 +1,471 @@
+{% render 'section-scheme', section: section %}
+{%- capture premium_section_body -%}
+{%- liquid
+  assign layout = section.settings.layout
+  assign logo_count = section.blocks.size
+  assign logo_height = section.settings.logo_height
+
+  assign quote_count = 0
+  for block in section.blocks
+    assign quote_text = block.settings.quote | strip_html | strip
+    if quote_text != blank
+      assign quote_count = quote_count | plus: 1
+    endif
+  endfor
+  if layout == 'tabs' and quote_count == 0 and request.design_mode == false
+    assign layout = 'grid'
+  endif
+
+  assign logos_desktop = section.settings.logos_desktop
+  assign logos_tablet = logos_desktop
+  if logos_tablet > 4
+    assign logos_tablet = 4
+  endif
+
+  case section.settings.marquee_speed
+    when 'slow'
+      assign seconds_per_logo = 6
+    when 'fast'
+      assign seconds_per_logo = 2.5
+    else
+      assign seconds_per_logo = 4
+  endcase
+  assign marquee_repeat = 1
+  if logo_count > 0
+    assign marquee_repeat = 14 | plus: logo_count | minus: 1 | divided_by: logo_count
+  endif
+  assign marquee_duration = logo_count | times: marquee_repeat | times: seconds_per_logo
+
+  assign heading_id = 'LogoListHeading-' | append: section.id
+  assign list_label = section.settings.heading | strip
+  if list_label == blank
+    assign list_label = 'logo_list.list_label' | t
+  endif
+
+  assign grid_items = ''
+  assign marquee_items = ''
+  assign marquee_copies = ''
+  assign tab_items = ''
+  assign panel_items = ''
+  assign editor_notes = ''
+  assign quote_index = 0
+-%}
+{%- for block in section.blocks -%}
+  {%- liquid
+    assign logo_name = block.settings.name | strip
+    assign logo_alt = logo_name
+    if logo_alt == blank and block.settings.image != blank
+      assign logo_alt = block.settings.image.alt | strip
+    endif
+    assign has_visual = false
+    if block.settings.image != blank or logo_name != blank
+      assign has_visual = true
+    endif
+    assign quote_text = block.settings.quote | strip_html | strip
+  -%}
+  {%- if block.settings.image != blank -%}
+    {%- liquid
+      assign logo_width = block.settings.image.aspect_ratio | default: 3 | times: logo_height | ceil
+      assign logo_sizes = logo_width | append: 'px'
+    -%}
+    {%- capture logo_visual -%}{{ block.settings.image | image_url: width: 720 | image_tag: widths: '120, 240, 360, 480, 720', sizes: logo_sizes, loading: 'lazy', alt: logo_alt, class: 'logo-list__image' }}{%- endcapture -%}
+    {%- capture logo_copy -%}{{ block.settings.image | image_url: width: 720 | image_tag: widths: '120, 240, 360, 480, 720', sizes: logo_sizes, loading: 'lazy', alt: '', class: 'logo-list__image' }}{%- endcapture -%}
+  {%- elsif logo_name != blank -%}
+    {%- capture logo_visual -%}<span class="logo-list__wordmark">{{ logo_name | escape }}</span>{%- endcapture -%}
+    {%- assign logo_copy = logo_visual -%}
+  {%- else -%}
+    {%- capture logo_visual -%}{{ 'image' | placeholder_svg_tag: 'logo-list__placeholder' }}{%- endcapture -%}
+    {%- assign logo_copy = logo_visual -%}
+  {%- endif -%}
+
+  {%- if has_visual or request.design_mode -%}
+    {%- case layout -%}
+      {%- when 'marquee' -%}
+        {%- capture marquee_items -%}{{ marquee_items }}<li class="logo-marquee__item" {{ block.shopify_attributes }}>{%- if block.settings.link != blank -%}<a class="logo-list__logo" href="{{ block.settings.link }}">{{ logo_visual }}</a>{%- else -%}<span class="logo-list__logo">{{ logo_visual }}</span>{%- endif -%}</li>{%- endcapture -%}
+        {%- capture marquee_copies -%}{{ marquee_copies }}<li class="logo-marquee__item logo-marquee__item--copy" aria-hidden="true">{%- if block.settings.link != blank -%}<a class="logo-list__logo" href="{{ block.settings.link }}" tabindex="-1">{{ logo_copy }}</a>{%- else -%}<span class="logo-list__logo">{{ logo_copy }}</span>{%- endif -%}</li>{%- endcapture -%}
+      {%- when 'tabs' -%}
+        {%- if quote_text != blank -%}
+          {%- assign quote_index = quote_index | plus: 1 -%}
+          {%- capture tab_items -%}{{ tab_items }}<button type="button" class="logo-tabs__tab" role="tab" id="LogoTab-{{ section.id }}-{{ quote_index }}" aria-controls="LogoPanel-{{ section.id }}-{{ quote_index }}" aria-selected="{% if quote_index == 1 %}true{% else %}false{% endif %}" tabindex="{% if quote_index == 1 %}0{% else %}-1{% endif %}"><span class="logo-list__logo">{{ logo_visual }}</span></button>{%- endcapture -%}
+          {%- capture panel_items -%}{{ panel_items }}<div class="logo-tabs__panel" role="tabpanel" id="LogoPanel-{{ section.id }}-{{ quote_index }}" aria-labelledby="LogoTab-{{ section.id }}-{{ quote_index }}" tabindex="0"{% if quote_index > 1 %} hidden{% endif %} {{ block.shopify_attributes }}><figure class="logo-tabs__figure"><blockquote class="logo-tabs__quote">{{ block.settings.quote }}</blockquote>{%- if logo_name != blank -%}<figcaption class="logo-tabs__cite">{%- if block.settings.link != blank -%}<a class="text-link" data-control="text" href="{{ block.settings.link }}">{{ logo_name | escape }}</a>{%- else -%}{{ logo_name | escape }}{%- endif -%}</figcaption>{%- endif -%}</figure></div>{%- endcapture -%}
+        {%- elsif request.design_mode -%}
+          {%- capture editor_notes -%}{{ editor_notes }}<p class="editor-note" {{ block.shopify_attributes }}>{{ 'logo_list.editor_no_quote' | t }}</p>{%- endcapture -%}
+        {%- endif -%}
+      {%- else -%}
+        {%- capture grid_items -%}{{ grid_items }}<li class="logo-list__cell" {{ block.shopify_attributes }}>{%- if block.settings.link != blank -%}<a class="logo-list__logo" href="{{ block.settings.link }}">{{ logo_visual }}</a>{%- else -%}<span class="logo-list__logo">{{ logo_visual }}</span>{%- endif -%}</li>{%- endcapture -%}
+    {%- endcase -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if logo_count > 0 or request.design_mode -%}
+  {{ 'section-logo-list.css' | asset_url | stylesheet_tag }}
+  {%- if layout != 'grid' and logo_count > 0 -%}<script src="{{ 'section-logo-list.js' | asset_url }}" type="module" defer></script>{%- endif -%}
+  <section class="logo-list section-space"{% if section.settings.heading != blank %} aria-labelledby="{{ heading_id }}"{% else %} aria-label="{{ list_label | escape }}"{% endif %}>
+    <logo-list-section
+      class="page-width logo-list__inner"
+      data-layout="{{ layout }}"
+      {% if section.settings.grayscale %}data-grayscale{% endif %}
+      style="--logo-height:{{ logo_height }}px;--logos-desktop:{{ logos_desktop }};--logos-tablet:{{ logos_tablet }};--logos-mobile:{{ section.settings.logos_mobile }};--marquee-duration:{{ marquee_duration }}s"
+    >
+      {%- if section.settings.eyebrow != blank or section.settings.heading != blank or layout == 'marquee' -%}
+        <div class="logo-list__head">
+          {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+            <div class="logo-list__titles">
+              {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+              {%- if section.settings.heading != blank -%}<h2 class="logo-list__heading" id="{{ heading_id }}">{{ section.settings.heading | escape }}</h2>{%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if layout == 'marquee' and logo_count > 0 -%}
+            <button type="button" class="logo-list__toggle" data-control="icon" data-marquee-toggle aria-label="{{ 'logo_list.pause' | t }}" data-label-pause="{{ 'logo_list.pause' | t }}" data-label-play="{{ 'logo_list.play' | t }}" hidden>
+              <svg class="logo-list__icon-pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5h2.6v13H8zM13.4 5.5H16v13h-2.6z" fill="currentColor" stroke="none"/></svg>
+              <svg class="logo-list__icon-play" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.5 5.8v12.4L18.4 12z" fill="currentColor" stroke="none"/></svg>
+            </button>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- case layout -%}
+        {%- when 'marquee' -%}
+          {%- if marquee_items != blank -%}
+            <div class="logo-marquee">
+              <div class="logo-marquee__track">
+                {%- for half in (1..2) -%}
+                  <ul class="logo-marquee__group" role="list"{% if half == 2 %} aria-hidden="true"{% elsif section.settings.heading != blank %} aria-labelledby="{{ heading_id }}"{% else %} aria-label="{{ list_label | escape }}"{% endif %}>
+                    {%- for pass in (1..marquee_repeat) -%}
+                      {%- if half == 1 and pass == 1 -%}{{ marquee_items }}{%- else -%}{{ marquee_copies }}{%- endif -%}
+                    {%- endfor -%}
+                  </ul>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- when 'tabs' -%}
+          {%- if tab_items != blank -%}
+            <div class="logo-tabs">
+              <div class="logo-tabs__list" role="tablist" aria-label="{{ list_label | escape }}">{{ tab_items }}</div>
+              <div class="logo-tabs__panels">{{ panel_items }}</div>
+            </div>
+          {%- endif -%}
+          {{ editor_notes }}
+        {%- else -%}
+          {%- if grid_items != blank -%}
+            <ul class="logo-list__grid" role="list"{% if section.settings.heading != blank %} aria-labelledby="{{ heading_id }}"{% else %} aria-label="{{ list_label | escape }}"{% endif %}>{{ grid_items }}</ul>
+          {%- endif -%}
+      {%- endcase -%}
+
+      {%- if request.design_mode and logo_count == 0 -%}
+        <p class="editor-note">{{ 'logo_list.editor_empty' | t }}</p>
+      {%- endif -%}
+    </logo-list-section>
+  </section>
+{%- endif -%}
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:logo_list.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "max_blocks": 16,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17",
+      "default": "Partners and mentions"
+    },
+    {
+      "type": "header",
+      "content": "t:editor.text.layout_a51190"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:editor.text.layout_a51190",
+      "info": "t:logo_list.layout_info",
+      "options": [
+        {
+          "value": "grid",
+          "label": "t:logo_list.layout_grid"
+        },
+        {
+          "value": "marquee",
+          "label": "t:logo_list.layout_marquee"
+        },
+        {
+          "value": "tabs",
+          "label": "t:logo_list.layout_tabs"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "range",
+      "id": "logos_desktop",
+      "label": "t:logo_list.logos_desktop",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "select",
+      "id": "logos_mobile",
+      "label": "t:logo_list.logos_mobile",
+      "options": [
+        {
+          "value": "2",
+          "label": "t:logo_list.count_2"
+        },
+        {
+          "value": "3",
+          "label": "t:logo_list.count_3"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "marquee_speed",
+      "label": "t:logo_list.marquee_speed",
+      "options": [
+        {
+          "value": "slow",
+          "label": "t:logo_list.speed_slow"
+        },
+        {
+          "value": "medium",
+          "label": "t:logo_list.speed_medium"
+        },
+        {
+          "value": "fast",
+          "label": "t:logo_list.speed_fast"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "t:logo_list.logo_height",
+      "min": 24,
+      "max": 96,
+      "step": 8,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "checkbox",
+      "id": "grayscale",
+      "label": "t:logo_list.grayscale",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:scheme.section",
+      "default": "porcelain"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "t:editor.text.logo_d707dc",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:editor.text.image_1aa4cb"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "t:logo_list.name_label",
+          "info": "t:logo_list.name_info",
+          "default": "Your partner"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:editor.text.link_a6a32d"
+        },
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "t:logo_list.quote",
+          "info": "t:logo_list.quote_info",
+          "default": "<p>Add a short quote from a verified press mention or partner.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:logo_list.name",
+      "blocks": [
+        {
+          "type": "logo",
+          "settings": {
+            "name": "Your partner"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "name": "Partner name"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "name": "Stockist name"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "name": "Publication name"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "name": "Studio name"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

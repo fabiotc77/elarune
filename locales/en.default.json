@@ -1,0 +1,692 @@
+{
+  "general": {
+    "skip": "Skip to content",
+    "menu": "Menu",
+    "navigation": "Main navigation",
+    "search": "Search",
+    "footer": "Footer navigation",
+    "view_all": "View all",
+    "continue": "Continue shopping",
+    "pagination": "Pagination",
+    "previous": "Previous",
+    "next": "Next",
+    "not_found": "Page not found",
+    "meta": {
+      "tags": "Tagged \"{{ tags }}\"",
+      "page": "Page {{ page }}"
+    }
+  },
+  "cart": {
+    "title": "Bag",
+    "empty": "Your bag is empty.",
+    "remove": "Remove",
+    "note": "Order note",
+    "total": "Estimated total",
+    "update": "Update bag",
+    "checkout": "Checkout",
+    "checkout_notice": "Taxes, discounts and shipping are calculated at checkout."
+  },
+  "product": {
+    "variant": "Choose an option",
+    "quantity": "Quantity",
+    "add": "Add to bag",
+    "sold_out": "Sold out",
+    "from": "From",
+    "regular_price": "Regular price",
+    "share": "Share",
+    "share_product": "Share this formulation",
+    "copy_link": "Copy link",
+    "link_copied": "Link copied to clipboard",
+    "close_share": "Close share menu",
+    "share_on": "Share on {{ platform }}",
+    "share_whatsapp": "WhatsApp",
+    "share_facebook": "Facebook",
+    "share_pinterest": "Pinterest",
+    "share_email": "Email"
+  },
+  "collection": {
+    "products": "products",
+    "sort": "Sort by",
+    "empty": "No products found."
+  },
+  "search": {
+    "empty": "No results found."
+  },
+  "localization": {
+    "country": "Country / region",
+    "language": "Language",
+    "apply": "Apply",
+    "heading": "Region & language",
+    "notice": "Available languages and prices may vary by country or region."
+  },
+  "beauty": {
+    "before": "Before",
+    "after": "After",
+    "compare": "Compare images",
+    "morning": "Morning",
+    "evening": "Evening",
+    "all": "All routines",
+    "editor_note": "Before / after: select both images of the same subject and include accurate timing and context. Never present generated results as clinical evidence."
+  },
+  "product_comparison": {
+    "title": "Compare your essentials",
+    "view_product": "View product",
+    "empty": "Choose products and add comparison details in the theme editor.",
+    "not_provided": "Not specified",
+    "attribute": "Product details",
+    "available_options": "Available options",
+    "scroll_hint": "Swipe to compare",
+    "choose_cream": "Choose your cream",
+    "compare_details": "Compare sizes & details"
+  },
+  "contact": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "send": "Send message",
+    "success": "Thank you. Your message has been sent.",
+    "error_heading": "Please check the following:",
+    "atelier": {
+      "eyebrow": "Beauty correspondence",
+      "invitation": "Good beauty starts with a conversation.",
+      "intro": "Your daily ritual, a little curiosity, or an order question. We’re listening.",
+      "caption": "A little care. A personal touch.",
+      "note": "A note to us",
+      "form_title": "What’s on your mind?",
+      "topic": "I’d like to talk about",
+      "ritual": "My ritual",
+      "order": "My order",
+      "other": "Something else",
+      "ritual_tip": "Tell us about your current routine and the products you’re curious about.",
+      "order_tip": "Include your order number, if you have it. Please don’t share payment details.",
+      "other_tip": "Ideas, collaborations, or simply a hello. Make yourself at home.",
+      "required": "* Email and message are required."
+    }
+  },
+  "beauty_video_gallery": {
+    "heading": "In their own words",
+    "scroll_hint": "Scroll to explore videos",
+    "shop_product": "Explore {{ product }}",
+    "transcript": "Read transcript",
+    "empty": "Add a video and its details in the theme editor."
+  },
+  "results_timeline": {
+    "title": "Your routine, over time",
+    "evidence": "Read supporting information",
+    "empty": "Add milestones and supporting information in the theme editor.",
+    "editor_method": "Include evidence and context: test type, sample size, duration and source where relevant. Trust claims must be supported.",
+    "editor_empty": "Add verified results, a trust statement or timeline entries. No claims are generated automatically."
+  },
+  "editorial": {
+    "read_article": "Read article",
+    "empty": "No articles yet.",
+    "back_to_blog": "Back to {{ blog }}",
+    "tags": "Topics",
+    "comments": "Comments",
+    "comment_name": "Name",
+    "comment_email": "Email",
+    "comment_body": "Comment",
+    "comment_send": "Post comment",
+    "comment_success": "Thank you. Your comment has been submitted.",
+    "comment_pending": "Thank you. Your comment has been submitted and will appear after approval.",
+    "comment_error": "Please check the following:",
+    "moderation_notice": "Comments are reviewed before publication."
+  },
+  "gift_card": {
+    "title": "Gift card",
+    "balance": "Available balance",
+    "initial_value": "Original value",
+    "code": "Gift card code",
+    "instruction": "Use this code at checkout.",
+    "disabled": "This gift card has been disabled.",
+    "expired": "This gift card has expired.",
+    "empty_balance": "This gift card has no remaining balance.",
+    "expires_on": "Expires on {{ date }}",
+    "expired_on": "Expired on {{ date }}",
+    "copy": "Copy code",
+    "copied": "Code copied",
+    "copy_failed": "Select the code and copy it manually.",
+    "print": "Print gift card",
+    "shop": "Visit the store",
+    "wallet": "Add to Apple Wallet",
+    "unavailable": "Gift card details are unavailable.",
+    "message": "A message for you"
+  },
+  "complementary_products": {
+    "title": "Complete your routine",
+    "empty": "Choose complementary products or configure recommendations in Shopify Search & Discovery."
+  },
+  "password_page": {
+    "title": "Store access",
+    "introduction": "Enter the password to visit the store.",
+    "password": "Password",
+    "enter": "Enter store",
+    "error_heading": "Please check your password.",
+    "owner": "Store owner login"
+  },
+  "skin_concerns": {
+    "title": "Find care for your skin",
+    "empty": "Choose a collection for this care category."
+  },
+  "collection_list": {
+    "title": "Collections",
+    "empty": "No collections are available yet.",
+    "shop_all": "Shop all products",
+    "product_count_one": "{{ count }} product",
+    "product_count_other": "{{ count }} products"
+  },
+  "newsletter": {
+    "heading": "A little care, delivered.",
+    "email": "Email address",
+    "subscribe": "Subscribe",
+    "consent": "Subscribe to receive email news and offers from {{ shop }}. You can unsubscribe at any time.",
+    "success": "Thank you. Your subscription request was received.",
+    "error_heading": "Please check the following:"
+  },
+  "free_shipping": {
+    "title": "Free shipping",
+    "remaining": "You're {{ amount }} away from the free shipping minimum.",
+    "reached": "Your cart meets the free shipping minimum.",
+    "destination": "Delivery to {{ country }}",
+    "checkout_note": "Delivery options and charges are confirmed at checkout.",
+    "policy": "Shipping details",
+    "setup": "Add a shipping minimum for this country and currency, then turn the indicator on. It appears when the cart contains physical products bought without a subscription.",
+    "duplicate": "There is more than one shipping rule for this country and currency. Keep one to show the indicator."
+  },
+  "facets": {
+    "title": "Filters",
+    "apply": "Apply filters",
+    "clear": "Clear filters",
+    "remove": "Remove {{ value }}",
+    "minimum": "Minimum price",
+    "maximum": "Maximum price"
+  },
+  "search_page": {
+    "results": "Results for “{{ terms }}”: {{ count }}",
+    "article": "Article",
+    "page": "Page",
+    "filter_note": "Product filters apply to product results.",
+    "start": "Search for products, guides and store information.",
+    "eyebrow": "The art of discovery",
+    "heading": "Find your next ritual.",
+    "empty_heading": "A little discovery awaits.",
+    "empty_help": "Try a shorter search or explore the collection below.",
+    "explore": "Explore the collections",
+    "discover": "A place to begin",
+    "placeholder": "Products, ingredients, rituals…"
+  },
+  "cart_upsell": {
+    "title": "You may also like",
+    "adding": "Adding to your bag…",
+    "uncertain": "This item may already be in your bag. Check before trying again.",
+    "review": "Review your bag",
+    "empty": "Choose products to recommend. Suggestions appear when the bag contains an item, and omit products already added or sold out."
+  },
+  "shade_finder": {
+    "heading": "A study in shade.",
+    "view_all": "Explore all options",
+    "instruction": "Select up to two shades to compare.",
+    "selected_count": "{{ count }} / 2 selected",
+    "limit": "Remove a selected shade before adding another.",
+    "no_swatch": "No color sample provided",
+    "view_shade": "View shade",
+    "view_options": "View options",
+    "compare": "Compare",
+    "comparison": "Side by side",
+    "clear": "Clear selection",
+    "screen_note": "Colors can appear different on screen. Use the product details to guide your choice.",
+    "empty": "Choose a product with saved swatches, or select its shade option position."
+  },
+  "predictive_search": {
+    "title": "Search suggestions",
+    "loading": "Loading suggestions…",
+    "count": "Suggestions: {{ count }}",
+    "clear": "Clear",
+    "all": "Search for “{{ terms }}”"
+  },
+  "launch_check": {
+    "title": "Launch check",
+    "review": "Items to review: {{ count }}",
+    "clear": "No missing fields detected in this section.",
+    "scope": "Section inputs only. Before launch, review claims, shipping, translations and a mobile purchase.",
+    "location": "Update these fields in this section’s settings.",
+    "menu": "Select a menu containing links.",
+    "image": "Select a campaign image and check its mobile focal point.",
+    "alt": "Review empty image alternative text. Describe the image if it conveys information.",
+    "heading": "Add a heading or an italic heading line.",
+    "primary": "Complete the primary button’s label and link, or leave both empty.",
+    "secondary": "Complete the secondary link’s label and destination, or leave both empty.",
+    "collection": "Select a collection.",
+    "empty_collection": "This collection has no visible products here. Check its products and market availability.",
+    "steps": "Add a routine step.",
+    "step_title": "Step {{ number }}: add a title.",
+    "step_product": "Step {{ number }}: select a product if this step should link to one. Text-only steps are allowed.",
+    "step_availability": "Step {{ number }}: the selected product is unavailable here. Check market and inventory.",
+    "step_copy": "Step {{ number }}: add the product’s actual usage instructions."
+  },
+  "pickup": {
+    "title": "Store pickup",
+    "available": "Available for pickup",
+    "unavailable": "Pickup currently unavailable",
+    "locations": "Pickup locations",
+    "note": "Pickup options are confirmed at checkout.",
+    "empty": "No pickup locations are available for this variant. Check your pickup and inventory settings in Shopify."
+  },
+  "gift_recipient": {
+    "title": "A gift, made personal.",
+    "enable": "Send this gift card to someone else",
+    "email": "Recipient email",
+    "name": "Recipient name",
+    "message": "Personal message",
+    "send_on": "Delivery date",
+    "email_hint": "Required when sending to someone else.",
+    "name_hint": "Optional. Up to 255 characters.",
+    "message_hint": "Optional. Up to 200 characters.",
+    "schedule_note": "Optional. Choose a date within 90 days, or leave blank to send after purchase.",
+    "scheduled": "Scheduled delivery: {{ date }}"
+  },
+  "bundle_components": {
+    "title": "Set contents"
+  },
+  "cart_relationship": {
+    "parent": "Added with: {{ product }}",
+    "quantity_fixed": "The quantity of this item cannot be changed separately.",
+    "remove_fixed": "This item cannot be removed separately."
+  },
+  "image_zoom": {
+    "open": "Enlarge image",
+    "title": "Product image",
+    "close": "Close",
+    "original": "Open full-size image",
+    "error": "This image could not be loaded. Try opening it directly."
+  },
+  "purchase_options": {
+    "title": "Purchase options",
+    "hint": "Choose an option to update your purchase. All prices are per item.",
+    "one_time": "One-time purchase",
+    "choose": "Choose a purchase option",
+    "unavailable": "No purchase plan is available for this variant.",
+    "per_delivery": "Per delivery",
+    "checkout": "Due at checkout",
+    "after_orders": "After {{ count }} orders: {{ price }} per item."
+  },
+  "cart_price": {
+    "original_total": "Original line total",
+    "total": "Line total",
+    "unit": "Unit price"
+  },
+  "external_video": {
+    "watch": "Watch video",
+    "close": "Close video",
+    "direct": "Open video directly"
+  },
+  "account_access": {
+    "title": "Account"
+  },
+  "related_products": {
+    "title": "You might also like",
+    "empty": "Choose fallback products or configure related recommendations in Shopify Search & Discovery."
+  },
+  "custom_liquid": {
+    "empty": "Add Liquid or HTML in this section’s settings."
+  },
+  "product_model": {
+    "open": "View in 3D",
+    "close": "Close 3D view",
+    "loading": "Loading 3D view…",
+    "error": "The 3D view could not load. Try again or download the model below.",
+    "download": "Download 3D model",
+    "ar": "View in your space",
+    "hint": "Drag or use the arrow keys to rotate. Use the viewer controls to zoom. Press Escape to close."
+  },
+  "product_options": {
+    "unavailable_choice": "Unavailable with this selection",
+    "unavailable_combination": "This combination is unavailable. Choose another option."
+  },
+  "product_purchase_notices": {
+    "taxes_included": "Taxes included.",
+    "duties_included": "Duties included.",
+    "shipping_policy": "Shipping policy"
+  },
+  "cart_design": {
+    "eyebrow": "Your daily rituals",
+    "empty_heading": "A little care belongs here.",
+    "empty_text": "Explore the collection and find the essentials for your next ritual.",
+    "summary": "Order summary",
+    "update_hint": "Save quantity changes with Update bag."
+  },
+  "footer_design": {
+    "discover": "Discover",
+    "information": "Client care",
+    "theme_credit": "Theme by Mufatech"
+  },
+  "routine_chapters": {
+    "steps_one": "{{ count }} step",
+    "steps_other": "{{ count }} steps",
+    "guide_label": "Your routine, at a glance",
+    "morning_heading": "A fresh start, at your pace.",
+    "morning_text": "Explore the morning selection, from your first step to your final layer of care. Open a product to discover its format and available options.",
+    "evening_heading": "Make room for your evening ritual.",
+    "evening_text": "Discover the evening selection and the place each product has in this edit. Open a product for its details and directions.",
+    "all_heading": "Your daily care, considered together.",
+    "all_text": "Explore every selected step in one place. Compare the products across your day and choose the selection that fits your routine.",
+    "overview": "The steps in this selection"
+  },
+  "routine_purchase": {
+    "title": "Shop your routine",
+    "instruction": "Select your products and options. We add one of each selected variant to your bag.",
+    "include": "Include in my routine",
+    "add_selected": "Add selected products to bag",
+    "uncertain": "Some products may already be in your bag. Review your bag before adding anything again.",
+    "empty": "Choose products for this routine in the theme editor."
+  },
+  "cart_purchase": {
+    "shipping_calculated": "Shipping calculated at checkout."
+  },
+  "cart_feedback": {
+    "updating": "Updating your bag…",
+    "updated": "Your bag is up to date.",
+    "uncertain": "We could not confirm this change. Review your bag before trying again.",
+    "review": "Review bag"
+  },
+  "sensory": {
+    "quick_view": "A closer look",
+    "added": "Added to your bag.",
+    "cream": "Spread the cream",
+    "spray": "Release the mist",
+    "replay": "Replay the texture",
+    "texture_position": "Explore the texture"
+  },
+  "premium": {
+    "new": "New",
+    "previous": "Previous",
+    "next": "Next",
+    "pause": "Pause",
+    "play": "Play",
+    "loading": "Loading…",
+    "unavailable": "This preview is unavailable. Open the full page below.",
+    "rating": "Rating",
+    "increase": "Increase quantity",
+    "decrease": "Decrease quantity",
+    "details": "Product details"
+  },
+  "stories": {
+    "title": "Your ritual. In your words.",
+    "share": "Share your experience",
+    "experience": "Your experience",
+    "send": "Send your feedback",
+    "rating": "{{ value }} out of 5 stars",
+    "demo_label": "Sample reviews · Demo content"
+  },
+  "editorial_gallery": {
+    "title": "The visual edit"
+  },
+  "vanity": {
+    "choose": "Choose",
+    "change": "Change",
+    "remove": "Remove",
+    "hint": "Touch a product to make this ritual yours.",
+    "yours": "Your ritual",
+    "empty": "Choose the products you want on your table. Every step is optional.",
+    "total": "Product total",
+    "close": "Close",
+    "select": "Place on my table",
+    "setup": "Add products to the steps in the theme editor.",
+    "product_page": "See the product page for available purchase options."
+  },
+  "ritual_builder": {
+    "heading": "Build Your Ritual",
+    "intro": "Three steps. Made for your skin.",
+    "need": "What does your skin need?",
+    "feel": "How does your skin feel?",
+    "level": "Your routine?",
+    "hydration": "Hydration",
+    "glow": "Glow",
+    "calm": "Calm",
+    "firmness": "Firmness",
+    "dry": "Dry",
+    "balanced": "Balanced",
+    "oily": "Oily",
+    "sensitive": "Sensitive",
+    "essential": "Essential",
+    "complete": "Complete",
+    "cleanse": "Cleanse",
+    "treat": "Treat",
+    "finish": "Finish",
+    "yours": "Your ritual",
+    "add": "Add complete ritual",
+    "note": "Explore a three-step edit based on your preferences. Review each product to find your fit.",
+    "unavailable": "A complete ritual is not available for this selection. Explore the products individually.",
+    "updated": "Your ritual has been updated."
+  },
+  "ingredient_spotlight": {
+    "demo": "Illustrative formula · Demo content"
+  },
+  "skin_timeline": {
+    "select": "Move through the timeline",
+    "demo": "Illustrative timeline · Images and days do not represent product results."
+  },
+  "social_media": {
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "pinterest": "Pinterest",
+    "youtube": "YouTube",
+    "tiktok": "TikTok",
+    "whatsapp": "WhatsApp",
+    "x": "X",
+    "threads": "Threads",
+    "snapchat": "Snapchat",
+    "linkedin": "LinkedIn",
+    "follow": "Follow us"
+  },
+  "inventory": {
+    "in_stock": "In stock",
+    "low_stock": "Limited stock · Only {{ count }} remaining",
+    "very_low_stock": "Final few · Only {{ count }} remaining",
+    "sold_out": "Sold out · Currently unavailable",
+    "batch_passport": "Batch {{ batch }}",
+    "authenticity": "Batch information",
+    "notify_me": "Notify me when available",
+    "notify_eyebrow": "Back-in-stock waitlist",
+    "notify_title": "Notify me when this returns",
+    "notify_subtext": "Enter your email to be notified the moment {{ product }} is back in stock.",
+    "notify_email_label": "Email address",
+    "notify_email_placeholder": "Enter your email",
+    "notify_submit": "Join Waitlist",
+    "notify_reassurance": "Your email is sent to the store with this request.",
+    "volume_ml": "ml",
+    "volume_floz": "fl. oz.",
+    "volume_toggle": "Toggle volume unit",
+    "notify_success_title": "Request sent",
+    "notify_success_subtext": "Thanks. The store has received your request."
+  },
+  "Share": "Share",
+  "volume_pricing": {
+    "title": "Bundle & Save",
+    "select_tier": "Select quantity",
+    "single_pack": "Single item",
+    "double_pack": "Duo Set",
+    "trio_pack": "Ritual Trio",
+    "standard_pack": "Standard",
+    "popular": "Most Popular",
+    "best_value": "Best Value",
+    "save_pct": "Save {{ percent }}%",
+    "each": "each",
+    "per_unit": "per unit"
+  },
+  "customer": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "forgot": "Forgot your password?",
+      "no_account": "Don't have an account yet?",
+      "disabled": "Customer accounts are not enabled for this store."
+    },
+    "recover_password": {
+      "title": "Reset your password",
+      "subtext": "We will send you an email to reset your password.",
+      "success": "We've sent you an email with a link to update your password.",
+      "submit": "Send reset link",
+      "cancel": "Back to sign in"
+    },
+    "register": {
+      "title": "Create account",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "submit": "Create account",
+      "has_account": "Already have an account?"
+    },
+    "activate_account": {
+      "title": "Activate account",
+      "subtext": "Create your password to activate your account.",
+      "password": "Password",
+      "password_confirm": "Confirm password",
+      "submit": "Activate account",
+      "decline": "Decline invitation"
+    },
+    "reset_password": {
+      "title": "Set a new password",
+      "subtext": "Enter a new password for your account.",
+      "password": "New password",
+      "password_confirm": "Confirm password",
+      "submit": "Save password"
+    },
+    "account": {
+      "title": "Account",
+      "welcome": "Welcome back, {{ name }}.",
+      "log_out": "Log out",
+      "default_address": "Default address",
+      "view_addresses": "View addresses ({{ count }})"
+    },
+    "orders": {
+      "title": "Order history",
+      "none": "You haven't placed any orders yet.",
+      "order_number": "Order",
+      "date": "Date",
+      "payment_status": "Payment",
+      "fulfillment_status": "Fulfillment",
+      "total": "Total"
+    },
+    "order": {
+      "title": "Order {{ name }}",
+      "date": "Placed on {{ date }}",
+      "return": "Back to account",
+      "cancelled": "Order cancelled on {{ date }}",
+      "product": "Product",
+      "sku": "SKU",
+      "price": "Price",
+      "quantity": "Quantity",
+      "total": "Total",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "fulfilled_at": "Fulfilled {{ date }}",
+      "billing_address": "Billing address",
+      "shipping_address": "Shipping address",
+      "payment_status": "Payment status",
+      "fulfillment_status": "Fulfillment status"
+    },
+    "addresses": {
+      "title": "Addresses",
+      "none": "No address saved yet.",
+      "add_new": "Add a new address",
+      "add": "Add address",
+      "update": "Update address",
+      "edit": "Edit",
+      "delete": "Delete",
+      "default": "Default",
+      "set_default": "Set as default address",
+      "company": "Company",
+      "address1": "Address",
+      "address2": "Apartment, suite, etc.",
+      "city": "City",
+      "zip": "Postal code",
+      "country": "Country / Region",
+      "province": "State / Province",
+      "phone": "Phone"
+    }
+  },
+  "editorial_hero": {
+    "acquire": "Shop {{ product }} — {{ price }}"
+  },
+  "faq": {
+    "editor_note": "Add an answer to publish this question."
+  },
+  "product_card": {
+    "sale": "Sale",
+    "save_amount": "Save {{ amount }}"
+  },
+  "multicolumn": {
+    "list_label": "Content columns"
+  },
+  "collapsible": {
+    "editor_note": "Add content or select a page to publish this row."
+  },
+  "consent": {
+    "region": "Cookie choices",
+    "heading": "Your cookie choices",
+    "message": "We use cookies and similar technologies to run this store and, with your consent, for analytics and marketing.",
+    "accept": "Accept all",
+    "decline": "Decline all",
+    "manage": "Manage preferences",
+    "save": "Save preferences",
+    "preferences_title": "Cookie categories",
+    "necessary": "Strictly necessary",
+    "necessary_description": "Required for the store to work, such as your cart and checkout. Always on.",
+    "analytics": "Analytics",
+    "analytics_description": "Helps us understand how the store is used so we can improve it.",
+    "marketing": "Marketing",
+    "marketing_description": "Used to show relevant offers and measure advertising.",
+    "preferences": "Preferences",
+    "preferences_description": "Remembers choices such as language and region.",
+    "privacy_policy": "Privacy policy",
+    "saved": "Your cookie choices have been saved.",
+    "error": "Your choices could not be saved. Please try again."
+  },
+  "collection_paging": {
+    "load_more": "Load more",
+    "loaded": "More products loaded: {{ count }}",
+    "showing": "Showing {{ shown }} of {{ total }}"
+  },
+  "slideshow": {
+    "label": "Slideshow",
+    "slide_label": "Slide {{ index }} of {{ count }}",
+    "go_to": "Show slide {{ index }}"
+  },
+  "video_section": {
+    "play": "Play video",
+    "pause": "Pause video",
+    "load_video": "Play video: {{ title }}",
+    "fallback_title": "Video",
+    "editor_empty": "Add a Shopify-hosted video or a YouTube or Vimeo URL to show this section."
+  },
+  "logo_list": {
+    "list_label": "Logos",
+    "play": "Play scrolling logos",
+    "pause": "Pause scrolling logos",
+    "editor_empty": "Add logo blocks to show this section.",
+    "editor_no_quote": "Add a quote to show this logo in the quote tabs."
+  },
+  "countdown": {
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "timer_label": "Time remaining",
+    "ends_on_html": "Ends {{ date }}",
+    "ended": "This countdown has ended.",
+    "editor_missing": "Enter an end date to show this countdown. Visitors see nothing until then.",
+    "editor_invalid": "Check the end date and time. Use YYYY-MM-DD and HH:MM.",
+    "editor_hidden": "The countdown has ended. This section is hidden from visitors."
+  },
+  "neutral": {
+    "back_in_stock_request": "Back-in-stock request: {{ product }} ({{ variant }})",
+    "volume_pricing": {
+      "pack_of": "Pack of {{ quantity }}",
+      "discount_at_checkout": "Save {{ percent }}% at checkout"
+    }
+  }
+}

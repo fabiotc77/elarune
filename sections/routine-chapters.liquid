@@ -1,0 +1,318 @@
+{%- capture premium_section_body -%}
+{{ 'beauty.css' | asset_url | stylesheet_tag }}
+{{ 'routine-chapters.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'beauty.js' | asset_url }}" type="module"></script>
+{% assign selected_routine = section.settings.default_routine | default: 'all' %}
+{%- comment -%}The section is product-driven: stay out of the page until at least one step points to a product.{%- endcomment -%}
+{% assign routine_products = 0 %}
+{% for block in section.blocks %}{% if block.settings.product != blank %}{% assign routine_products = routine_products | plus: 1 %}{% endif %}{% endfor %}
+{% if routine_products > 0 %}
+<section id="routine" class="routine-section page-width section-space" aria-labelledby="Routine-{{ section.id }}">
+  <div class="section-heading"><div>{% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}<h2 id="Routine-{{ section.id }}">{{ section.settings.heading | escape }}</h2></div><p class="muted">{{ section.settings.text | escape }}</p></div>
+  <routine-chapters data-count-one="{{ 'routine_chapters.steps_one' | t: count: '[count]' | escape }}" data-count-other="{{ 'routine_chapters.steps_other' | t: count: '[count]' | escape }}">
+  <div class="routine-toolbar">
+  <div class="routine-filters" hidden>
+    <button data-control="choice" type="button" data-routine-filter="all" aria-pressed="{% if selected_routine == 'all' %}true{% else %}false{% endif %}" aria-controls="RoutineGrid-{{ section.id }}">{{ 'beauty.all' | t }}</button>
+    {% assign has_morning = false %}{% assign has_evening = false %}
+    {% for block in section.blocks %}{% if block.settings.period == 'morning' or block.settings.period == 'both' %}{% assign has_morning = true %}{% endif %}{% if block.settings.period == 'evening' or block.settings.period == 'both' %}{% assign has_evening = true %}{% endif %}{% endfor %}
+    {% if has_morning %}<button data-control="choice" type="button" data-routine-filter="morning" aria-pressed="{% if selected_routine == 'morning' %}true{% else %}false{% endif %}" aria-controls="RoutineGrid-{{ section.id }}">{{ 'beauty.morning' | t }}</button>{% endif %}
+    {% if has_evening %}<button data-control="choice" type="button" data-routine-filter="evening" aria-pressed="{% if selected_routine == 'evening' %}true{% else %}false{% endif %}" aria-controls="RoutineGrid-{{ section.id }}">{{ 'beauty.evening' | t }}</button>{% endif %}
+  </div>
+  <p class="routine-status" aria-live="polite" aria-atomic="true" hidden></p>
+  </div>
+  {% if section.blocks.size > 0 %}
+  <div class="routine-guide">
+    <div class="routine-guide-copy">
+      <p class="routine-guide-label eyebrow">{{ 'routine_chapters.guide_label' | t }}</p>
+      <div data-routine-guide="all">
+        <h3>{{ 'routine_chapters.all_heading' | t }}</h3>
+        <p>{{ 'routine_chapters.all_text' | t }}</p>
+      </div>
+      <div data-routine-guide="morning" hidden>
+        <h3>{{ 'routine_chapters.morning_heading' | t }}</h3>
+        <p>{{ 'routine_chapters.morning_text' | t }}</p>
+      </div>
+      <div data-routine-guide="evening" hidden>
+        <h3>{{ 'routine_chapters.evening_heading' | t }}</h3>
+        <p>{{ 'routine_chapters.evening_text' | t }}</p>
+      </div>
+    </div>
+    <div class="routine-guide-overview">
+      <p class="routine-guide-label" id="RoutineOverview-{{ section.id }}">{{ 'routine_chapters.overview' | t }}</p>
+      <ol aria-labelledby="RoutineOverview-{{ section.id }}">
+        {% for block in section.blocks %}
+          {% assign guide_product = block.settings.product %}
+          <li data-routine-overview-period="{{ block.settings.period }}"><span class="routine-guide-number" data-guide-number aria-hidden="true">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span><span>{{ guide_product.type | default: block.settings.heading | escape }}</span></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+  {% endif %}
+  <div class="routine-grid" id="RoutineGrid-{{ section.id }}">
+    {% for block in section.blocks %}
+      {% assign routine_product = block.settings.product %}
+      <article class="routine-card" data-routine-period="{{ block.settings.period }}" {{ block.shopify_attributes }}>
+        <div class="routine-card-top">
+          <div class="routine-card-meta"><span class="eyebrow" data-routine-number>{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span><span class="routine-time">{% if block.settings.period == 'morning' %}{{ 'beauty.morning' | t }}{% elsif block.settings.period == 'evening' %}{{ 'beauty.evening' | t }}{% else %}{{ 'beauty.morning' | t }} / {{ 'beauty.evening' | t }}{% endif %}</span></div>
+          <h3>{{ block.settings.heading | escape }}</h3>
+        </div>
+        {% if routine_product.featured_image != blank %}<a class="routine-card-media" href="{{ routine_product.url }}" aria-label="{{ routine_product.title | escape }}">{{ routine_product.featured_image | image_url: width: 900 | image_tag: widths: '300, 500, 700, 900', sizes: '(min-width: 750px) 30vw, 100vw', loading: 'eager' }}</a>{% endif %}
+        {% if block.settings.text != blank %}<p class="routine-card-description">{{ block.settings.text | escape }}</p>{% endif %}
+        {% if routine_product != blank %}<div class="routine-product-summary"><a class="routine-product-name" href="{{ routine_product.url }}"><span>{{ routine_product.title | escape }}</span><span class="routine-product-arrow" aria-hidden="true">↗</span></a>{% if routine_product.price != nil %}{% render 'price', target: routine_product, show_from: true, show_compare: false %}{% endif %}</div>{% endif %}
+      </article>
+    {% endfor %}
+  </div>
+  </routine-chapters>
+</section>
+{% render 'launch-check', source_section: section, kind: 'routine' %}
+
+
+{% elsif request.design_mode %}
+{% render 'launch-check', source_section: section, kind: 'routine' %}
+{% endif %}
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.routine_chapters_cecbd9",
+  "tag": "section",
+  "max_blocks": 6,
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd",
+      "default": "Less, but considered"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17",
+      "default": "Find your daily rhythm."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:editor.text.description_526e00",
+      "default": "A few thoughtful steps. A little time for you."
+    },
+    {
+      "type": "select",
+      "id": "default_routine",
+      "label": "t:editor.text.initially_selected_routine_b3c869",
+      "default": "all",
+      "options": [
+        {
+          "value": "all",
+          "label": "t:editor.text.all_routines_4a8c78"
+        },
+        {
+          "value": "morning",
+          "label": "t:editor.text.morning_e9376a"
+        },
+        {
+          "value": "evening",
+          "label": "t:editor.text.evening_458c1f"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "t:editor.text.routine_step_15dbae",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:editor.text.step_title_2e9af9",
+          "default": "Your routine step"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "t:editor.text.usage_description_95f87e",
+          "info": "t:editor.text.describe_the_actual_product_use_avoid_unverified_health_claims_490d17"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:editor.text.product_fb9ef8"
+        },
+        {
+          "type": "select",
+          "id": "period",
+          "label": "t:editor.text.routine_time_81ee1e",
+          "default": "both",
+          "options": [
+            {
+              "value": "both",
+              "label": "t:editor.text.morning_and_evening_f4605d"
+            },
+            {
+              "value": "morning",
+              "label": "t:editor.text.morning_e9376a"
+            },
+            {
+              "value": "evening",
+              "label": "t:editor.text.evening_458c1f"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:editor.text.routine_chapters_cecbd9",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "heading": "Cleanse"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "heading": "Nourish"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "heading": "Moisturize"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

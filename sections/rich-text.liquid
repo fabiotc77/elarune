@@ -1,0 +1,475 @@
+{% render 'section-scheme', section: section %}
+{%- capture premium_section_body -%}
+{%- liquid
+  assign rich_text_heading_id = ''
+  for block in section.blocks
+    if block.type == 'heading' and block.settings.heading != blank
+      assign rich_text_heading_id = 'RichTextHeading-' | append: block.id
+      break
+    endif
+  endfor
+  assign rich_text_has_content = false
+  for block in section.blocks
+    case block.type
+      when 'divider'
+        assign rich_text_has_content = true
+      when 'heading'
+        if block.settings.heading != blank
+          assign rich_text_has_content = true
+        endif
+      when 'buttons'
+        if block.settings.primary_label != blank or block.settings.secondary_label != blank
+          assign rich_text_has_content = true
+        endif
+      else
+        if block.settings.text != blank
+          assign rich_text_has_content = true
+        endif
+    endcase
+  endfor
+-%}
+{%- if rich_text_has_content -%}
+  {{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+  <section class="page-width section-space rich-text" data-align="{{ section.settings.content_alignment }}" data-align-mobile="{{ section.settings.mobile_alignment }}" data-width="{{ section.settings.content_width }}"{% if rich_text_heading_id != blank %} aria-labelledby="{{ rich_text_heading_id }}"{% endif %}>
+    <div class="rich-text-inner premium-reveal">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'eyebrow' -%}
+            {%- if block.settings.text != blank -%}
+              <p class="eyebrow rich-text-eyebrow" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+          {%- when 'heading' -%}
+            {%- if block.settings.heading != blank -%}
+              <h2 id="RichTextHeading-{{ block.id }}" class="rich-text-heading" data-size="{{ block.settings.size }}" {{ block.shopify_attributes }}>{{ block.settings.heading }}</h2>
+            {%- endif -%}
+          {%- when 'text' -%}
+            {%- if block.settings.text != blank -%}
+              <div class="rte rich-text-text" data-size="{{ block.settings.size }}" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            {%- endif -%}
+          {%- when 'buttons' -%}
+            {%- if block.settings.primary_label != blank or block.settings.secondary_label != blank -%}
+              <div class="rich-text-actions" {{ block.shopify_attributes }}>
+                {%- if block.settings.primary_label != blank -%}
+                  <a data-control="primary" {% if block.settings.primary_link != blank %}href="{{ block.settings.primary_link }}"{% else %}role="link" aria-disabled="true"{% endif %}>{{ block.settings.primary_label | escape }}</a>
+                {%- endif -%}
+                {%- if block.settings.secondary_label != blank -%}
+                  <a data-control="{% if block.settings.secondary_style == 'text' %}text{% else %}secondary{% endif %}" {% if block.settings.secondary_link != blank %}href="{{ block.settings.secondary_link }}"{% else %}role="link" aria-disabled="true"{% endif %}>{{ block.settings.secondary_label | escape }}{% if block.settings.secondary_style == 'text' %}<span class="rich-text-arrow" aria-hidden="true">&rarr;</span>{% endif %}</a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- when 'divider' -%}
+            <hr class="rich-text-divider" data-length="{{ block.settings.length }}" {{ block.shopify_attributes }}>
+          {%- when 'caption' -%}
+            {%- if block.settings.text != blank -%}
+              <p class="rich-text-caption" data-style="{{ block.settings.style }}" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:rich_text.name",
+  "tag": "section",
+  "max_blocks": 12,
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:editor.text.layout_a51190"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "t:rich_text.content_alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:rich_text.align_start"
+        },
+        {
+          "value": "center",
+          "label": "t:premium.center"
+        },
+        {
+          "value": "end",
+          "label": "t:rich_text.align_end"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "mobile_alignment",
+      "label": "t:rich_text.mobile_alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:rich_text.align_start"
+        },
+        {
+          "value": "center",
+          "label": "t:premium.center"
+        },
+        {
+          "value": "end",
+          "label": "t:rich_text.align_end"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "t:rich_text.content_width",
+      "options": [
+        {
+          "value": "narrow",
+          "label": "t:rich_text.width_narrow"
+        },
+        {
+          "value": "medium",
+          "label": "t:rich_text.size_medium"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:scheme.section",
+      "default": "porcelain"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "t:editor.text.eyebrow_d821dd",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:editor.text.text_71988c",
+          "default": "Our approach"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "t:editor.text.heading_b34f17",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "t:editor.text.heading_b34f17",
+          "info": "t:rich_text.heading_info",
+          "default": "Tell your story, <em>simply</em>."
+        },
+        {
+          "type": "select",
+          "id": "size",
+          "label": "t:rich_text.heading_size",
+          "options": [
+            {
+              "value": "small",
+              "label": "t:rich_text.size_small"
+            },
+            {
+              "value": "medium",
+              "label": "t:rich_text.size_medium"
+            },
+            {
+              "value": "large",
+              "label": "t:rich_text.size_large"
+            },
+            {
+              "value": "xlarge",
+              "label": "t:rich_text.size_xlarge"
+            }
+          ],
+          "default": "large"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:editor.text.text_71988c",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:editor.text.text_71988c",
+          "default": "<p>Share details about your brand, your products, their ingredients or the way they are made.</p>"
+        },
+        {
+          "type": "select",
+          "id": "size",
+          "label": "t:rich_text.text_size",
+          "options": [
+            {
+              "value": "small",
+              "label": "t:rich_text.size_small"
+            },
+            {
+              "value": "medium",
+              "label": "t:rich_text.size_medium"
+            },
+            {
+              "value": "large",
+              "label": "t:rich_text.size_large"
+            }
+          ],
+          "default": "medium"
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "t:rich_text.block_buttons",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "primary_label",
+          "label": "t:rich_text.primary_label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "primary_link",
+          "label": "t:rich_text.primary_link"
+        },
+        {
+          "type": "text",
+          "id": "secondary_label",
+          "label": "t:rich_text.secondary_label"
+        },
+        {
+          "type": "url",
+          "id": "secondary_link",
+          "label": "t:rich_text.secondary_link"
+        },
+        {
+          "type": "select",
+          "id": "secondary_style",
+          "label": "t:rich_text.secondary_style",
+          "options": [
+            {
+              "value": "secondary",
+              "label": "t:rich_text.style_outline"
+            },
+            {
+              "value": "text",
+              "label": "t:rich_text.style_text"
+            }
+          ],
+          "default": "text"
+        }
+      ]
+    },
+    {
+      "type": "divider",
+      "name": "t:rich_text.block_divider",
+      "settings": [
+        {
+          "type": "select",
+          "id": "length",
+          "label": "t:rich_text.divider_length",
+          "options": [
+            {
+              "value": "short",
+              "label": "t:rich_text.length_short"
+            },
+            {
+              "value": "full",
+              "label": "t:premium.full"
+            }
+          ],
+          "default": "short"
+        }
+      ]
+    },
+    {
+      "type": "caption",
+      "name": "t:rich_text.block_caption",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:editor.text.text_71988c",
+          "default": "Add a caption or signature"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "t:rich_text.caption_style",
+          "options": [
+            {
+              "value": "caption",
+              "label": "t:rich_text.block_caption"
+            },
+            {
+              "value": "signature",
+              "label": "t:rich_text.style_signature"
+            }
+          ],
+          "default": "caption"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:rich_text.name",
+      "blocks": [
+        {
+          "type": "eyebrow"
+        },
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "buttons"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

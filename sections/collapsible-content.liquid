@@ -1,0 +1,408 @@
+{% render 'section-scheme', section: section %}
+{%- capture premium_section_body -%}
+{%- liquid
+  assign cc_single = false
+  if section.settings.open_behavior == 'single'
+    assign cc_single = true
+  endif
+  assign cc_group = 'Collapsible-' | append: section.id
+  assign cc_has_header = false
+  if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.intro != blank
+    assign cc_has_header = true
+  endif
+  assign cc_has_image = false
+  if section.settings.image != blank
+    assign cc_has_image = true
+  endif
+  assign cc_opened = false
+  assign cc_faq_count = 0
+-%}
+{%- capture cc_rows -%}
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign cc_page = block.settings.page
+      assign cc_body = block.settings.content
+      if cc_page != blank and cc_page.content != blank
+        assign cc_body = cc_page.content
+      endif
+    -%}
+    {%- if block.settings.heading != blank and cc_body != blank -%}
+      {%- liquid
+        assign cc_open = false
+        if section.settings.open_first and cc_opened == false
+          assign cc_open = true
+          assign cc_opened = true
+        endif
+      -%}
+      <details class="collapsible-row" id="CollapsibleRow-{{ block.id }}"{% if cc_single %} name="{{ cc_group }}"{% endif %}{% if cc_open %} open{% endif %} {{ block.shopify_attributes }}>
+        <summary class="collapsible-summary" data-control="disclosure">
+          <span class="collapsible-question">{{ block.settings.heading | escape }}</span>
+          {%- if section.settings.icon_style != 'none' -%}<span class="collapsible-icon" aria-hidden="true"></span>{%- endif -%}
+        </summary>
+        <div class="rte collapsible-answer">{{ cc_body }}</div>
+      </details>
+    {%- elsif request.design_mode -%}
+      <p class="editor-note" {{ block.shopify_attributes }}>{{ 'collapsible.editor_note' | t }}</p>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign cc_rows = cc_rows | strip -%}
+{%- if cc_rows != blank -%}
+  {{ 'section-collapsible-content.css' | asset_url | stylesheet_tag }}
+  {%- if cc_single or request.design_mode -%}
+    <script src="{{ 'section-collapsible-content.js' | asset_url }}" defer></script>
+  {%- endif -%}
+  <section class="page-width section-space collapsible" data-layout="{{ section.settings.layout }}" data-icon="{{ section.settings.icon_style }}" data-image="{% if cc_has_image %}{{ section.settings.image_position }}{% else %}none{% endif %}"{% if section.settings.heading != blank %} aria-labelledby="CollapsibleHeading-{{ section.id }}"{% endif %}>
+    {%- if cc_has_header -%}
+      <div class="collapsible-header premium-reveal">
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow collapsible-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 id="CollapsibleHeading-{{ section.id }}" class="collapsible-heading">{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.intro != blank -%}<div class="rte collapsible-intro">{{ section.settings.intro }}</div>{%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if cc_has_image -%}
+      <div class="collapsible-media">
+        {{ section.settings.image | image_url: width: 1400 | image_tag: widths: '400, 600, 800, 1000, 1400', sizes: '(min-width: 990px) 40vw, 100vw', loading: 'lazy', class: 'collapsible-image', alt: section.settings.image.alt }}
+      </div>
+    {%- endif -%}
+    <collapsible-group class="collapsible-rows" data-single="{{ cc_single }}">
+      {{ cc_rows }}
+    </collapsible-group>
+  </section>
+  {%- if section.settings.faq_schema -%}
+    {%- capture cc_faq_entities -%}
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign cc_page = block.settings.page
+          assign cc_body = block.settings.content
+          if cc_page != blank and cc_page.content != blank
+            assign cc_body = cc_page.content
+          endif
+        -%}
+        {%- if block.settings.heading != blank and cc_body != blank -%}
+          {%- if cc_faq_count > 0 -%},{%- endif -%}
+          {"@type":"Question","name":{{ block.settings.heading | strip_html | json }},"acceptedAnswer":{"@type":"Answer","text":{{ cc_body | json }}}}
+          {%- assign cc_faq_count = cc_faq_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- if cc_faq_count > 0 -%}
+      <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{ cc_faq_entities }}]}</script>
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:collapsible.name",
+  "tag": "section",
+  "max_blocks": 16,
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17",
+      "info": "t:rich_text.heading_info",
+      "default": "Questions, <em>answered</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "t:editor.text.introduction_b60535"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:editor.text.image_1aa4cb"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:collapsible.image_position",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:rich_text.align_start"
+        },
+        {
+          "value": "end",
+          "label": "t:rich_text.align_end"
+        }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "header",
+      "content": "t:editor.text.layout_a51190"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:editor.text.layout_a51190",
+      "options": [
+        {
+          "value": "stacked",
+          "label": "t:collapsible.layout_stacked"
+        },
+        {
+          "value": "split",
+          "label": "t:collapsible.layout_split"
+        },
+        {
+          "value": "cards",
+          "label": "t:collapsible.layout_cards"
+        }
+      ],
+      "default": "split"
+    },
+    {
+      "type": "select",
+      "id": "open_behavior",
+      "label": "t:collapsible.open_behavior",
+      "options": [
+        {
+          "value": "multiple",
+          "label": "t:collapsible.open_multiple"
+        },
+        {
+          "value": "single",
+          "label": "t:collapsible.open_single"
+        }
+      ],
+      "default": "multiple"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "t:collapsible.open_first",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "icon_style",
+      "label": "t:collapsible.icon_style",
+      "options": [
+        {
+          "value": "plus",
+          "label": "t:collapsible.icon_plus"
+        },
+        {
+          "value": "chevron",
+          "label": "t:collapsible.icon_chevron"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        }
+      ],
+      "default": "plus"
+    },
+    {
+      "type": "checkbox",
+      "id": "faq_schema",
+      "label": "t:collapsible.faq_schema",
+      "info": "t:collapsible.faq_schema_info",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:scheme.section",
+      "default": "porcelain"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "t:collapsible.block_row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:editor.text.heading_b34f17",
+          "default": "How do I choose the right product?"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "t:editor.text.content_47bd29",
+          "default": "<p>Use this row to share your own guidance. Add information about your products, their use or your store.</p>"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "t:editor.text.page_0a30a8",
+          "info": "t:collapsible.page_info"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:collapsible.name",
+      "blocks": [
+        {
+          "type": "row",
+          "settings": {
+            "heading": "How do I choose the right product?"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "heading": "How should I use it?",
+            "content": "<p>Describe how customers can use your products. Replace this text with your own information.</p>"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "heading": "Where can I find the ingredients?",
+            "content": "<p>Explain where customers can find ingredient details for each product.</p>"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "heading": "How can I contact you?",
+            "content": "<p>Add the ways customers can reach your team.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

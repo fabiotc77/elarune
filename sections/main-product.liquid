@@ -1,0 +1,444 @@
+{%- capture premium_section_body -%}
+{% assign selected_variant = product.selected_or_first_available_variant %}
+<script src="{{ 'product-submit.js' | asset_url }}" type="module"></script>
+{% assign product_form_id = 'ProductForm-' | append: section.id %}
+{% assign selected_allocation = nil %}
+{% for allocation in selected_variant.selling_plan_allocations %}
+  {% if allocation.selling_plan.id == selected_variant.selected_selling_plan_allocation.selling_plan.id %}{% assign selected_allocation = allocation %}{% break %}{% endif %}
+{% endfor %}
+{% assign purchase_ready = selected_variant.available %}
+{% if selected_variant.requires_selling_plan and selected_allocation == nil %}{% assign purchase_ready = false %}{% endif %}
+{% assign purchase_price = selected_allocation | default: selected_variant %}
+<section class="page-width section-space product-layout" data-sticky-info="{{ section.settings.experience_sticky_info }}">
+  {% render 'product-gallery', product: product, variant: selected_variant, section_id: section.id, gallery_layout: section.settings.experience_gallery, show_thumbnails: section.settings.experience_thumbnails %}
+  <div class="product-info">
+    {% for block in section.blocks %}
+      <div {{ block.shopify_attributes }}>
+        {% case block.type %}
+          {% when '@app' %}{% render block %}
+          {% when 'vendor' %}<p class="eyebrow">{{ product.vendor | escape }}</p>
+          {% when 'title' %}<h1>{{ product.title | escape }}</h1>
+          {% when 'price' %}{% if selected_variant %}{% render 'price', target: purchase_price, unit_measurement: selected_variant.unit_price_measurement %}{% else %}<p>{{ 'product_options.unavailable_combination' | t }}</p>{% endif %}
+            {% render 'product-purchase-notices', cart: cart, shop: shop, product: product %}
+            {% if selected_allocation %}<p class="muted">{{ selected_allocation.selling_plan.name | escape }}</p>{% endif %}
+          {% when 'inventory' %}
+            {%- comment -%}Gift cards are issued, not stocked: batch and inventory language does not apply.{%- endcomment -%}
+            {% unless product.gift_card? %}{% render 'product-inventory', product: product, variant: selected_variant, block: block %}{% endunless %}
+          {% when 'volume_pricing' %}
+            {% unless product.gift_card? %}{% render 'volume-pricing', product: product, variant: selected_variant, block: block, section_id: section.id %}{% endunless %}
+          {% when 'description' %}<div class="rte">{{ product.description }}</div>
+          {% when 'pickup_availability' %}{% render 'pickup-availability', product: product, variant: selected_variant %}
+          {% when 'buy_buttons' %}
+            {% render 'product-options', product: product, variant: selected_variant, allocation: selected_allocation, section_id: section.id %}
+            {% render 'purchase-options', product: product, variant: selected_variant, allocation: selected_allocation, section_id: section.id %}
+            {% if selected_variant %}
+            {% form 'product', product, id: product_form_id, class: 'product-form' %}
+              {{ form.errors | default_errors }}
+              <input type="hidden" name="id" value="{{ selected_variant.id }}">
+              {% if selected_allocation %}<input type="hidden" name="selling_plan" value="{{ selected_allocation.selling_plan.id }}">{% endif %}
+              {% render 'gift-card-recipient', product: product, form: form, section_id: section.id %}
+              <label for="Quantity-{{ section.id }}">{{ 'product.quantity' | t }}</label><quantity-stepper data-increase="{{ 'premium.increase' | t | escape }}" data-decrease="{{ 'premium.decrease' | t | escape }}"><input data-control="quantity" id="Quantity-{{ section.id }}" type="number" name="quantity" required min="{{ selected_variant.quantity_rule.min | default: 1 }}" step="{{ selected_variant.quantity_rule.increment | default: 1 }}"{% if selected_variant.quantity_rule.max != blank %} max="{{ selected_variant.quantity_rule.max }}"{% endif %} value="{{ selected_variant.quantity_rule.min | default: 1 }}"></quantity-stepper>
+              <button data-control="primary" id="ProductSubmit-{{ section.id }}" type="submit" class="button" name="add"{% unless purchase_ready %} disabled{% endunless %}>{% unless selected_variant.available %}{{ 'product.sold_out' | t }}{% elsif purchase_ready %}{{ 'product.add' | t }}{% else %}{{ 'purchase_options.choose' | t }}{% endunless %}</button>
+              {% if purchase_ready %}{{ form | payment_terms }}{% endif %}
+              {% if block.settings.dynamic_checkout and purchase_ready %}{% unless product.gift_card? %}{{ form | payment_button }}{% endunless %}{% endif %}
+            {% endform %}
+            {% render 'back-in-stock', product: product, variant: selected_variant, section_id: section.id %}
+            {% else %}<button data-control="primary" class="button" type="button" disabled>{{ 'product_options.unavailable_combination' | t }}</button>{% endif %}
+            {% if section.settings.sticky_add_to_cart %}
+              {% render 'sticky-product', product: product, variant: selected_variant, section_id: section.id, product_form_id: product_form_id, allocation: selected_allocation, purchase_ready: purchase_ready %}
+            {% endif %}
+          {% when 'accordion' %}{% if block.settings.content != blank %}<details class="product-accordion"><summary data-control="disclosure">{{ block.settings.heading | escape }}</summary><div class="rte">{{ block.settings.content }}</div></details>{% endif %}
+          {% when 'share' %}
+            {% render 'product-share', product: product, block: block, section_id: section.id %}
+          {% when 'custom_liquid' %}{{ block.settings.custom_liquid }}
+        {% endcase %}
+      </div>
+    {% endfor %}
+  </div>
+</section>
+<script type="application/ld+json">{{ product | structured_data }}</script>
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.product_information_325932",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "sticky_add_to_cart",
+      "label": "t:editor.text.show_sticky_add_to_cart_2b39d7",
+      "default": true,
+      "info": "t:editor.text.appears_after_the_main_buy_button_scrolls_out_of_view_uses_the_qu_a81755"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_sticky_info",
+      "label": "t:premium.sticky_info",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "experience_gallery",
+      "label": "t:premium.gallery",
+      "options": [
+        {
+          "value": "vertical",
+          "label": "t:premium.vertical"
+        },
+        {
+          "value": "grid",
+          "label": "t:premium.grid"
+        },
+        {
+          "value": "carousel",
+          "label": "t:premium.carousel"
+        },
+        {
+          "value": "editorial",
+          "label": "t:editorial_gallery.layout"
+        }
+      ],
+      "default": "vertical"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_thumbnails",
+      "label": "t:premium.thumbnails",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "vendor",
+      "name": "t:editor.text.vendor_f8aa82",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "t:editor.text.title_7e8cd2",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "t:editor.text.price_93c91c",
+      "limit": 1
+    },
+    {
+      "type": "inventory",
+      "name": "t:inventory.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "low_stock_threshold",
+          "label": "t:inventory.low_stock_threshold",
+          "min": 1,
+          "max": 30,
+          "step": 1,
+          "default": 10
+        },
+        {
+          "type": "checkbox",
+          "id": "show_batch_badge",
+          "label": "t:inventory.show_batch_badge",
+          "info": "t:neutral.inventory.show_batch_badge_info",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_pulse",
+          "label": "t:inventory.show_pulse",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "t:editor.text.description_526e00",
+      "limit": 1
+    },
+    {
+      "type": "pickup_availability",
+      "name": "t:editor.text.pickup_availability_9243c7",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:editor.text.shows_pickup_availability_preparation_time_and_addresses_from_sho_a6449e"
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "t:editor.text.buy_buttons_af7298",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "dynamic_checkout",
+          "label": "t:editor.text.show_accelerated_checkout_2455c1",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "accordion",
+      "name": "t:editor.text.product_details_fd294f",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:editor.text.heading_b34f17",
+          "default": "How to use"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "t:editor.text.content_47bd29"
+        }
+      ]
+    },
+    {
+      "type": "share",
+      "name": "t:product_share.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:product_share.label"
+        }
+      ]
+    },
+    {
+      "type": "custom_liquid",
+      "name": "t:editor.text.custom_liquid_8a9d4f",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "t:editor.text.liquid_9a8378"
+        }
+      ]
+    },
+    {
+      "type": "volume_pricing",
+      "name": "t:volume_pricing.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:volume_pricing.heading"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "t:volume_pricing.subheading"
+        },
+        {
+          "type": "header",
+          "content": "t:volume_pricing.tier_settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_discount_labels",
+          "label": "t:neutral.volume_pricing.show_discount_labels",
+          "info": "t:neutral.volume_pricing.show_discount_labels_info",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "tier1_label",
+          "label": "t:volume_pricing.tier1_label"
+        },
+        {
+          "type": "range",
+          "id": "tier2_qty",
+          "label": "t:volume_pricing.tier2_qty",
+          "min": 2,
+          "max": 6,
+          "step": 1,
+          "default": 2
+        },
+        {
+          "type": "text",
+          "id": "tier2_label",
+          "label": "t:volume_pricing.tier2_label"
+        },
+        {
+          "type": "range",
+          "id": "tier2_discount",
+          "label": "t:volume_pricing.tier2_discount",
+          "min": 5,
+          "max": 50,
+          "step": 5,
+          "unit": "%",
+          "default": 10
+        },
+        {
+          "type": "text",
+          "id": "tier2_badge",
+          "label": "t:volume_pricing.tier2_badge"
+        },
+        {
+          "type": "range",
+          "id": "tier3_qty",
+          "label": "t:volume_pricing.tier3_qty",
+          "min": 3,
+          "max": 10,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "text",
+          "id": "tier3_label",
+          "label": "t:volume_pricing.tier3_label"
+        },
+        {
+          "type": "range",
+          "id": "tier3_discount",
+          "label": "t:volume_pricing.tier3_discount",
+          "min": 10,
+          "max": 60,
+          "step": 5,
+          "unit": "%",
+          "default": 20
+        },
+        {
+          "type": "text",
+          "id": "tier3_badge",
+          "label": "t:volume_pricing.tier3_badge"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

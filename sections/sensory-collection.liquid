@@ -1,0 +1,314 @@
+{%- capture premium_section_body -%}
+{{ 'sensory-home.css' | asset_url | stylesheet_tag }}
+{{ 'sensory-motion.css' | asset_url | stylesheet_tag }}
+{{ 'sensory-discovery.css' | asset_url | stylesheet_tag }}
+{% if section.settings.editorial_composition %}{{ 'sensory-editorial.css' | asset_url | stylesheet_tag }}{% endif %}
+{% if section.settings.ritual_shelf %}{{ 'ritual-shelf.css' | asset_url | stylesheet_tag }}{% endif %}
+<script src="{{ 'sensory-motion.js' | asset_url }}" type="module"></script>
+<sensory-scene data-editorial="{{ section.settings.editorial_composition }}" data-scene="selection">
+<script src="{{ 'sensory-collection.js' | asset_url }}" type="module"></script>
+<sensory-collection class="sensory sensory-selection" id="sensory-selection" data-ritual-shelf="{{ section.settings.ritual_shelf }}" data-add-url="{{ routes.cart_add_url }}" data-added="{{ 'sensory.added' | t | escape }}" data-adding="{{ 'cart_upsell.adding' | t | escape }}" data-error="{{ 'cart_upsell.uncertain' | t | escape }}">
+  <div class="sensory-section-heading"><div><p class="sensory-kicker">{{ section.settings.eyebrow | escape }}</p><h2>{{ section.settings.heading | escape }} <em>{{ section.settings.heading_accent | escape }}</em></h2></div><p>{{ section.settings.text | escape }}</p></div>
+  <div class="sensory-product-grid"{% if section.settings.editorial_composition %} tabindex="0" role="region" aria-label="{{ section.settings.heading | escape }} {{ section.settings.heading_accent | escape }}"{% endif %}>
+  {% for block in section.blocks %}
+    {% assign item = block.settings.product %}
+    {% if item != blank %}
+    <article class="sensory-product" {{ block.shopify_attributes }}>
+      <div class="sensory-product-meta"><span>{% if section.settings.ritual_shelf %}{{ block.settings.ritual_step }}{% else %}0{{ forloop.index }}{% endif %}</span><span>{{ block.settings.text | escape }}</span><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C12 10 7 15 7 21a9 9 0 0 0 18 0c0-6-5-11-9-18Z"/></svg></div>
+      <div class="sensory-product-media"><a href="{{ item.url }}" aria-label="{{ item.title | escape }}">{% if item.featured_image != blank %}{{ item.featured_image | image_url: width: 1000 | image_tag: widths: '300, 500, 750, 1000', sizes: '(min-width: 750px) 30vw, 90vw', loading: 'lazy' }}{% else %}{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}</a>{% if section.settings.ritual_shelf and block.settings.texture_swatch != blank %}<span class="ritual-shelf__swatch">{{ block.settings.texture_swatch | image_url: width: 180 | image_tag: widths: '90, 180', sizes: '88px', loading: 'lazy', alt: block.settings.texture_label }}</span>{% endif %}</div>
+      {% unless section.settings.ritual_shelf %}<p class="sensory-product-subtitle">{{ block.settings.heading | escape }}</p>{% endunless %}<div class="sensory-product-title"><h3><a href="{{ item.url }}">{{ item.title | escape }}</a></h3>{% if section.settings.ritual_shelf and block.settings.skin_concern != blank %}<p class="ritual-shelf__concern">{{ block.settings.skin_concern | escape }}</p>{% endif %}{% render 'price', target: item, show_from: true, show_compare: false %}</div>
+      <div class="sensory-product-actions">{% if settings.experience_quick_view %}<a data-control="secondary" class="sensory-peek" href="{{ item.url }}" data-premium-open="product" aria-haspopup="dialog"><span>{{ 'sensory.quick_view' | t }}</span><span aria-hidden="true">＋</span></a>{% else %}<button data-control="secondary" class="sensory-peek" type="button" data-open="SensoryProduct-{{ section.id }}-{{ block.id }}" aria-haspopup="dialog" hidden><span>{{ 'sensory.quick_view' | t }}</span><span aria-hidden="true">＋</span></button>{% endif %}</div>
+      <dialog class="sensory-dialog" id="SensoryProduct-{{ section.id }}-{{ block.id }}" aria-labelledby="SensoryTitle-{{ section.id }}-{{ block.id }}">
+        <button data-control="icon" class="sensory-close" type="button" data-close aria-label="{{ 'image_zoom.close' | t }}">×</button>
+        <div class="sensory-dialog-grid"><div class="sensory-dialog-media">{% if item.featured_image != blank %}{{ item.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy' }}{% endif %}<span class="sensory-kicker">{{ block.settings.heading | escape }}</span></div>
+        <div class="sensory-dialog-copy"><p class="sensory-kicker">{{ item.type | escape }}</p><h2 id="SensoryTitle-{{ section.id }}-{{ block.id }}">{{ item.title | escape }}</h2><div class="sensory-modal-price" data-price>{% render 'price', target: item.selected_or_first_available_variant, show_from: false, show_compare: true %}</div>{% for variant in item.variants %}<template data-variant-price="{{ variant.id }}">{% render 'price', target: variant, show_from: false, show_compare: true %}</template>{% endfor %}
+          {% liquid
+            assign simple_purchase = true
+            assign variant_count = item.variants_count | default: item.variants.size
+            if item.requires_selling_plan or item.gift_card? or variant_count > 50 or item.selling_plan_groups.size > 0
+              assign simple_purchase = false
+            endif
+            for variant in item.variants
+              if variant.requires_components or variant.requires_selling_plan
+                assign simple_purchase = false
+              endif
+            endfor
+          %}
+          {% if simple_purchase %}
+          <form action="{{ routes.cart_add_url }}" method="post" data-sensory-form>
+            <label for="SensoryVariant-{{ section.id }}-{{ block.id }}">{{ 'product.variant' | t }}</label>
+            <select data-control="field" id="SensoryVariant-{{ section.id }}-{{ block.id }}" name="id" data-variant>
+              {% for variant in item.variants %}<option value="{{ variant.id }}" data-price="{{ variant.price | money | escape }}" data-title="{{ variant.title | escape }}" data-url="{{ item.url }}?variant={{ variant.id }}" data-image="{% if variant.featured_image != blank %}{{ variant.featured_image | image_url: width: 1000 }}{% endif %}" data-alt="{{ variant.featured_image.alt | default: item.title | escape }}" data-min="{{ variant.quantity_rule.min | default: 1 }}" data-step="{{ variant.quantity_rule.increment | default: 1 }}" data-max="{{ variant.quantity_rule.max }}" {% unless variant.available %}disabled{% endunless %} {% if variant == item.selected_or_first_available_variant %}selected{% endif %}>{{ variant.title | escape }} — {{ variant.price | money }}{% unless variant.available %} · {{ 'product.sold_out' | t }}{% endunless %}</option>{% endfor %}
+            </select>
+            <label for="SensoryQty-{{ section.id }}-{{ block.id }}">{{ 'product.quantity' | t }}</label><quantity-stepper data-increase="{{ 'premium.increase' | t | escape }}" data-decrease="{{ 'premium.decrease' | t | escape }}"><input data-control="quantity" id="SensoryQty-{{ section.id }}-{{ block.id }}" name="quantity" type="number" min="{{ item.selected_or_first_available_variant.quantity_rule.min | default: 1 }}" step="{{ item.selected_or_first_available_variant.quantity_rule.increment | default: 1 }}" {% if item.selected_or_first_available_variant.quantity_rule.max != blank %}max="{{ item.selected_or_first_available_variant.quantity_rule.max }}"{% endif %} value="{{ item.selected_or_first_available_variant.quantity_rule.min | default: 1 }}" required></quantity-stepper>
+            <button data-control="primary" class="sensory-button" type="submit" {% unless item.available %}disabled{% endunless %}><span>{% if item.available %}{{ 'product.add' | t }}{% else %}{{ 'product.sold_out' | t }}{% endif %}</span><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 10h16l2 17H6L8 10Zm4 0V8a4 4 0 0 1 8 0v2"/></svg></button>
+          </form>
+          {% endif %}
+          <div class="sensory-feedback" role="status" aria-live="polite"></div><a data-control="text" class="sensory-text-link" href="{{ routes.cart_url }}" data-review hidden>{{ 'cart_upsell.review' | t }} <span aria-hidden="true">↗</span></a>
+          <a data-control="text" class="sensory-text-link" href="{{ item.selected_or_first_available_variant.url | default: item.url }}" data-detail>{{ 'product_comparison.view_product' | t }} <span aria-hidden="true">↗</span></a>
+        </div></div>
+      </dialog>
+    </article>
+    {% endif %}
+  {% endfor %}
+  </div>
+  {% if section.settings.link != blank %}<div class="sensory-selection-end"><a data-control="text" class="sensory-text-link" href="{{ section.settings.link }}">{{ section.settings.button_label | escape }} <span aria-hidden="true">↗</span></a></div>{% endif %}
+</sensory-collection>
+</sensory-scene>
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:sensory.collection",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "ritual_shelf",
+      "label": "t:ritual_shelf.enabled",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "editorial_composition",
+      "label": "t:sensory.editorial_composition",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "t:editor.text.italic_heading_line_1ccf8b"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:editor.text.description_526e00"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:editor.text.button_label_57a953"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:editor.text.button_link_168eeb"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "t:editor.text.product_fb9ef8",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:editor.text.product_fb9ef8"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:editor.text.heading_b34f17"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "t:editor.text.description_526e00"
+        },
+        {
+          "type": "select",
+          "id": "ritual_step",
+          "label": "t:ritual_shelf.step",
+          "default": "01",
+          "options": [
+            {
+              "value": "01",
+              "label": "t:ritual_shelf.cleanse"
+            },
+            {
+              "value": "02",
+              "label": "t:ritual_shelf.treat"
+            },
+            {
+              "value": "03",
+              "label": "t:ritual_shelf.finish"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "texture_swatch",
+          "label": "t:ritual_shelf.swatch"
+        },
+        {
+          "type": "text",
+          "id": "texture_label",
+          "label": "t:ritual_shelf.texture_label"
+        },
+        {
+          "type": "text",
+          "id": "skin_concern",
+          "label": "t:ritual_shelf.concern",
+          "info": "t:ritual_shelf.concern_help"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "presets": [
+    {
+      "name": "t:sensory.collection",
+      "blocks": [
+        {
+          "type": "product"
+        },
+        {
+          "type": "product"
+        },
+        {
+          "type": "product"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

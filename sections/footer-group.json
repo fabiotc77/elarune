@@ -1,0 +1,48 @@
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "menu": "footer",
+        "show_signature_logo": false,
+        "text": "Considered care. Everyday rituals. A little time for yourself.",
+        "contact_page": "contact"
+      }
+    },
+    "campaign": {
+      "type": "campaign-dialog",
+      "settings": {
+        "enabled": false,
+        "home_only": true,
+        "delay": 25,
+        "frequency": "session",
+        "campaign_id": "campaign-1",
+        "eyebrow": "New in",
+        "heading": "Discover what’s new.",
+        "text": "Introduce a new collection, a seasonal edit or a limited offer you are running.",
+        "image": "",
+        "label": "Shop the collection",
+        "link": "shopify://collections/all",
+        "image_position": 80
+      }
+    },
+    "cookie_consent": {
+      "type": "cookie-consent",
+      "settings": {
+        "enabled": false,
+        "position": "card",
+        "heading": "Your cookie choices",
+        "message": "<p>We use cookies and similar technologies to run this store and, with your consent, for analytics and marketing.</p>",
+        "show_privacy_link": true,
+        "show_preferences": true
+      }
+    }
+  },
+  "order": [
+    "footer",
+    "campaign",
+    "cookie_consent"
+  ]
+}

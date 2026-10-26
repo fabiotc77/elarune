@@ -1,0 +1,692 @@
+{
+  "general": {
+    "skip": "Naar inhoud",
+    "menu": "Menu",
+    "navigation": "Hoofdnavigatie",
+    "search": "Zoeken",
+    "footer": "Voettekstnavigatie",
+    "view_all": "Alles bekijken",
+    "continue": "Verder winkelen",
+    "pagination": "Paginering",
+    "previous": "Vorige",
+    "next": "Volgende",
+    "not_found": "Pagina niet gevonden",
+    "meta": {
+      "tags": "Getagd \"{{ tags }}\"",
+      "page": "Pagina {{ page }}"
+    }
+  },
+  "cart": {
+    "title": "Winkelwagen",
+    "empty": "Je winkelwagen is leeg.",
+    "remove": "Verwijderen",
+    "note": "Bestelnotitie",
+    "total": "Geschat totaal",
+    "update": "Winkelwagen bijwerken",
+    "checkout": "Afrekenen",
+    "checkout_notice": "Belastingen, kortingen en verzendkosten worden bij het afrekenen berekend."
+  },
+  "product": {
+    "variant": "Kies een optie",
+    "quantity": "Aantal",
+    "add": "In winkelwagen",
+    "sold_out": "Uitverkocht",
+    "from": "Vanaf",
+    "regular_price": "Normale prijs",
+    "share": "Delen",
+    "share_product": "Deel deze formule",
+    "copy_link": "Kopieer link",
+    "link_copied": "Link gekopieerd naar klembord",
+    "close_share": "Deelmenu sluiten",
+    "share_on": "Delen op {{ platform }}",
+    "share_whatsapp": "WhatsApp",
+    "share_facebook": "Facebook",
+    "share_pinterest": "Pinterest",
+    "share_email": "E-mail"
+  },
+  "collection": {
+    "products": "producten",
+    "sort": "Sorteren op",
+    "empty": "Geen producten gevonden."
+  },
+  "search": {
+    "empty": "Geen resultaten gevonden."
+  },
+  "localization": {
+    "country": "Land / regio",
+    "language": "Taal",
+    "apply": "Toepassen",
+    "heading": "Regio en taal",
+    "notice": "Beschikbare talen en prijzen kunnen per land of regio verschillen."
+  },
+  "beauty": {
+    "before": "Voor",
+    "after": "Na",
+    "compare": "Afbeeldingen vergelijken",
+    "morning": "Ochtend",
+    "evening": "Avond",
+    "all": "Alle routines",
+    "editor_note": "Voor / na: selecteer twee afbeeldingen van hetzelfde onderwerp en vermeld de juiste tijdsduur en context. Presenteer gegenereerde resultaten nooit als klinisch bewijs."
+  },
+  "product_comparison": {
+    "title": "Vergelijk je essentiële producten",
+    "view_product": "Product bekijken",
+    "empty": "Kies producten en voeg vergelijkingsdetails toe in de thema-editor.",
+    "not_provided": "Niet opgegeven",
+    "attribute": "Productdetails",
+    "available_options": "Beschikbare opties",
+    "scroll_hint": "Veeg om te vergelijken",
+    "choose_cream": "Kies je crème",
+    "compare_details": "Formaten en details vergelijken"
+  },
+  "contact": {
+    "name": "Naam",
+    "email": "E-mail",
+    "phone": "Telefoon",
+    "message": "Bericht",
+    "send": "Bericht verzenden",
+    "success": "Bedankt. Je bericht is verzonden.",
+    "error_heading": "Controleer het volgende:",
+    "atelier": {
+      "eyebrow": "Gesprekken over beauty",
+      "invitation": "Goede verzorging begint met een gesprek.",
+      "intro": "Je dagelijkse ritueel, een vraag of je bestelling. We luisteren.",
+      "caption": "Een beetje zorg. Een persoonlijk gebaar.",
+      "note": "Een bericht voor ons",
+      "form_title": "Wat houdt je bezig?",
+      "topic": "Ik wil het hebben over",
+      "ritual": "Mijn ritueel",
+      "order": "Mijn bestelling",
+      "other": "Iets anders",
+      "ritual_tip": "Vertel ons over je huidige routine en de producten die je nieuwsgierig maken.",
+      "order_tip": "Vermeld je bestelnummer als je dat hebt. Deel geen betaalgegevens.",
+      "other_tip": "Ideeën, samenwerkingen of gewoon een hallo. Voel je welkom.",
+      "required": "* E-mail en bericht zijn verplicht."
+    }
+  },
+  "beauty_video_gallery": {
+    "heading": "In hun eigen woorden",
+    "scroll_hint": "Scroll om video’s te bekijken",
+    "shop_product": "Ontdek {{ product }}",
+    "transcript": "Transcript lezen",
+    "empty": "Voeg een video en de details toe in de thema-editor."
+  },
+  "results_timeline": {
+    "title": "Je routine door de tijd heen",
+    "evidence": "Ondersteunende informatie lezen",
+    "empty": "Voeg mijlpalen en ondersteunende informatie toe in de thema-editor.",
+    "editor_method": "Vermeld bewijs en context: testtype, steekproefomvang, duur en indien van toepassing de bron. Claims moeten onderbouwd zijn.",
+    "editor_empty": "Voeg geverifieerde resultaten, een vertrouwensverklaring of tijdlijnitems toe. Er worden geen claims automatisch gegenereerd."
+  },
+  "editorial": {
+    "read_article": "Artikel lezen",
+    "empty": "Er zijn nog geen artikelen.",
+    "back_to_blog": "Terug naar {{ blog }}",
+    "tags": "Onderwerpen",
+    "comments": "Reacties",
+    "comment_name": "Naam",
+    "comment_email": "E-mail",
+    "comment_body": "Reactie",
+    "comment_send": "Reactie versturen",
+    "comment_success": "Bedankt. Je reactie is verstuurd.",
+    "comment_pending": "Bedankt. Je reactie is verstuurd en verschijnt na goedkeuring.",
+    "comment_error": "Controleer het volgende:",
+    "moderation_notice": "Reacties worden vóór publicatie beoordeeld."
+  },
+  "gift_card": {
+    "title": "Cadeaubon",
+    "balance": "Beschikbaar saldo",
+    "initial_value": "Oorspronkelijke waarde",
+    "code": "Cadeauboncode",
+    "instruction": "Gebruik deze code bij het afrekenen.",
+    "disabled": "Deze cadeaubon is gedeactiveerd.",
+    "expired": "Deze cadeaubon is verlopen.",
+    "empty_balance": "Deze cadeaubon heeft geen resterend saldo.",
+    "expires_on": "Geldig tot {{ date }}",
+    "expired_on": "Verlopen op {{ date }}",
+    "copy": "Code kopiëren",
+    "copied": "Code gekopieerd",
+    "copy_failed": "Selecteer de code en kopieer deze handmatig.",
+    "print": "Cadeaubon afdrukken",
+    "shop": "Naar de winkel",
+    "wallet": "Voeg toe aan Apple Wallet",
+    "unavailable": "De cadeaubongegevens zijn niet beschikbaar.",
+    "message": "Een bericht voor jou"
+  },
+  "complementary_products": {
+    "title": "Maak je routine compleet",
+    "empty": "Kies aanvullende producten of stel aanbevelingen in via Shopify Search & Discovery."
+  },
+  "password_page": {
+    "title": "Toegang tot de winkel",
+    "introduction": "Voer het wachtwoord in om de winkel te bezoeken.",
+    "password": "Wachtwoord",
+    "enter": "Winkel bezoeken",
+    "error_heading": "Controleer je wachtwoord.",
+    "owner": "Inloggen voor winkeleigenaar"
+  },
+  "skin_concerns": {
+    "title": "Ontdek verzorging voor je huid",
+    "empty": "Kies een collectie voor deze verzorgingscategorie."
+  },
+  "collection_list": {
+    "title": "Collecties",
+    "empty": "Er zijn nog geen collecties beschikbaar.",
+    "shop_all": "Alle producten",
+    "product_count_one": "{{ count }} product",
+    "product_count_other": "{{ count }} producten"
+  },
+  "newsletter": {
+    "heading": "Een beetje verzorging, speciaal voor jou.",
+    "email": "E-mailadres",
+    "subscribe": "Aanmelden",
+    "consent": "Meld je aan voor nieuws en aanbiedingen van {{ shop }} per e-mail. Je kunt je op elk moment afmelden.",
+    "success": "Bedankt. Je aanmeldverzoek is ontvangen.",
+    "error_heading": "Controleer het volgende:"
+  },
+  "free_shipping": {
+    "title": "Gratis verzending",
+    "remaining": "Nog {{ amount }} tot het minimumbedrag voor gratis verzending.",
+    "reached": "Het minimumbedrag voor gratis verzending is bereikt.",
+    "destination": "Bezorging in {{ country }}",
+    "checkout_note": "De bezorgopties en verzendkosten worden bij het afrekenen bevestigd.",
+    "policy": "Verzendinformatie",
+    "setup": "Vul het minimumbedrag voor dit land en deze valuta in en zet de indicator aan. Deze verschijnt bij fysieke producten zonder abonnement in de winkelwagen.",
+    "duplicate": "Er zijn meerdere verzendregels voor dit land en deze valuta. Houd één regel aan om de indicator te tonen."
+  },
+  "facets": {
+    "title": "Filters",
+    "apply": "Filters toepassen",
+    "clear": "Filters wissen",
+    "remove": "{{ value }} verwijderen",
+    "minimum": "Minimumprijs",
+    "maximum": "Maximumprijs"
+  },
+  "search_page": {
+    "results": "Resultaten voor “{{ terms }}”: {{ count }}",
+    "article": "Artikel",
+    "page": "Pagina",
+    "filter_note": "Productfilters gelden voor productresultaten.",
+    "start": "Zoek naar producten, gidsen en winkelinformatie.",
+    "eyebrow": "De kunst van het ontdekken",
+    "heading": "Vind je volgende verzorgingsritueel.",
+    "empty_heading": "Er wacht een kleine ontdekking op je.",
+    "empty_help": "Probeer een kortere zoekterm of bekijk de collectie hieronder.",
+    "explore": "Ontdek de collecties",
+    "discover": "Een plek om te beginnen",
+    "placeholder": "Producten, ingrediënten, rituelen…"
+  },
+  "cart_upsell": {
+    "title": "Misschien ook iets voor jou",
+    "adding": "Wordt aan je winkelwagen toegevoegd…",
+    "uncertain": "Dit artikel zit mogelijk al in je winkelwagen. Controleer dit voordat je het opnieuw probeert.",
+    "review": "Winkelwagen bekijken",
+    "empty": "Kies producten om aan te bevelen. Ze verschijnen zodra er een artikel in de winkelwagen zit. Reeds toegevoegde en uitverkochte producten worden overgeslagen."
+  },
+  "shade_finder": {
+    "heading": "Ontdek de tinten.",
+    "view_all": "Bekijk alle opties",
+    "instruction": "Selecteer maximaal twee tinten om te vergelijken.",
+    "selected_count": "{{ count }} / 2 geselecteerd",
+    "limit": "Verwijder een geselecteerde tint voordat je een andere toevoegt.",
+    "no_swatch": "Geen kleurstaal beschikbaar",
+    "view_shade": "Bekijk tint",
+    "view_options": "Bekijk opties",
+    "compare": "Vergelijken",
+    "comparison": "Naast elkaar",
+    "clear": "Selectie wissen",
+    "screen_note": "Kleuren kunnen er op een scherm anders uitzien. Gebruik de productinformatie om je keuze te maken.",
+    "empty": "Kies een product met opgeslagen kleurstalen of selecteer de positie van de tintoptie."
+  },
+  "predictive_search": {
+    "title": "Zoeksuggesties",
+    "loading": "Suggesties laden…",
+    "count": "Suggesties: {{ count }}",
+    "clear": "Wissen",
+    "all": "Zoeken naar ‘{{ terms }}’"
+  },
+  "launch_check": {
+    "title": "Installatiecontrole",
+    "review": "Te controleren punten: {{ count }}",
+    "clear": "Geen ontbrekende velden gevonden in deze sectie.",
+    "scope": "Alleen sectievelden. Controleer vóór publicatie claims, verzending, vertalingen en een mobiele aankoop.",
+    "location": "Werk deze velden bij in de instellingen van deze sectie.",
+    "menu": "Selecteer een menu met links.",
+    "image": "Selecteer een campagneafbeelding en controleer het mobiele focuspunt.",
+    "alt": "Controleer de lege alternatieve tekst. Beschrijf afbeeldingen die informatie overbrengen.",
+    "heading": "Voeg een kop of een cursieve kopregel toe.",
+    "primary": "Vul tekst en link van de primaire knop in of laat beide leeg.",
+    "secondary": "Vul tekst en bestemming van de secundaire link in of laat beide leeg.",
+    "collection": "Selecteer een collectie.",
+    "empty_collection": "Deze collectie toont hier geen producten. Controleer de producten en marktbeschikbaarheid.",
+    "steps": "Voeg een routinestap toe.",
+    "step_title": "Stap {{ number }}: voeg een titel toe.",
+    "step_product": "Stap {{ number }}: selecteer een product als deze stap ernaar moet linken. Stappen met alleen tekst zijn toegestaan.",
+    "step_availability": "Stap {{ number }}: het geselecteerde product is hier niet beschikbaar. Controleer markt en voorraad.",
+    "step_copy": "Stap {{ number }}: voeg de werkelijke gebruiksinstructies van het product toe."
+  },
+  "pickup": {
+    "title": "Ophalen in de winkel",
+    "available": "Ophalen mogelijk",
+    "unavailable": "Ophalen momenteel niet mogelijk",
+    "locations": "Afhaallocaties",
+    "note": "De beschikbare afhaalopties worden bij het afrekenen bevestigd.",
+    "empty": "Er zijn geen afhaallocaties voor deze variant. Controleer de afhaal- en voorraadinstellingen in Shopify."
+  },
+  "gift_recipient": {
+    "title": "Een persoonlijk cadeau.",
+    "enable": "Stuur deze cadeaubon naar iemand anders",
+    "email": "E-mail van ontvanger",
+    "name": "Naam van ontvanger",
+    "message": "Persoonlijk bericht",
+    "send_on": "Verzenddatum",
+    "email_hint": "Verplicht bij verzending naar iemand anders.",
+    "name_hint": "Optioneel. Maximaal 255 tekens.",
+    "message_hint": "Optioneel. Maximaal 200 tekens.",
+    "schedule_note": "Optioneel. Kies een datum binnen 90 dagen of laat dit leeg voor verzending na aankoop.",
+    "scheduled": "Geplande verzending: {{ date }}"
+  },
+  "bundle_components": {
+    "title": "In deze set"
+  },
+  "cart_relationship": {
+    "parent": "Hoort bij: {{ product }}",
+    "quantity_fixed": "Je kunt het aantal van dit artikel niet apart wijzigen.",
+    "remove_fixed": "Je kunt dit artikel niet apart verwijderen."
+  },
+  "image_zoom": {
+    "open": "Afbeelding vergroten",
+    "title": "Productafbeelding",
+    "close": "Sluiten",
+    "original": "Afbeelding op volledig formaat openen",
+    "error": "Deze afbeelding kon niet worden geladen. Probeer deze rechtstreeks te openen."
+  },
+  "purchase_options": {
+    "title": "Aankoopopties",
+    "hint": "Kies een optie om je aankoop bij te werken. Alle prijzen zijn per artikel.",
+    "one_time": "Eenmalige aankoop",
+    "choose": "Kies een aankoopoptie",
+    "unavailable": "Er is geen aankoopplan beschikbaar voor deze variant.",
+    "per_delivery": "Per levering",
+    "checkout": "Te betalen bij het afrekenen",
+    "after_orders": "Na {{ count }} bestellingen: {{ price }} per artikel."
+  },
+  "cart_price": {
+    "original_total": "Oorspronkelijk totaal voor dit artikel",
+    "total": "Totaal voor dit artikel",
+    "unit": "Prijs per eenheid"
+  },
+  "external_video": {
+    "watch": "Video bekijken",
+    "close": "Video sluiten",
+    "direct": "Video rechtstreeks openen"
+  },
+  "account_access": {
+    "title": "Account"
+  },
+  "related_products": {
+    "title": "Misschien vind je dit ook leuk",
+    "empty": "Kies reserveproducten of stel gerelateerde productaanbevelingen in via Shopify Search & Discovery."
+  },
+  "custom_liquid": {
+    "empty": "Voeg Liquid of HTML toe in de instellingen van deze sectie."
+  },
+  "product_model": {
+    "open": "Bekijken in 3D",
+    "close": "3D-weergave sluiten",
+    "loading": "3D-weergave laden…",
+    "error": "De 3D-weergave kon niet worden geladen. Probeer opnieuw of download het model hieronder.",
+    "download": "3D-model downloaden",
+    "ar": "Bekijken in je ruimte",
+    "hint": "Sleep of gebruik de pijltjestoetsen om te draaien. Gebruik de bediening om te zoomen. Druk op Escape om te sluiten."
+  },
+  "product_options": {
+    "unavailable_choice": "Niet beschikbaar met deze selectie",
+    "unavailable_combination": "Deze combinatie is niet beschikbaar. Kies een andere optie."
+  },
+  "product_purchase_notices": {
+    "taxes_included": "Inclusief belastingen.",
+    "duties_included": "Inclusief invoerrechten.",
+    "shipping_policy": "Verzendbeleid"
+  },
+  "cart_design": {
+    "eyebrow": "Je dagelijkse verzorgingsrituelen",
+    "empty_heading": "Hier is ruimte voor een beetje verzorging.",
+    "empty_text": "Ontdek de collectie en vind de essentials voor je volgende verzorgingsritueel.",
+    "summary": "Besteloverzicht",
+    "update_hint": "Sla gewijzigde aantallen op met ‘Winkelwagen bijwerken’."
+  },
+  "footer_design": {
+    "discover": "Ontdek",
+    "information": "Klantenservice",
+    "theme_credit": "Thema door Mufatech"
+  },
+  "routine_chapters": {
+    "steps_one": "{{ count }} stap",
+    "steps_other": "{{ count }} stappen",
+    "guide_label": "Je ritueel in één oogopslag",
+    "morning_heading": "Een frisse start, op jouw tempo.",
+    "morning_text": "Ontdek de ochtendselectie, van de eerste stap tot de laatste laag verzorging. Open een product om de vorm en beschikbare opties te bekijken.",
+    "evening_heading": "Maak ruimte voor je avondritueel.",
+    "evening_text": "Ontdek de avondselectie en de plek van elk product daarin. Open een product voor de details en gebruiksaanwijzing.",
+    "all_heading": "Je dagelijkse verzorging, bij elkaar.",
+    "all_text": "Ontdek alle geselecteerde stappen op één plek. Vergelijk de producten voor je dag en kies de selectie die bij je ritueel past.",
+    "overview": "De stappen in deze selectie"
+  },
+  "routine_purchase": {
+    "title": "Stel je routine samen",
+    "instruction": "Kies je producten en opties. Van elke geselecteerde variant voegen we één exemplaar toe aan je winkelmand.",
+    "include": "Opnemen in mijn routine",
+    "add_selected": "Geselecteerde producten toevoegen",
+    "uncertain": "Sommige producten zitten mogelijk al in je winkelmand. Controleer je winkelmand voordat je opnieuw iets toevoegt.",
+    "empty": "Kies producten voor deze routine in de thema-editor."
+  },
+  "cart_purchase": {
+    "shipping_calculated": "Verzendkosten worden berekend bij het afrekenen."
+  },
+  "cart_feedback": {
+    "updating": "Je winkelwagen wordt bijgewerkt…",
+    "updated": "Je winkelwagen is bijgewerkt.",
+    "uncertain": "We konden deze wijziging niet bevestigen. Controleer je winkelwagen voordat je het opnieuw probeert.",
+    "review": "Winkelwagen controleren"
+  },
+  "sensory": {
+    "quick_view": "Van dichtbij bekijken",
+    "added": "Toegevoegd aan je tas.",
+    "cream": "Smeer de crème uit",
+    "spray": "Verstuif de mist",
+    "replay": "Speel de textuur opnieuw af",
+    "texture_position": "Ontdek de textuur"
+  },
+  "premium": {
+    "new": "Nieuw",
+    "previous": "Vorige",
+    "next": "Volgende",
+    "pause": "Pauzeren",
+    "play": "Afspelen",
+    "loading": "Laden…",
+    "unavailable": "Voorbeeld niet beschikbaar. Open hieronder de volledige pagina.",
+    "rating": "Beoordeling",
+    "increase": "Aantal verhogen",
+    "decrease": "Aantal verlagen",
+    "details": "Productdetails"
+  },
+  "stories": {
+    "title": "Jouw ritueel. Jouw woorden.",
+    "share": "Deel je ervaring",
+    "experience": "Jouw ervaring",
+    "send": "Feedback versturen",
+    "rating": "{{ value }} van 5 sterren",
+    "demo_label": "Voorbeeldreviews · Demo-inhoud"
+  },
+  "editorial_gallery": {
+    "title": "De beeldselectie"
+  },
+  "vanity": {
+    "choose": "Kiezen",
+    "change": "Wijzigen",
+    "remove": "Verwijderen",
+    "hint": "Raak een product aan en maak je eigen ritueel.",
+    "yours": "Jouw ritueel",
+    "empty": "Kies de producten voor je tafel. Elke stap is optioneel.",
+    "total": "Producttotaal",
+    "close": "Sluiten",
+    "select": "Op mijn tafel zetten",
+    "setup": "Voeg producten toe aan de stappen in de thema-editor.",
+    "product_page": "Bekijk de productpagina voor aankoopopties."
+  },
+  "ritual_builder": {
+    "heading": "Build Your Ritual",
+    "intro": "Three steps. Made for your skin.",
+    "need": "What does your skin need?",
+    "feel": "How does your skin feel?",
+    "level": "Your routine?",
+    "hydration": "Hydration",
+    "glow": "Glow",
+    "calm": "Calm",
+    "firmness": "Firmness",
+    "dry": "Dry",
+    "balanced": "Balanced",
+    "oily": "Oily",
+    "sensitive": "Sensitive",
+    "essential": "Essential",
+    "complete": "Complete",
+    "cleanse": "Cleanse",
+    "treat": "Treat",
+    "finish": "Finish",
+    "yours": "Your ritual",
+    "add": "Add complete ritual",
+    "note": "Explore a three-step edit based on your preferences. Review each product to find your fit.",
+    "unavailable": "A complete ritual is not available for this selection. Explore the products individually.",
+    "updated": "Your ritual has been updated."
+  },
+  "ingredient_spotlight": {
+    "demo": "Illustrative formula · Demo content"
+  },
+  "skin_timeline": {
+    "select": "Move through the timeline",
+    "demo": "Illustrative timeline · Images and days do not represent product results."
+  },
+  "social_media": {
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "pinterest": "Pinterest",
+    "youtube": "YouTube",
+    "tiktok": "TikTok",
+    "whatsapp": "WhatsApp",
+    "x": "X",
+    "threads": "Threads",
+    "snapchat": "Snapchat",
+    "linkedin": "LinkedIn",
+    "follow": "Volg ons"
+  },
+  "inventory": {
+    "in_stock": "Op voorraad",
+    "low_stock": "Beperkte voorraad · Nog maar {{ count }} beschikbaar",
+    "very_low_stock": "Laatste exemplaren · Nog maar {{ count }} beschikbaar",
+    "sold_out": "Uitverkocht · Momenteel niet beschikbaar",
+    "batch_passport": "Batch {{ batch }}",
+    "authenticity": "Batchinformatie",
+    "notify_me": "Waarschuw mij zodra beschikbaar",
+    "notify_eyebrow": "Voorraadmelding",
+    "notify_title": "Laat het me weten zodra dit terug is",
+    "notify_subtext": "Vul je e-mailadres in om bericht te krijgen zodra {{ product }} weer op voorraad is.",
+    "notify_email_label": "E-mailadres",
+    "notify_email_placeholder": "Voer uw e-mailadres in",
+    "notify_submit": "Aanmelden voor wachtlijst",
+    "notify_reassurance": "Je e-mailadres wordt met dit verzoek naar de winkel verzonden.",
+    "volume_ml": "ml",
+    "volume_floz": "fl. oz.",
+    "volume_toggle": "Volume-eenheid wisselen",
+    "notify_success_title": "Verzoek verzonden",
+    "notify_success_subtext": "Bedankt. De winkel heeft je verzoek ontvangen."
+  },
+  "Share": "Delen",
+  "volume_pricing": {
+    "title": "Voordeelpakket",
+    "select_tier": "Aantal kiezen",
+    "single_pack": "Los artikel",
+    "double_pack": "Duo-set",
+    "trio_pack": "Ritueel-trio",
+    "standard_pack": "Standaard",
+    "popular": "Meest gekozen",
+    "best_value": "Beste waarde",
+    "save_pct": "Bespaar {{ percent }}%",
+    "each": "stuk",
+    "per_unit": "per stuk"
+  },
+  "customer": {
+    "login": {
+      "title": "Inloggen",
+      "email": "E-mail",
+      "password": "Wachtwoord",
+      "submit": "Inloggen",
+      "forgot": "Wachtwoord vergeten?",
+      "no_account": "Nog geen account?",
+      "disabled": "Klantaccounts zijn niet ingeschakeld voor deze winkel."
+    },
+    "recover_password": {
+      "title": "Wachtwoord opnieuw instellen",
+      "subtext": "We sturen je een e-mail om je wachtwoord opnieuw in te stellen.",
+      "success": "We hebben je een e-mail gestuurd met een link om je wachtwoord bij te werken.",
+      "submit": "Link versturen",
+      "cancel": "Terug naar inloggen"
+    },
+    "register": {
+      "title": "Account aanmaken",
+      "first_name": "Voornaam",
+      "last_name": "Achternaam",
+      "submit": "Account aanmaken",
+      "has_account": "Heb je al een account?"
+    },
+    "activate_account": {
+      "title": "Account activeren",
+      "subtext": "Maak je wachtwoord aan om je account te activeren.",
+      "password": "Wachtwoord",
+      "password_confirm": "Wachtwoord bevestigen",
+      "submit": "Account activeren",
+      "decline": "Uitnodiging afwijzen"
+    },
+    "reset_password": {
+      "title": "Nieuw wachtwoord instellen",
+      "subtext": "Voer een nieuw wachtwoord in voor je account.",
+      "password": "Nieuw wachtwoord",
+      "password_confirm": "Wachtwoord bevestigen",
+      "submit": "Wachtwoord opslaan"
+    },
+    "account": {
+      "title": "Account",
+      "welcome": "Welkom terug, {{ name }}.",
+      "log_out": "Uitloggen",
+      "default_address": "Standaardadres",
+      "view_addresses": "Adressen bekijken ({{ count }})"
+    },
+    "orders": {
+      "title": "Bestelgeschiedenis",
+      "none": "Je hebt nog geen bestellingen geplaatst.",
+      "order_number": "Bestelling",
+      "date": "Datum",
+      "payment_status": "Betaling",
+      "fulfillment_status": "Verzending",
+      "total": "Totaal"
+    },
+    "order": {
+      "title": "Bestelling {{ name }}",
+      "date": "Geplaatst op {{ date }}",
+      "return": "Terug naar account",
+      "cancelled": "Bestelling geannuleerd op {{ date }}",
+      "product": "Product",
+      "sku": "SKU",
+      "price": "Prijs",
+      "quantity": "Aantal",
+      "total": "Totaal",
+      "subtotal": "Subtotaal",
+      "shipping": "Verzending",
+      "tax": "Btw",
+      "fulfilled_at": "Verzonden op {{ date }}",
+      "billing_address": "Factuuradres",
+      "shipping_address": "Verzendadres",
+      "payment_status": "Betaalstatus",
+      "fulfillment_status": "Verzendstatus"
+    },
+    "addresses": {
+      "title": "Adressen",
+      "none": "Nog geen adres opgeslagen.",
+      "add_new": "Nieuw adres toevoegen",
+      "add": "Adres toevoegen",
+      "update": "Adres bijwerken",
+      "edit": "Bewerken",
+      "delete": "Verwijderen",
+      "default": "Standaard",
+      "set_default": "Instellen als standaardadres",
+      "company": "Bedrijf",
+      "address1": "Adres",
+      "address2": "Appartement, verdieping, enz.",
+      "city": "Plaats",
+      "zip": "Postcode",
+      "country": "Land / Regio",
+      "province": "Staat / Provincie",
+      "phone": "Telefoon"
+    }
+  },
+  "editorial_hero": {
+    "acquire": "{{ product }} kopen — {{ price }}"
+  },
+  "faq": {
+    "editor_note": "Voeg een antwoord toe om deze vraag te publiceren."
+  },
+  "product_card": {
+    "sale": "Sale",
+    "save_amount": "Bespaar {{ amount }}"
+  },
+  "multicolumn": {
+    "list_label": "Inhoudskolommen"
+  },
+  "collapsible": {
+    "editor_note": "Voeg inhoud toe of selecteer een pagina om deze rij te publiceren."
+  },
+  "consent": {
+    "region": "Cookiekeuzes",
+    "heading": "Jouw cookiekeuzes",
+    "message": "We gebruiken cookies en vergelijkbare technieken om deze winkel te laten werken en, met jouw toestemming, voor analyse en marketing.",
+    "accept": "Alles accepteren",
+    "decline": "Alles weigeren",
+    "manage": "Voorkeuren beheren",
+    "save": "Voorkeuren opslaan",
+    "preferences_title": "Cookiecategorieën",
+    "necessary": "Strikt noodzakelijk",
+    "necessary_description": "Nodig om de winkel te laten werken, zoals je winkelwagen en afrekenen. Altijd aan.",
+    "analytics": "Analyse",
+    "analytics_description": "Helpt ons begrijpen hoe de winkel wordt gebruikt, zodat we hem kunnen verbeteren.",
+    "marketing": "Marketing",
+    "marketing_description": "Wordt gebruikt om relevante aanbiedingen te tonen en advertenties te meten.",
+    "preferences": "Voorkeuren",
+    "preferences_description": "Onthoudt keuzes zoals taal en regio.",
+    "privacy_policy": "Privacybeleid",
+    "saved": "Je cookiekeuzes zijn opgeslagen.",
+    "error": "Je keuzes konden niet worden opgeslagen. Probeer het opnieuw."
+  },
+  "collection_paging": {
+    "load_more": "Meer laden",
+    "loaded": "Meer producten geladen: {{ count }}",
+    "showing": "{{ shown }} van {{ total }} weergegeven"
+  },
+  "slideshow": {
+    "label": "Diavoorstelling",
+    "slide_label": "Dia {{ index }} van {{ count }}",
+    "go_to": "Dia {{ index }} tonen"
+  },
+  "video_section": {
+    "play": "Video afspelen",
+    "pause": "Video pauzeren",
+    "load_video": "Video afspelen: {{ title }}",
+    "fallback_title": "Video",
+    "editor_empty": "Voeg een op Shopify gehoste video of een YouTube- of Vimeo-URL toe om deze sectie te tonen."
+  },
+  "logo_list": {
+    "list_label": "Logo's",
+    "play": "Bewegende logo's afspelen",
+    "pause": "Bewegende logo's pauzeren",
+    "editor_empty": "Voeg logoblokken toe om deze sectie te tonen.",
+    "editor_no_quote": "Voeg een citaat toe om dit logo in de citaattabbladen te tonen."
+  },
+  "countdown": {
+    "days": "Dagen",
+    "hours": "Uren",
+    "minutes": "Minuten",
+    "seconds": "Seconden",
+    "timer_label": "Resterende tijd",
+    "ends_on_html": "Eindigt op {{ date }}",
+    "ended": "Het aftellen is afgelopen.",
+    "editor_missing": "Voer een einddatum in om dit aftellen te tonen. Tot die tijd zien bezoekers niets.",
+    "editor_invalid": "Controleer de einddatum en eindtijd. Gebruik YYYY-MM-DD en HH:MM.",
+    "editor_hidden": "Het aftellen is afgelopen. Deze sectie is verborgen voor bezoekers."
+  },
+  "neutral": {
+    "back_in_stock_request": "Verzoek om melding bij weer op voorraad: {{ product }} ({{ variant }})",
+    "volume_pricing": {
+      "pack_of": "Set van {{ quantity }}",
+      "discount_at_checkout": "{{ percent }}% korting bij het afrekenen"
+    }
+  }
+}

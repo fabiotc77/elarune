@@ -1,0 +1,323 @@
+{%- capture premium_section_body -%}
+{% assign collection_image = section.settings.image | default: collection.image %}
+{% assign current_sort = collection.sort_by | default: collection.default_sort_by %}
+{% assign filter_id = 'CollectionFilters-' | append: section.id %}
+{% assign encoded_sort = current_sort | url_encode %}
+{% assign clear_url = collection.url %}
+{% if current_sort != blank %}{% assign clear_url = clear_url | append: '?sort_by=' | append: encoded_sort %}{% endif %}
+{{ 'collection-catalog.css' | asset_url | stylesheet_tag }}
+{% liquid
+  assign active_filter_count = 0
+  for filter in collection.filters
+    assign active_filter_count = active_filter_count | plus: filter.active_values.size
+    if filter.type == 'price_range'
+      if filter.min_value.value != nil or filter.max_value.value != nil
+        assign active_filter_count = active_filter_count | plus: 1
+      endif
+    endif
+  endfor
+  assign catalog_heading = collection.title
+  assign catalog_description = collection.description
+  if collection.handle == 'all'
+    if section.settings.all_heading != blank
+      assign catalog_heading = section.settings.all_heading
+    endif
+    if section.settings.all_text != blank
+      assign catalog_description = section.settings.all_text
+    endif
+  endif
+%}
+<section class="collection-section page-width">
+  <div class="collection-intro{% if collection_image != blank %} collection-intro--with-image{% endif %}">
+    <div class="collection-intro-copy">
+      {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+      <h1>{{ catalog_heading | escape }}</h1>
+      {% if catalog_description != blank %}<div class="rte collection-description">{{ catalog_description }}</div>{% endif %}
+      {% if collection.handle == 'all' %}<a data-control="text" class="text-link collection-browse" href="{{ routes.collections_url }}">{{ 'collection_list.title' | t }} <span aria-hidden="true">↗</span></a>{% endif %}
+    </div>
+    {% if collection_image != blank %}<div class="collection-intro-image">{{ collection_image | image_url: width: 1200 | image_tag: widths: '400, 600, 800, 1200', sizes: '(min-width: 750px) 40vw, 100vw', preload: true }}</div>{% endif %}
+  </div>
+  <form method="get" action="{{ collection.url | escape }}" class="collection-discovery">
+  <div class="collection-toolbar">
+    <div class="collection-navigation">
+      {% if section.settings.menu.links.size > 0 %}<nav aria-label="{{ 'general.navigation' | t }}" class="collection-links">{% for link in section.settings.menu.links %}<a href="{{ link.url }}"{% if link.current or link.url == collection.url %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>{% endfor %}</nav>{% else %}<p class="collection-count">{{ collection.products_count }} {{ 'collection.products' | t }}</p>{% endif %}
+    </div>
+    <div class="collection-sort"><label for="Sort-{{ section.id }}">{{ 'collection.sort' | t }}</label><select data-control="field" id="Sort-{{ section.id }}" name="sort_by">{% for option in collection.sort_options %}<option value="{{ option.value | escape }}"{% if option.value == current_sort %} selected{% endif %}>{{ option.name | escape }}</option>{% endfor %}</select><button data-control="secondary" class="button button--secondary" type="submit">{{ 'localization.apply' | t }}</button></div>
+  </div>
+  {% if section.settings.show_filters %}
+    {% if collection.filters != blank %}<details class="collection-filter-panel"{% if active_filter_count > 0 %} open{% endif %}><summary data-control="disclosure"><span>{{ 'facets.title' | t }}{% if active_filter_count > 0 %} <span class="collection-filter-count">({{ active_filter_count }})</span>{% endif %}</span><span class="collection-filter-icon" aria-hidden="true"></span></summary>{% endif %}
+    {% render 'storefront-filters', filters: collection.filters, filter_id: filter_id, clear_url: clear_url %}
+    {% if collection.filters != blank %}</details>{% endif %}
+  {% else %}
+    {% comment %}Keep incoming filters when a merchant hides the controls and a visitor changes sorting.{% endcomment %}
+    {% for filter in collection.filters %}
+      {% for value in filter.active_values %}<input type="hidden" name="{{ value.param_name | default: filter.param_name | escape }}" value="{{ value.value | escape }}">{% endfor %}
+      {% if filter.type == 'price_range' %}
+        {% if filter.min_value.value != nil %}<input type="hidden" name="{{ filter.min_value.param_name | escape }}" value="{{ filter.min_value.value | divided_by: 100.0 }}">{% endif %}
+        {% if filter.max_value.value != nil %}<input type="hidden" name="{{ filter.max_value.param_name | escape }}" value="{{ filter.max_value.value | divided_by: 100.0 }}">{% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  </form>
+  {% if section.settings.menu.links.size > 0 %}<p class="collection-count">{{ collection.products_count }} {{ 'collection.products' | t }}</p>{% endif %}
+  {%- liquid
+    assign paging_per_page = section.settings.products_per_page | default: 24
+    assign paging_style = section.settings.pagination_style | default: 'numbers'
+    assign paging_mobile_columns = section.settings.mobile_columns | default: '2'
+    assign paging_grid_id = 'ProductGrid-' | append: section.id
+    assign paging_numbers_id = 'ProductPagination-' | append: section.id
+  -%}
+  {{ 'collection-paging.css' | asset_url | stylesheet_tag }}
+  {% paginate collection.products by paging_per_page %}<div id="{{ paging_grid_id }}" class="product-grid" data-mobile-columns="{{ paging_mobile_columns }}" style="--product-columns:{{ section.settings.columns }};--product-columns-mobile:{{ paging_mobile_columns }}">{% for card_product in collection.products %}{% render 'product-card', card_product: card_product, heading_level: 2 %}{% else %}<p class="empty-state">{{ 'collection.empty' | t }}</p>{% endfor %}</div>
+  {%- if paginate.pages > 1 and paging_style != 'numbers' -%}
+    {%- liquid
+      assign paging_shown = paginate.current_offset | plus: collection.products.size
+      assign paging_first_page = false
+      if paginate.current_page == 1
+        assign paging_first_page = true
+      endif
+    -%}
+    <collection-paging class="collection-paging" data-mode="{{ paging_style }}" data-section="{{ section.id }}" data-grid="{{ paging_grid_id }}" data-numbers="{{ paging_numbers_id }}" data-first-page="{{ paging_first_page }}" data-loading="{{ 'premium.loading' | t | escape }}" data-loaded="{{ 'collection_paging.loaded' | t: count: '[count]' | escape }}">
+      <p class="collection-paging__progress" data-paging-progress>{{ 'collection_paging.showing' | t: shown: paging_shown, total: paginate.items }}</p>
+      {%- if paginate.next -%}
+        <a data-control="secondary" class="button collection-paging__button" href="{{ paginate.next.url }}" data-paging-next><span data-paging-label>{{ 'collection_paging.load_more' | t }}</span><span aria-hidden="true">↓</span></a>
+      {%- endif -%}
+      <p class="visually-hidden" role="status" aria-live="polite" data-paging-live></p>
+    </collection-paging>
+    <script src="{{ 'collection-paging.js' | asset_url }}" type="module"></script>
+    {% render 'pagination', paginate: paginate, nav_id: paging_numbers_id %}
+  {%- else -%}
+    {% render 'pagination', paginate: paginate, nav_id: paging_numbers_id %}
+  {%- endif -%}
+  {% endpaginate %}
+</section>
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.collection_7b7907",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd",
+      "default": "The collection"
+    },
+    {
+      "type": "text",
+      "id": "all_heading",
+      "label": "t:editor.text.all_products_heading_397b5e",
+      "info": "t:editor.text.only_replaces_the_heading_on_collections_all_1f826f",
+      "default": "The complete ritual."
+    },
+    {
+      "type": "richtext",
+      "id": "all_text",
+      "label": "t:editor.text.all_products_introduction_91e0e7",
+      "info": "t:editor.text.only_appears_on_collections_all_5c4b87",
+      "default": "<p>From the first cleanse to the finishing touch. Find your everyday essentials for face, body and the moments in between.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:editor.text.editorial_image_0519db",
+      "info": "t:editor.text.uses_the_collection_image_if_left_blank_bbc8fc"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:editor.text.collection_navigation_664394",
+      "info": "t:editor.text.optional_menu_of_related_collections_4feb95"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "t:editor.text.show_product_filters_410f7a",
+      "default": true,
+      "info": "t:editor.text.configure_filters_in_shopify_search_discovery_727805"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:editor.text.desktop_columns_56add4",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "t:collection_paging.header"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "t:collection_paging.products_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "pagination_style",
+      "label": "t:collection_paging.style",
+      "info": "t:collection_paging.style_info",
+      "options": [
+        {
+          "value": "numbers",
+          "label": "t:collection_paging.numbers"
+        },
+        {
+          "value": "load_more",
+          "label": "t:collection_paging.load_more"
+        },
+        {
+          "value": "infinite",
+          "label": "t:collection_paging.infinite"
+        }
+      ],
+      "default": "numbers"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "t:collection_paging.mobile_columns",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:collection_paging.one_column"
+        },
+        {
+          "value": "2",
+          "label": "t:collection_paging.two_columns"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ]
+}
+{% endschema %}

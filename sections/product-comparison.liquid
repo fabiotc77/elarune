@@ -1,0 +1,370 @@
+{%- capture premium_section_body -%}
+{% liquid
+  assign product_count = 0
+  for slot in (1..3)
+    assign product_key = 'product_' | append: slot
+    if section.settings[product_key] != blank
+      assign product_count = product_count | plus: 1
+    endif
+  endfor
+  assign comparison_title = section.settings.heading
+  if comparison_title == blank
+    assign comparison_title = 'product_comparison.title' | t
+  endif
+%}
+{% if product_count >= 2 %}
+  {{ 'product-comparison.css' | asset_url | stylesheet_tag }}
+  <section data-editorial="{{ section.settings.editorial_composition }}" class="product-comparison page-width section-space" aria-labelledby="ComparisonTitle-{{ section.id }}">
+    <div class="section-heading"><div>{% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+      <h2 id="ComparisonTitle-{{ section.id }}">{{ comparison_title | escape }}</h2></div>
+      {% if section.settings.introduction != blank %}<p>{{ section.settings.introduction | escape }}</p>{% endif %}
+    </div>
+    {% if section.settings.editorial_composition %}
+    <div class="formula-discovery" role="group" aria-labelledby="ComparisonTitle-{{ section.id }}">
+      <fieldset class="formula-choices"><legend class="visually-hidden">{{ 'product_comparison.choose_cream' | t }}</legend>
+      {% assign choice_selected = false %}
+      {% for slot in (1..3) %}
+        {% assign product_key = 'product_' | append: slot %}{% assign cream = section.settings[product_key] %}
+        {% if cream != blank %}
+          {% assign choice_key = product_key | append: '_label' %}
+          <label data-control="choice" class="formula-choice"><input data-control="check" type="radio" name="FormulaChoice-{{ section.id }}" value="{{ slot }}" data-formula-choice="{{ slot }}" aria-controls="FormulaPanel-{{ section.id }}-{{ slot }}" {% unless choice_selected %}checked{% endunless %}><span>{{ section.settings[choice_key] | default: cream.title | escape }}</span></label>
+          {% assign choice_selected = true %}
+        {% endif %}
+      {% endfor %}
+      </fieldset>
+      <div class="formula-panels">
+      {% for slot in (1..3) %}
+        {% assign product_key = 'product_' | append: slot %}{% assign cream = section.settings[product_key] %}
+        {% if cream != blank %}
+        <article id="FormulaPanel-{{ section.id }}-{{ slot }}" class="formula-panel" data-formula-panel="{{ slot }}" aria-labelledby="FormulaName-{{ section.id }}-{{ slot }}">
+          <a class="formula-portrait" href="{{ cream.url }}" aria-label="{{ cream.title | escape }}">{% if cream.featured_image != blank %}{{ cream.featured_image | image_url: width: 1000 | image_tag: widths: '300, 500, 750, 1000', sizes: '(min-width: 750px) 45vw, 90vw', loading: 'lazy', alt: '' }}{% else %}{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}</a>
+          <div class="formula-copy">{% assign story_key = product_key | append: '_story' %}<h3 id="FormulaName-{{ section.id }}-{{ slot }}">{{ cream.title | escape }}</h3>{% if section.settings[story_key] != blank %}<p class="formula-story">{{ section.settings[story_key] | escape }}</p>{% endif %}
+          <dl class="formula-facts">{% assign value_key = 'value_' | append: slot %}{% for block in section.blocks limit: 3 %}{% if block.settings.title != blank and block.settings[value_key] != blank %}<div><dt>{{ block.settings.title | escape }}</dt><dd>{{ block.settings[value_key] | escape }}</dd></div>{% endif %}{% endfor %}</dl>
+          {% render 'price', target: cream, show_from: true, show_compare: false %}
+          {% if section.settings.show_native_options %}<div class="formula-sizes"><p>{{ 'product_comparison.available_options' | t }}</p><div>{% for variant in cream.variants limit: 10 %}<a data-control="choice" href="{{ variant.url }}" {% if settings.experience_quick_view %}data-premium-open="product" aria-haspopup="dialog"{% endif %}><span>{{ variant.title | escape }}</span>{% render 'price', target: variant, show_from: false, show_compare: false %}</a>{% endfor %}</div></div>{% endif %}
+          <a data-control="secondary" class="formula-link" href="{{ cream.url }}">{{ 'product_comparison.view_product' | t }}<span aria-hidden="true">↗</span><span class="visually-hidden">: {{ cream.title | escape }}</span></a>
+          </div>
+        </article>
+        {% endif %}
+      {% endfor %}
+      </div>
+    </div>
+    <details class="formula-details"><summary data-control="disclosure">{{ 'product_comparison.compare_details' | t }}<span aria-hidden="true">+</span></summary>
+    {% endif %}
+    {% if section.settings.editorial_composition %}<p class="comparison-scroll-hint">{{ 'product_comparison.scroll_hint' | t }} <span aria-hidden="true">↔</span></p>{% endif %}
+    <div class="comparison-scroll" tabindex="0" role="region" aria-label="{{ comparison_title | escape }}"><table class="comparison-table" role="table" aria-labelledby="ComparisonTitle-{{ section.id }}">
+      <thead role="rowgroup">
+        <tr role="row">
+          <th class="comparison-attribute" scope="col" role="columnheader">{{ 'product_comparison.attribute' | t }}</th>
+          {% for slot in (1..3) %}
+            {% assign product_key = 'product_' | append: slot %}
+            {% assign compared_product = section.settings[product_key] %}
+            {% if compared_product != blank %}
+              <th id="ComparisonProduct-{{ section.id }}-{{ slot }}" scope="col" role="columnheader">
+                <div class="comparison-product{% if compared_product.featured_image == blank %} comparison-product--text{% endif %}">
+                  {% if compared_product.featured_image != blank %}
+                    {{ compared_product.featured_image | image_url: width: 600 | image_tag: widths: '160, 300, 450, 600', sizes: '(min-width: 750px) 25vw, 80px', loading: 'lazy', class: 'comparison-image', alt: '' }}
+                  {% endif %}
+                  <div class="comparison-product-info">
+                    <h3>{{ compared_product.title | escape }}</h3>
+                    {% render 'price', target: compared_product, show_from: true %}
+                    <a data-control="text" class="text-link" href="{{ compared_product.url }}"><span>{{ 'product_comparison.view_product' | t }}</span><span class="visually-hidden">: {{ compared_product.title | escape }}</span></a>
+                  </div>
+                </div>
+              </th>
+            {% endif %}
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody role="rowgroup">
+        {% if section.settings.show_native_options %}<tr role="row"><th scope="row" role="rowheader">{{ 'product_comparison.available_options' | t }}</th>{% for slot in (1..3) %}{% assign product_key = 'product_' | append: slot %}{% assign compared_product = section.settings[product_key] %}{% if compared_product != blank %}<td role="cell"><span class="comparison-mobile-label" aria-hidden="true">{{ compared_product.title | escape }}</span><span class="comparison-value">{% for option in compared_product.options_with_values %}{% unless option.name == 'Title' %}<span class="comparison-option"><strong>{{ option.name | escape }}</strong>{% for value in option.values %}{{ value.name | default: value | escape }}{% unless forloop.last %} / {% endunless %}{% endfor %}</span>{% endunless %}{% endfor %}{% assign comparison_variant_count = compared_product.variants_count | default: compared_product.variants.size %}{% if comparison_variant_count <= 10 %}{% for option_variant in compared_product.variants %}<span class="comparison-variant-price"><span>{{ option_variant.title | escape }}</span>{% render 'price', target: option_variant, show_from: false, show_compare: false %}</span>{% endfor %}{% endif %}</span></td>{% endif %}{% endfor %}</tr>{% endif %}
+        {% for block in section.blocks %}
+          {% liquid
+            assign has_value = false
+            for slot in (1..3)
+              assign product_key = 'product_' | append: slot
+              assign value_key = 'value_' | append: slot
+              if section.settings[product_key] != blank and block.settings[value_key] != blank
+                assign has_value = true
+              endif
+            endfor
+          %}
+          {% if block.settings.title != blank and has_value %}
+            <tr role="row" {{ block.shopify_attributes }}>
+              <th id="ComparisonRow-{{ section.id }}-{{ block.id }}" scope="row" role="rowheader">{{ block.settings.title | escape }}</th>
+              {% for slot in (1..3) %}
+                {% assign product_key = 'product_' | append: slot %}
+                {% assign value_key = 'value_' | append: slot %}
+                {% assign compared_product = section.settings[product_key] %}
+                {% if compared_product != blank %}
+                  <td role="cell" headers="ComparisonProduct-{{ section.id }}-{{ slot }} ComparisonRow-{{ section.id }}-{{ block.id }}">
+                    <span class="comparison-mobile-label" aria-hidden="true">{{ compared_product.title | escape }}</span>
+                    <span class="comparison-value">{% if block.settings[value_key] != blank %}{{ block.settings[value_key] | escape | newline_to_br }}{% else %}<span class="muted">{{ 'product_comparison.not_provided' | t }}</span>{% endif %}</span>
+                  </td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table></div>
+    {% if section.settings.editorial_composition %}</details>{% endif %}
+  </section>
+{% elsif request.design_mode %}
+  <div class="page-width"><p class="editor-note">{{ 'product_comparison.empty' | t }}</p></div>
+{% endif %}
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.product_comparison_47a463",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "editorial_composition",
+      "label": "t:sensory.editorial_composition",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:premium.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_native_options",
+      "label": "t:stories.native_options",
+      "default": false
+    },
+    {
+      "type": "paragraph",
+      "content": "t:editor.text.choose_two_or_three_products_then_add_detail_rows_values_always_b_3cea46"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17"
+    },
+    {
+      "type": "textarea",
+      "id": "introduction",
+      "label": "t:editor.text.introduction_b60535"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "t:editor.text.product_1_b8c1c7"
+    },
+    {
+      "type": "text",
+      "id": "product_1_label",
+      "label": "t:formula_discovery.choice_label"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "t:editor.text.product_2_672a12"
+    },
+    {
+      "type": "text",
+      "id": "product_2_label",
+      "label": "t:formula_discovery.choice_label"
+    },
+    {
+      "type": "product",
+      "id": "product_3",
+      "label": "t:editor.text.product_3_ae8fd2"
+    },
+    {
+      "type": "text",
+      "id": "product_3_label",
+      "label": "t:formula_discovery.choice_label"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "textarea",
+      "id": "product_1_story",
+      "label": "t:formula_discovery.story_1"
+    },
+    {
+      "type": "textarea",
+      "id": "product_2_story",
+      "label": "t:formula_discovery.story_2"
+    },
+    {
+      "type": "textarea",
+      "id": "product_3_story",
+      "label": "t:formula_discovery.story_3"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "t:editor.text.comparison_detail_0d9053",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:editor.text.detail_name_bba283"
+        },
+        {
+          "type": "textarea",
+          "id": "value_1",
+          "label": "t:editor.text.product_1_detail_914fd0"
+        },
+        {
+          "type": "textarea",
+          "id": "value_2",
+          "label": "t:editor.text.product_2_detail_25ada7"
+        },
+        {
+          "type": "textarea",
+          "id": "value_3",
+          "label": "t:editor.text.product_3_detail_81e036"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:editor.text.product_comparison_47a463",
+      "blocks": [
+        {
+          "type": "detail"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

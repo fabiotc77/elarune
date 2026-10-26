@@ -1,0 +1,692 @@
+{
+  "general": {
+    "skip": "콘텐츠로 건너뛰기",
+    "menu": "메뉴",
+    "navigation": "주 탐색",
+    "search": "검색",
+    "footer": "바닥글 탐색",
+    "view_all": "모두 보기",
+    "continue": "계속 쇼핑하기",
+    "pagination": "페이지 탐색",
+    "previous": "이전",
+    "next": "다음",
+    "not_found": "페이지를 찾을 수 없습니다",
+    "meta": {
+      "tags": "\"{{ tags }}\" 태그",
+      "page": "{{ page }} 페이지"
+    }
+  },
+  "cart": {
+    "title": "장바구니",
+    "empty": "장바구니가 비어 있습니다.",
+    "remove": "삭제",
+    "note": "주문 메모",
+    "total": "예상 합계",
+    "update": "장바구니 업데이트",
+    "checkout": "결제하기",
+    "checkout_notice": "세금, 할인 및 배송비는 결제 시 계산됩니다."
+  },
+  "product": {
+    "variant": "옵션 선택",
+    "quantity": "수량",
+    "add": "장바구니에 추가",
+    "sold_out": "품절",
+    "from": "시작 가격",
+    "regular_price": "정가",
+    "share": "공유하기",
+    "share_product": "이 포뮬러 공유하기",
+    "copy_link": "링크 복사",
+    "link_copied": "링크가 클립보드에 복사되었습니다",
+    "close_share": "공유 메뉴 닫기",
+    "share_on": "{{ platform }}에서 공유",
+    "share_whatsapp": "WhatsApp",
+    "share_facebook": "Facebook",
+    "share_pinterest": "Pinterest",
+    "share_email": "이메일"
+  },
+  "collection": {
+    "products": "제품",
+    "sort": "정렬 기준",
+    "empty": "제품을 찾을 수 없습니다."
+  },
+  "search": {
+    "empty": "검색 결과가 없습니다."
+  },
+  "localization": {
+    "country": "국가 / 지역",
+    "language": "언어",
+    "apply": "적용",
+    "heading": "지역 및 언어",
+    "notice": "국가 또는 지역에 따라 제공되는 언어와 가격이 다를 수 있습니다."
+  },
+  "beauty": {
+    "before": "사용 전",
+    "after": "사용 후",
+    "compare": "이미지 비교",
+    "morning": "아침",
+    "evening": "저녁",
+    "all": "모든 루틴",
+    "editor_note": "비포/애프터: 동일한 대상의 이미지 두 장을 선택하고 정확한 기간과 맥락을 포함하세요. 생성된 결과를 임상적 근거로 제시하지 마세요."
+  },
+  "product_comparison": {
+    "title": "필수 제품 비교",
+    "view_product": "제품 보기",
+    "empty": "테마 편집기에서 제품을 선택하고 비교 정보를 추가하세요.",
+    "not_provided": "미지정",
+    "attribute": "제품 정보",
+    "available_options": "선택 가능한 옵션",
+    "scroll_hint": "밀어서 비교하기",
+    "choose_cream": "크림 선택",
+    "compare_details": "용량 및 상세 정보 비교"
+  },
+  "contact": {
+    "name": "이름",
+    "email": "이메일",
+    "phone": "전화번호",
+    "message": "메시지",
+    "send": "메시지 보내기",
+    "success": "감사합니다. 메시지가 전송되었습니다.",
+    "error_heading": "다음 항목을 확인해 주세요:",
+    "atelier": {
+      "eyebrow": "아름다움을 나누는 대화",
+      "invitation": "좋은 케어는 대화에서 시작됩니다.",
+      "intro": "매일의 리추얼, 작은 궁금증, 주문에 관한 질문. 당신의 이야기를 듣겠습니다.",
+      "caption": "작은 배려, 나만을 위한 손길.",
+      "note": "우리에게 보내는 편지",
+      "form_title": "어떤 이야기를 나눌까요?",
+      "topic": "문의 주제",
+      "ritual": "나의 리추얼",
+      "order": "나의 주문",
+      "other": "기타",
+      "ritual_tip": "현재의 케어 루틴과 궁금한 제품에 대해 알려주세요.",
+      "order_tip": "주문 번호가 있다면 적어주세요. 결제 정보는 공유하지 마세요.",
+      "other_tip": "아이디어, 협업, 가벼운 인사도 좋아요. 편하게 이야기해 주세요.",
+      "required": "* 이메일과 메시지는 필수입니다."
+    }
+  },
+  "beauty_video_gallery": {
+    "heading": "직접 전하는 이야기",
+    "scroll_hint": "스크롤하여 동영상 보기",
+    "shop_product": "{{ product }} 살펴보기",
+    "transcript": "스크립트 읽기",
+    "empty": "테마 편집기에서 동영상과 세부 정보를 추가하세요."
+  },
+  "results_timeline": {
+    "title": "시간에 따른 나의 루틴",
+    "evidence": "근거 정보 읽기",
+    "empty": "테마 편집기에서 단계와 근거 정보를 추가하세요.",
+    "editor_method": "근거와 맥락을 포함하세요: 시험 유형, 표본 크기, 기간, 해당되는 경우 출처. 주장에는 근거가 있어야 합니다.",
+    "editor_empty": "검증된 결과, 신뢰 문구 또는 타임라인 항목을 추가하세요. 어떤 주장도 자동으로 생성되지 않습니다."
+  },
+  "editorial": {
+    "read_article": "글 읽기",
+    "empty": "아직 게시글이 없습니다.",
+    "back_to_blog": "{{ blog }}(으)로 돌아가기",
+    "tags": "주제",
+    "comments": "댓글",
+    "comment_name": "이름",
+    "comment_email": "이메일",
+    "comment_body": "댓글 내용",
+    "comment_send": "댓글 보내기",
+    "comment_success": "감사합니다. 댓글이 전송되었습니다.",
+    "comment_pending": "감사합니다. 댓글이 전송되었으며 승인 후 표시됩니다.",
+    "comment_error": "다음 사항을 확인해 주세요:",
+    "moderation_notice": "댓글은 게시 전에 검토됩니다."
+  },
+  "gift_card": {
+    "title": "기프트 카드",
+    "balance": "사용 가능한 잔액",
+    "initial_value": "최초 금액",
+    "code": "기프트 카드 코드",
+    "instruction": "결제 시 이 코드를 사용하세요.",
+    "disabled": "이 기프트 카드는 비활성화되었습니다.",
+    "expired": "이 기프트 카드는 만료되었습니다.",
+    "empty_balance": "이 기프트 카드에는 잔액이 없습니다.",
+    "expires_on": "만료일: {{ date }}",
+    "expired_on": "만료된 날짜: {{ date }}",
+    "copy": "코드 복사",
+    "copied": "코드가 복사되었습니다",
+    "copy_failed": "코드를 선택하여 직접 복사하세요.",
+    "print": "기프트 카드 인쇄",
+    "shop": "스토어 방문",
+    "wallet": "Apple Wallet에 추가",
+    "unavailable": "기프트 카드 정보를 확인할 수 없습니다.",
+    "message": "고객님을 위한 메시지"
+  },
+  "complementary_products": {
+    "title": "관리 루틴을 완성하세요",
+    "empty": "함께 사용할 제품을 선택하거나 Shopify Search & Discovery에서 추천 제품을 설정하세요."
+  },
+  "password_page": {
+    "title": "스토어 접속",
+    "introduction": "스토어를 방문하려면 비밀번호를 입력하세요.",
+    "password": "비밀번호",
+    "enter": "스토어 입장",
+    "error_heading": "비밀번호를 확인해 주세요.",
+    "owner": "스토어 소유자 로그인"
+  },
+  "skin_concerns": {
+    "title": "피부를 위한 케어를 찾아보세요",
+    "empty": "이 케어 카테고리에 연결할 컬렉션을 선택하세요."
+  },
+  "collection_list": {
+    "title": "컬렉션",
+    "empty": "아직 표시할 컬렉션이 없습니다.",
+    "shop_all": "모든 제품",
+    "product_count_one": "제품 {{ count }}개",
+    "product_count_other": "제품 {{ count }}개"
+  },
+  "newsletter": {
+    "heading": "작은 케어의 소식을 전해드려요.",
+    "email": "이메일 주소",
+    "subscribe": "구독하기",
+    "consent": "{{ shop }}의 소식과 혜택을 이메일로 받아보세요. 언제든지 구독을 취소할 수 있습니다.",
+    "success": "감사합니다. 구독 요청이 접수되었습니다.",
+    "error_heading": "다음 사항을 확인해 주세요:"
+  },
+  "free_shipping": {
+    "title": "무료 배송",
+    "remaining": "무료 배송까지 {{ amount }} 남았습니다.",
+    "reached": "무료 배송 기준 금액을 충족했습니다.",
+    "destination": "배송 국가: {{ country }}",
+    "checkout_note": "배송 방법과 배송비는 결제 단계에서 확정됩니다.",
+    "policy": "배송 안내",
+    "setup": "이 국가와 통화에 맞는 최소 주문 금액을 입력하고 표시 기능을 켜세요. 장바구니에 정기 구매가 아닌 배송 상품만 있을 때 표시됩니다.",
+    "duplicate": "이 국가와 통화에 해당하는 배송 규칙이 여러 개입니다. 규칙을 하나만 남겨야 표시됩니다."
+  },
+  "facets": {
+    "title": "필터",
+    "apply": "필터 적용",
+    "clear": "필터 초기화",
+    "remove": "{{ value }} 제거",
+    "minimum": "최소 가격",
+    "maximum": "최대 가격"
+  },
+  "search_page": {
+    "results": "“{{ terms }}” 검색 결과: {{ count }}",
+    "article": "게시글",
+    "page": "페이지",
+    "filter_note": "상품 필터는 상품 검색 결과에 적용됩니다.",
+    "start": "상품, 가이드 및 스토어 정보를 검색하세요.",
+    "eyebrow": "발견의 즐거움",
+    "heading": "새로운 케어 리추얼을 찾아보세요.",
+    "empty_heading": "작은 발견이 기다리고 있어요.",
+    "empty_help": "더 짧은 검색어를 입력하거나 아래 컬렉션을 살펴보세요.",
+    "explore": "컬렉션 둘러보기",
+    "discover": "여기서 시작해 보세요",
+    "placeholder": "상품, 성분, 케어 리추얼…"
+  },
+  "cart_upsell": {
+    "title": "이런 상품은 어떠세요?",
+    "adding": "장바구니에 담는 중…",
+    "uncertain": "상품이 이미 장바구니에 담겼을 수 있습니다. 다시 시도하기 전에 장바구니를 확인해 주세요.",
+    "review": "장바구니 확인",
+    "empty": "추천할 상품을 선택하세요. 장바구니에 상품이 있을 때 표시되며, 이미 담긴 상품과 품절 상품은 제외됩니다."
+  },
+  "shade_finder": {
+    "heading": "색상을 살펴보세요.",
+    "view_all": "모든 옵션 보기",
+    "instruction": "비교할 색상을 최대 두 개 선택하세요.",
+    "selected_count": "{{ count }} / 2 선택됨",
+    "limit": "다른 색상을 추가하려면 선택한 색상 하나를 해제하세요.",
+    "no_swatch": "등록된 색상 견본이 없습니다",
+    "view_shade": "색상 보기",
+    "view_options": "옵션 보기",
+    "compare": "비교하기",
+    "comparison": "나란히 비교",
+    "clear": "선택 지우기",
+    "screen_note": "화면에 따라 색상이 다르게 보일 수 있습니다. 상품 상세 정보를 참고하여 선택하세요.",
+    "empty": "견본이 저장된 상품을 선택하거나 색상 옵션의 순서를 지정하세요."
+  },
+  "predictive_search": {
+    "title": "검색 제안",
+    "loading": "검색 제안을 불러오는 중…",
+    "count": "제안 수: {{ count }}",
+    "clear": "지우기",
+    "all": "“{{ terms }}” 검색"
+  },
+  "launch_check": {
+    "title": "설정 확인",
+    "review": "검토할 항목: {{ count }}",
+    "clear": "이 섹션에서 누락된 필드를 찾지 못했습니다.",
+    "scope": "섹션 입력값만 확인합니다. 게시 전에 제품 설명의 주장, 배송, 번역 및 모바일 구매를 검토하세요.",
+    "location": "이 섹션의 설정에서 해당 필드를 수정하세요.",
+    "menu": "링크가 포함된 메뉴를 선택하세요.",
+    "image": "캠페인 이미지를 선택하고 모바일 초점을 확인하세요.",
+    "alt": "빈 대체 텍스트를 검토하세요. 정보를 전달하는 이미지에는 설명을 추가하세요.",
+    "heading": "제목 또는 기울임꼴 제목 행을 추가하세요.",
+    "primary": "기본 버튼의 문구와 링크를 모두 입력하거나 모두 비워 두세요.",
+    "secondary": "보조 링크의 문구와 목적지를 모두 입력하거나 모두 비워 두세요.",
+    "collection": "컬렉션을 선택하세요.",
+    "empty_collection": "이 컬렉션에는 여기서 표시할 수 있는 제품이 없습니다. 제품과 마켓별 판매 상태를 확인하세요.",
+    "steps": "루틴 단계를 추가하세요.",
+    "step_title": "{{ number }}단계: 제목을 추가하세요.",
+    "step_product": "{{ number }}단계: 제품 링크가 필요하면 제품을 선택하세요. 텍스트만 있는 단계도 사용할 수 있습니다.",
+    "step_availability": "{{ number }}단계: 선택한 제품을 여기서 이용할 수 없습니다. 마켓과 재고를 확인하세요.",
+    "step_copy": "{{ number }}단계: 제품의 실제 사용법을 추가하세요."
+  },
+  "pickup": {
+    "title": "매장 픽업",
+    "available": "매장 픽업 가능",
+    "unavailable": "현재 매장 픽업 불가",
+    "locations": "픽업 매장",
+    "note": "이용 가능한 픽업 방법은 결제 단계에서 확정됩니다.",
+    "empty": "이 옵션은 픽업 가능한 매장이 없습니다. Shopify에서 픽업 및 재고 설정을 확인하세요."
+  },
+  "gift_recipient": {
+    "title": "마음을 담은 선물.",
+    "enable": "이 기프트 카드를 다른 사람에게 보내기",
+    "email": "받는 사람 이메일",
+    "name": "받는 사람 이름",
+    "message": "개인 메시지",
+    "send_on": "발송 날짜",
+    "email_hint": "다른 사람에게 보낼 때 필수입니다.",
+    "name_hint": "선택 사항. 최대 255자.",
+    "message_hint": "선택 사항. 최대 200자.",
+    "schedule_note": "선택 사항. 90일 이내의 날짜를 선택하세요. 비워 두면 구매 후 발송됩니다.",
+    "scheduled": "발송 예정일: {{ date }}"
+  },
+  "bundle_components": {
+    "title": "세트 구성"
+  },
+  "cart_relationship": {
+    "parent": "연결된 상품: {{ product }}",
+    "quantity_fixed": "이 상품의 수량만 따로 변경할 수 없습니다.",
+    "remove_fixed": "이 상품만 따로 삭제할 수 없습니다."
+  },
+  "image_zoom": {
+    "open": "이미지 확대",
+    "title": "제품 이미지",
+    "close": "닫기",
+    "original": "전체 크기 이미지 열기",
+    "error": "이 이미지를 불러올 수 없습니다. 이미지를 직접 열어 보세요."
+  },
+  "purchase_options": {
+    "title": "구매 옵션",
+    "hint": "옵션을 선택하면 구매 내용이 업데이트됩니다. 모든 가격은 상품 1개 기준입니다.",
+    "one_time": "일회성 구매",
+    "choose": "구매 옵션 선택",
+    "unavailable": "이 옵션에는 이용 가능한 구매 플랜이 없습니다.",
+    "per_delivery": "배송 1회당",
+    "checkout": "결제 시 청구 금액",
+    "after_orders": "{{ count }}회 주문 후: 상품 1개당 {{ price }}."
+  },
+  "cart_price": {
+    "original_total": "할인 전 상품 합계",
+    "total": "상품 합계",
+    "unit": "단위당 가격"
+  },
+  "external_video": {
+    "watch": "동영상 보기",
+    "close": "동영상 닫기",
+    "direct": "동영상 직접 열기"
+  },
+  "account_access": {
+    "title": "계정"
+  },
+  "related_products": {
+    "title": "이런 상품은 어떠세요",
+    "empty": "대체 표시 상품을 선택하거나 Shopify Search & Discovery에서 관련 상품 추천을 설정하세요."
+  },
+  "custom_liquid": {
+    "empty": "이 섹션의 설정에 Liquid 또는 HTML을 추가하세요."
+  },
+  "product_model": {
+    "open": "3D로 보기",
+    "close": "3D 보기 닫기",
+    "loading": "3D 보기 불러오는 중…",
+    "error": "3D 보기를 불러올 수 없습니다. 다시 시도하거나 아래에서 모델을 다운로드하세요.",
+    "download": "3D 모델 다운로드",
+    "ar": "내 공간에서 보기",
+    "hint": "드래그하거나 방향키를 사용해 회전하세요. 뷰어 컨트롤로 확대 및 축소하세요. Escape 키를 눌러 닫으세요."
+  },
+  "product_options": {
+    "unavailable_choice": "이 조합에서는 이용할 수 없습니다",
+    "unavailable_combination": "이 조합은 제공되지 않습니다. 다른 옵션을 선택해 주세요."
+  },
+  "product_purchase_notices": {
+    "taxes_included": "세금 포함.",
+    "duties_included": "관세 포함.",
+    "shipping_policy": "배송 정책"
+  },
+  "cart_design": {
+    "eyebrow": "매일의 케어 리추얼",
+    "empty_heading": "여기에 작은 케어를 담아보세요.",
+    "empty_text": "컬렉션을 둘러보고 새로운 케어 리추얼에 함께할 아이템을 찾아보세요.",
+    "summary": "주문 요약",
+    "update_hint": "수량을 변경한 후 ‘장바구니 업데이트’를 눌러 저장하세요."
+  },
+  "footer_design": {
+    "discover": "둘러보기",
+    "information": "고객 서비스",
+    "theme_credit": "테마 제작: Mufatech"
+  },
+  "routine_chapters": {
+    "steps_one": "{{ count }}단계",
+    "steps_other": "{{ count }}단계",
+    "guide_label": "한눈에 보는 케어 리추얼",
+    "morning_heading": "나만의 속도로, 산뜻한 시작.",
+    "morning_text": "첫 단계부터 마지막 케어까지 아침 셀렉션을 살펴보세요. 상품 페이지에서 제형과 선택 가능한 옵션을 확인할 수 있어요.",
+    "evening_heading": "저녁 리추얼을 위한 시간을 마련하세요.",
+    "evening_text": "저녁 셀렉션과 각 상품이 놓인 단계를 살펴보세요. 자세한 정보와 사용 방법은 상품 페이지에서 확인할 수 있어요.",
+    "all_heading": "매일의 케어를 한자리에.",
+    "all_text": "선택된 모든 단계를 한곳에서 살펴보세요. 하루의 케어에 사용할 상품을 비교하고 나의 리추얼에 맞는 셀렉션을 골라보세요.",
+    "overview": "이 셀렉션의 단계"
+  },
+  "routine_purchase": {
+    "title": "나만의 루틴 구성하기",
+    "instruction": "상품과 옵션을 선택하세요. 선택한 각 옵션의 상품을 한 개씩 장바구니에 추가합니다.",
+    "include": "내 루틴에 포함",
+    "add_selected": "선택한 상품 장바구니에 담기",
+    "uncertain": "일부 상품이 이미 장바구니에 담겼을 수 있습니다. 다시 추가하기 전에 장바구니를 확인하세요.",
+    "empty": "테마 편집기에서 이 루틴에 사용할 상품을 선택하세요."
+  },
+  "cart_purchase": {
+    "shipping_calculated": "배송비는 결제 시 계산됩니다."
+  },
+  "cart_feedback": {
+    "updating": "장바구니를 업데이트하는 중…",
+    "updated": "장바구니가 최신 상태입니다.",
+    "uncertain": "변경 사항을 확인할 수 없습니다. 다시 시도하기 전에 장바구니를 확인해 주세요.",
+    "review": "장바구니 확인"
+  },
+  "sensory": {
+    "quick_view": "자세히 보기",
+    "added": "쇼핑백에 담았습니다.",
+    "cream": "크림 펴 바르기",
+    "spray": "미스트 뿌리기",
+    "replay": "질감 다시 체험하기",
+    "texture_position": "텍스처 살펴보기"
+  },
+  "premium": {
+    "new": "신상품",
+    "previous": "이전",
+    "next": "다음",
+    "pause": "일시 정지",
+    "play": "재생",
+    "loading": "불러오는 중…",
+    "unavailable": "미리보기를 사용할 수 없습니다. 아래에서 전체 페이지를 여세요.",
+    "rating": "평점",
+    "increase": "수량 늘리기",
+    "decrease": "수량 줄이기",
+    "details": "제품 상세"
+  },
+  "stories": {
+    "title": "나만의 루틴, 나의 이야기.",
+    "share": "경험 공유하기",
+    "experience": "사용 경험",
+    "send": "의견 보내기",
+    "rating": "별 5개 중 {{ value }}개",
+    "demo_label": "샘플 리뷰 · 데모 콘텐츠"
+  },
+  "editorial_gallery": {
+    "title": "비주얼 셀렉션"
+  },
+  "vanity": {
+    "choose": "선택",
+    "change": "변경",
+    "remove": "제거",
+    "hint": "제품을 눌러 나만의 루틴을 만드세요.",
+    "yours": "나의 루틴",
+    "empty": "테이블에 놓을 제품을 선택하세요. 모든 단계는 선택 사항입니다.",
+    "total": "제품 합계",
+    "close": "닫기",
+    "select": "내 테이블에 놓기",
+    "setup": "테마 편집기에서 단계에 제품을 추가하세요.",
+    "product_page": "구매 옵션은 제품 페이지에서 확인하세요."
+  },
+  "ritual_builder": {
+    "heading": "Build Your Ritual",
+    "intro": "Three steps. Made for your skin.",
+    "need": "What does your skin need?",
+    "feel": "How does your skin feel?",
+    "level": "Your routine?",
+    "hydration": "Hydration",
+    "glow": "Glow",
+    "calm": "Calm",
+    "firmness": "Firmness",
+    "dry": "Dry",
+    "balanced": "Balanced",
+    "oily": "Oily",
+    "sensitive": "Sensitive",
+    "essential": "Essential",
+    "complete": "Complete",
+    "cleanse": "Cleanse",
+    "treat": "Treat",
+    "finish": "Finish",
+    "yours": "Your ritual",
+    "add": "Add complete ritual",
+    "note": "Explore a three-step edit based on your preferences. Review each product to find your fit.",
+    "unavailable": "A complete ritual is not available for this selection. Explore the products individually.",
+    "updated": "Your ritual has been updated."
+  },
+  "ingredient_spotlight": {
+    "demo": "Illustrative formula · Demo content"
+  },
+  "skin_timeline": {
+    "select": "Move through the timeline",
+    "demo": "Illustrative timeline · Images and days do not represent product results."
+  },
+  "social_media": {
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "pinterest": "Pinterest",
+    "youtube": "YouTube",
+    "tiktok": "TikTok",
+    "whatsapp": "WhatsApp",
+    "x": "X",
+    "threads": "Threads",
+    "snapchat": "Snapchat",
+    "linkedin": "LinkedIn",
+    "follow": "팔로우하기"
+  },
+  "inventory": {
+    "in_stock": "재고 있음",
+    "low_stock": "재고 한정 · {{ count }}개 남음",
+    "very_low_stock": "마지막 수량 · {{ count }}개 남음",
+    "sold_out": "품절 · 현재 구매할 수 없습니다",
+    "batch_passport": "배치 {{ batch }}",
+    "authenticity": "배치 정보",
+    "notify_me": "재입고 시 알림 받기",
+    "notify_eyebrow": "재입고 알림 신청",
+    "notify_title": "재입고되면 알려드릴게요",
+    "notify_subtext": "{{ product }}이(가) 재입고되면 알림을 받을 이메일 주소를 입력하세요.",
+    "notify_email_label": "이메일 주소",
+    "notify_email_placeholder": "이메일을 입력하세요",
+    "notify_submit": "대기자 등록",
+    "notify_reassurance": "이메일은 이 요청과 함께 스토어로 전송됩니다.",
+    "volume_ml": "ml",
+    "volume_floz": "fl. oz.",
+    "volume_toggle": "용량 단위 전환",
+    "notify_success_title": "요청이 전송되었습니다",
+    "notify_success_subtext": "감사합니다. 스토어에서 요청을 받았습니다."
+  },
+  "Share": "공유하기",
+  "volume_pricing": {
+    "title": "묶음 구매 할인",
+    "select_tier": "수량 선택",
+    "single_pack": "단품",
+    "double_pack": "듀오 세트 (2병)",
+    "trio_pack": "트리오 세트 (3병)",
+    "standard_pack": "기본",
+    "popular": "가장 인기있는 선택",
+    "best_value": "최고 혜택",
+    "save_pct": "{{ percent }}% 할인",
+    "each": "개",
+    "per_unit": "개당"
+  },
+  "customer": {
+    "login": {
+      "title": "로그인",
+      "email": "이메일",
+      "password": "비밀번호",
+      "submit": "로그인",
+      "forgot": "비밀번호를 잊으셨나요?",
+      "no_account": "아직 계정이 없으신가요?",
+      "disabled": "이 스토어에서는 고객 계정이 활성화되어 있지 않습니다."
+    },
+    "recover_password": {
+      "title": "비밀번호 재설정",
+      "subtext": "비밀번호를 재설정할 수 있는 이메일을 보내드립니다.",
+      "success": "비밀번호를 변경할 수 있는 링크를 이메일로 보냈습니다.",
+      "submit": "링크 보내기",
+      "cancel": "로그인으로 돌아가기"
+    },
+    "register": {
+      "title": "계정 만들기",
+      "first_name": "이름",
+      "last_name": "성",
+      "submit": "계정 만들기",
+      "has_account": "이미 계정이 있으신가요?"
+    },
+    "activate_account": {
+      "title": "계정 활성화",
+      "subtext": "계정을 활성화하려면 비밀번호를 만드세요.",
+      "password": "비밀번호",
+      "password_confirm": "비밀번호 확인",
+      "submit": "계정 활성화",
+      "decline": "초대 거절"
+    },
+    "reset_password": {
+      "title": "새 비밀번호 설정",
+      "subtext": "계정에 사용할 새 비밀번호를 입력하세요.",
+      "password": "새 비밀번호",
+      "password_confirm": "비밀번호 확인",
+      "submit": "비밀번호 저장"
+    },
+    "account": {
+      "title": "계정",
+      "welcome": "다시 오신 것을 환영합니다, {{ name }}님.",
+      "log_out": "로그아웃",
+      "default_address": "기본 주소",
+      "view_addresses": "주소 보기 ({{ count }})"
+    },
+    "orders": {
+      "title": "주문 내역",
+      "none": "아직 주문하신 내역이 없습니다.",
+      "order_number": "주문",
+      "date": "날짜",
+      "payment_status": "결제",
+      "fulfillment_status": "배송",
+      "total": "합계"
+    },
+    "order": {
+      "title": "주문 {{ name }}",
+      "date": "{{ date }}에 주문",
+      "return": "계정으로 돌아가기",
+      "cancelled": "{{ date }}에 주문이 취소되었습니다",
+      "product": "상품",
+      "sku": "SKU",
+      "price": "가격",
+      "quantity": "수량",
+      "total": "합계",
+      "subtotal": "소계",
+      "shipping": "배송비",
+      "tax": "세금",
+      "fulfilled_at": "{{ date }}에 발송",
+      "billing_address": "청구지 주소",
+      "shipping_address": "배송지 주소",
+      "payment_status": "결제 상태",
+      "fulfillment_status": "배송 상태"
+    },
+    "addresses": {
+      "title": "주소",
+      "none": "저장된 주소가 없습니다.",
+      "add_new": "새 주소 추가",
+      "add": "주소 추가",
+      "update": "주소 업데이트",
+      "edit": "편집",
+      "delete": "삭제",
+      "default": "기본",
+      "set_default": "기본 주소로 설정",
+      "company": "회사",
+      "address1": "주소",
+      "address2": "상세 주소",
+      "city": "시/군/구",
+      "zip": "우편번호",
+      "country": "국가/지역",
+      "province": "시/도",
+      "phone": "전화번호"
+    }
+  },
+  "editorial_hero": {
+    "acquire": "{{ product }} 구매 — {{ price }}"
+  },
+  "faq": {
+    "editor_note": "이 질문을 게시하려면 답변을 추가하세요."
+  },
+  "product_card": {
+    "sale": "세일",
+    "save_amount": "{{ amount }} 할인"
+  },
+  "multicolumn": {
+    "list_label": "콘텐츠 열"
+  },
+  "collapsible": {
+    "editor_note": "이 행을 게시하려면 콘텐츠를 추가하거나 페이지를 선택하세요."
+  },
+  "consent": {
+    "region": "쿠키 선택",
+    "heading": "쿠키 선택 사항",
+    "message": "이 스토어는 운영을 위해, 그리고 동의하신 경우 분석 및 마케팅을 위해 쿠키와 유사한 기술을 사용합니다.",
+    "accept": "모두 허용",
+    "decline": "모두 거부",
+    "manage": "환경설정 관리",
+    "save": "환경설정 저장",
+    "preferences_title": "쿠키 카테고리",
+    "necessary": "필수",
+    "necessary_description": "장바구니와 결제 등 스토어 운영에 필요합니다. 항상 사용됩니다.",
+    "analytics": "분석",
+    "analytics_description": "스토어 이용 방식을 이해하고 개선하는 데 도움이 됩니다.",
+    "marketing": "마케팅",
+    "marketing_description": "관련 있는 혜택을 보여 주고 광고 성과를 측정하는 데 사용됩니다.",
+    "preferences": "환경설정",
+    "preferences_description": "언어와 지역 같은 선택 사항을 기억합니다.",
+    "privacy_policy": "개인정보 처리방침",
+    "saved": "쿠키 선택 사항이 저장되었습니다.",
+    "error": "선택 사항을 저장하지 못했습니다. 다시 시도해 주세요."
+  },
+  "collection_paging": {
+    "load_more": "더 보기",
+    "loaded": "추가로 불러온 상품: {{ count }}",
+    "showing": "전체 {{ total }}개 중 {{ shown }}개 표시"
+  },
+  "slideshow": {
+    "label": "슬라이드쇼",
+    "slide_label": "슬라이드 {{ index }}/{{ count }}",
+    "go_to": "슬라이드 {{ index }} 보기"
+  },
+  "video_section": {
+    "play": "동영상 재생",
+    "pause": "동영상 일시정지",
+    "load_video": "동영상 재생: {{ title }}",
+    "fallback_title": "동영상",
+    "editor_empty": "이 섹션을 표시하려면 Shopify 호스팅 동영상이나 YouTube 또는 Vimeo URL을 추가하세요."
+  },
+  "logo_list": {
+    "list_label": "로고",
+    "play": "로고 스크롤 재생",
+    "pause": "로고 스크롤 일시정지",
+    "editor_empty": "이 섹션을 표시하려면 로고 블록을 추가하세요.",
+    "editor_no_quote": "인용문 탭에 이 로고를 표시하려면 인용문을 추가하세요."
+  },
+  "countdown": {
+    "days": "일",
+    "hours": "시간",
+    "minutes": "분",
+    "seconds": "초",
+    "timer_label": "남은 시간",
+    "ends_on_html": "종료: {{ date }}",
+    "ended": "카운트다운이 종료되었습니다.",
+    "editor_missing": "이 카운트다운을 표시하려면 종료 날짜를 입력하세요. 그 전까지 방문자에게는 아무것도 표시되지 않습니다.",
+    "editor_invalid": "종료 날짜와 시간을 확인하세요. YYYY-MM-DD 및 HH:MM 형식을 사용하세요.",
+    "editor_hidden": "카운트다운이 종료되었습니다. 이 섹션은 방문자에게 표시되지 않습니다."
+  },
+  "neutral": {
+    "back_in_stock_request": "재입고 알림 요청: {{ product }} ({{ variant }})",
+    "volume_pricing": {
+      "pack_of": "{{ quantity }}개 세트",
+      "discount_at_checkout": "결제 시 {{ percent }}% 할인"
+    }
+  }
+}

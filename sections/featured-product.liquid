@@ -1,0 +1,308 @@
+{%- capture premium_section_body -%}
+{%- comment -%}
+  Featured product: one product, chosen by the merchant, on any template that
+  supports sections. Mirrors the product page's blocks so apps and Custom Liquid
+  have the same insertion points here.
+{%- endcomment -%}
+{% assign featured = section.settings.product %}
+{% if featured != blank %}
+  {% assign featured_variant = featured.selected_or_first_available_variant %}
+  {% assign featured_form_id = 'FeaturedProductForm-' | append: section.id %}
+  {% assign featured_ready = featured_variant.available %}
+  <script src="{{ 'product-submit.js' | asset_url }}" type="module"></script>
+  <section class="page-width section-space product-layout featured-product" aria-labelledby="FeaturedProduct-{{ section.id }}">
+    {% render 'product-gallery', product: featured, variant: featured_variant, section_id: section.id, gallery_layout: section.settings.gallery_layout, show_thumbnails: section.settings.show_thumbnails %}
+    <div class="product-info">
+      {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+      {% for block in section.blocks %}
+        <div {{ block.shopify_attributes }}>
+          {% case block.type %}
+            {% when '@app' %}{% render block %}
+            {% when 'vendor' %}{% if featured.vendor != blank %}<p class="eyebrow">{{ featured.vendor | escape }}</p>{% endif %}
+            {% when 'title' %}<h2 id="FeaturedProduct-{{ section.id }}"><a href="{{ featured.url }}">{{ featured.title | escape }}</a></h2>
+            {% when 'price' %}
+              {% if featured_variant %}{% render 'price', target: featured_variant, unit_measurement: featured_variant.unit_price_measurement %}{% endif %}
+              {% render 'product-purchase-notices', cart: cart, shop: shop, product: featured %}
+            {% when 'description' %}{% if featured.description != blank %}<div class="rte">{{ featured.description | strip_html | truncatewords: 60 }}</div>{% endif %}
+            {% when 'buy_buttons' %}
+              {% render 'product-options', product: featured, variant: featured_variant, section_id: section.id %}
+              {% if featured_variant %}
+                {% form 'product', featured, id: featured_form_id, class: 'product-form' %}
+                  {{ form.errors | default_errors }}
+                  <input type="hidden" name="id" value="{{ featured_variant.id }}">
+                  {% render 'gift-card-recipient', product: featured, form: form, section_id: section.id %}
+                  <label for="FeaturedQuantity-{{ section.id }}">{{ 'product.quantity' | t }}</label>
+                  <quantity-stepper data-increase="{{ 'premium.increase' | t | escape }}" data-decrease="{{ 'premium.decrease' | t | escape }}"><input data-control="quantity" id="FeaturedQuantity-{{ section.id }}" type="number" name="quantity" required min="{{ featured_variant.quantity_rule.min | default: 1 }}" step="{{ featured_variant.quantity_rule.increment | default: 1 }}"{% if featured_variant.quantity_rule.max != blank %} max="{{ featured_variant.quantity_rule.max }}"{% endif %} value="{{ featured_variant.quantity_rule.min | default: 1 }}"></quantity-stepper>
+                  <button data-control="primary" type="submit" class="button" name="add"{% unless featured_ready %} disabled{% endunless %}>{% unless featured_variant.available %}{{ 'product.sold_out' | t }}{% else %}{{ 'product.add' | t }}{% endunless %}</button>
+                  {% if featured_ready %}{{ form | payment_terms }}{% endif %}
+                  {% if block.settings.dynamic_checkout and featured_ready %}{% unless featured.gift_card? %}{{ form | payment_button }}{% endunless %}{% endif %}
+                {% endform %}
+              {% else %}<button data-control="primary" class="button" type="button" disabled>{{ 'product_options.unavailable_combination' | t }}</button>{% endif %}
+            {% when 'link' %}<a data-control="text" class="text-link" href="{{ featured.url }}">{{ 'product_comparison.view_product' | t }} <span aria-hidden="true">↗</span></a>
+            {% when 'custom_liquid' %}{{ block.settings.custom_liquid }}
+          {% endcase %}
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+{% elsif request.design_mode %}
+  <section class="page-width section-space featured-product featured-product--empty">
+    <div class="product-info"><p class="muted">{{ 'product_options.unavailable_combination' | t }}</p></div>
+  </section>
+{% endif %}
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.featured_product_4d8058",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:editor.text.product_fb9ef8"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd"
+    },
+    {
+      "type": "select",
+      "id": "gallery_layout",
+      "label": "t:premium.gallery",
+      "options": [
+        {
+          "value": "vertical",
+          "label": "t:premium.vertical"
+        },
+        {
+          "value": "grid",
+          "label": "t:premium.grid"
+        },
+        {
+          "value": "carousel",
+          "label": "t:premium.carousel"
+        },
+        {
+          "value": "editorial",
+          "label": "t:editorial_gallery.layout"
+        }
+      ],
+      "default": "vertical"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "label": "t:premium.thumbnails",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "vendor",
+      "name": "t:editor.text.vendor_f8aa82",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "t:editor.text.title_7e8cd2",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "t:editor.text.price_93c91c",
+      "limit": 1
+    },
+    {
+      "type": "description",
+      "name": "t:editor.text.description_526e00",
+      "limit": 1
+    },
+    {
+      "type": "buy_buttons",
+      "name": "t:editor.text.buy_buttons_af7298",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "dynamic_checkout",
+          "label": "t:editor.text.show_accelerated_checkout_2455c1",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "t:editor.text.link_a6a32d",
+      "limit": 1
+    },
+    {
+      "type": "custom_liquid",
+      "name": "t:editor.text.custom_liquid_8a9d4f",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "t:editor.text.liquid_9a8378"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:editor.text.featured_product_4d8058",
+      "blocks": [
+        {
+          "type": "vendor"
+        },
+        {
+          "type": "title"
+        },
+        {
+          "type": "price"
+        },
+        {
+          "type": "description"
+        },
+        {
+          "type": "buy_buttons"
+        },
+        {
+          "type": "link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

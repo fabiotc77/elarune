@@ -1,0 +1,196 @@
+{%- capture premium_section_body -%}
+{{ 'editorial-content.css' | asset_url | stylesheet_tag }}
+<section class="journal page-width section-space" aria-labelledby="Blog-{{ section.id }}">
+  <header class="journal__header">
+    <h1 id="Blog-{{ section.id }}">{{ blog.title | escape }}</h1>
+    {%- if current_tags != blank -%}<p class="journal__topics">{{ current_tags | join: ', ' | escape }}</p>{%- endif -%}
+    {%- if section.settings.introduction != blank -%}<div class="rte">{{ section.settings.introduction }}</div>{%- endif -%}
+  </header>
+  {%- paginate blog.articles by section.settings.articles_per_page -%}
+    <div class="journal__grid">
+      {%- for entry in blog.articles -%}
+        <article class="journal__card">
+          <a class="journal__card-link" href="{{ entry.url }}" aria-labelledby="ArticleTitle-{{ section.id }}-{{ entry.id }}">
+            {%- if entry.image != blank -%}
+              <div class="journal__image">{{ entry.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '360, 540, 720, 960, 1200', sizes: '(min-width: 1024px) 30vw, (min-width: 750px) 45vw, 100vw', alt: '' }}</div>
+            {%- endif -%}
+            <div class="journal__metadata">
+              {%- if section.settings.show_date -%}{{ entry.published_at | time_tag: format: 'abbreviated_date' }}{%- endif -%}
+              {%- if section.settings.show_author and entry.author != blank -%}<span>{{ entry.author | escape }}</span>{%- endif -%}
+            </div>
+            <h2 id="ArticleTitle-{{ section.id }}-{{ entry.id }}">{{ entry.title | escape }}</h2>
+            {%- if section.settings.show_excerpt -%}<p>{{ entry.excerpt_or_content | strip_html | truncatewords: 32 | escape_once }}</p>{%- endif -%}
+            <span class="text-link journal__read">{{ 'editorial.read_article' | t }} <span aria-hidden="true">&rarr;</span></span>
+          </a>
+        </article>
+      {%- else -%}
+        <p class="journal__empty">{{ 'editorial.empty' | t }}</p>
+      {%- endfor -%}
+    </div>
+    {% render 'pagination', paginate: paginate %}
+  {%- endpaginate -%}
+</section>
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.blog_8c6bc0",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "introduction",
+      "label": "t:editor.text.introduction_b60535"
+    },
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "label": "t:editor.text.articles_per_page_4ae9f2",
+      "min": 3,
+      "max": 24,
+      "step": 3,
+      "default": 9
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "t:editor.text.show_publication_date_9b21d0",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "t:editor.text.show_author_2c58de",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "t:editor.text.show_excerpt_ec5671",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,292 @@
+{%- capture premium_section_body -%}
+{% liquid
+  assign shade_product = section.settings.product | default: product
+  assign shade_option = nil
+  assign option_position = section.settings.option_position | default: 'auto'
+  for product_option in shade_product.options_with_values
+    assign position_string = product_option.position | append: ''
+    if option_position == position_string
+      assign shade_option = product_option
+      break
+    elsif option_position == 'auto'
+      for option_value in product_option.values
+        if option_value.swatch != blank
+          assign shade_option = product_option
+          break
+        endif
+      endfor
+      if shade_option != nil
+        break
+      endif
+    endif
+  endfor
+  assign shade_heading = section.settings.heading
+  if shade_heading == blank
+    assign shade_heading = 'shade_finder.heading' | t
+  endif
+  assign shade_limit = section.settings.shade_limit | default: 12
+%}
+{% if shade_product != blank and shade_option != nil %}
+  {{ 'shade-finder.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'shade-finder.js' | asset_url }}" type="module"></script>
+  <elarune-shade-finder class="shade-finder page-width section-space" data-count-label="{{ 'shade_finder.selected_count' | t: count: '[count]' | escape }}" data-limit-label="{{ 'shade_finder.limit' | t | escape }}">
+    <section aria-labelledby="ShadeHeading-{{ section.id }}">
+      <div class="shade-finder__intro">
+        <div>
+          {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+          <h2 id="ShadeHeading-{{ section.id }}">{{ shade_heading | escape }}</h2>
+          {% if section.settings.text != blank %}<div class="rte shade-finder__description">{{ section.settings.text }}</div>{% endif %}
+        </div>
+        <a class="shade-finder__product" href="{{ shade_product.url | escape }}">
+          {% if shade_product.featured_image != blank %}{{ shade_product.featured_image | image_url: width: 300 | image_tag: widths: '150, 300', sizes: '112px', loading: 'lazy' }}{% endif %}
+          <span><span class="shade-finder__product-title">{{ shade_product.title | escape }}</span><span class="text-link">{{ 'shade_finder.view_all' | t }} <span aria-hidden="true">↗</span></span></span>
+        </a>
+      </div>
+      <div class="shade-finder__toolbar" data-shade-controls hidden>
+        <p>{{ 'shade_finder.instruction' | t }}</p>
+        <a href="#ShadeComparison-{{ section.id }}" data-shade-jump hidden>{{ 'shade_finder.comparison' | t }} <span aria-hidden="true">↓</span></a>
+        <p role="status" aria-live="polite" aria-atomic="true" data-shade-status>{{ 'shade_finder.selected_count' | t: count: 0 }}</p>
+      </div>
+      <ul class="shade-finder__grid" role="list" data-shade-grid>
+        {% for shade in shade_option.values limit: shade_limit %}
+          {% liquid
+            assign shade_url = shade_product.url
+            assign exact_variant = false
+            if shade.product_url != blank
+              assign shade_url = shade.product_url
+            elsif shade.variant.url != blank
+              assign shade_url = shade.variant.url
+              assign exact_variant = true
+            endif
+          %}
+          <li>
+            <article class="shade-finder__card" data-shade-card>
+              <div class="shade-finder__sample{% if shade.swatch == blank %} shade-finder__sample--empty{% endif %}"{% if shade.swatch.color != blank %} style="--shade-color: {{ shade.swatch.color | escape }}"{% endif %}>
+                {% if shade.swatch.image != blank %}
+                  {{ shade.swatch.image | image_url: width: 700 | image_tag: widths: '175, 350, 525, 700', sizes: '(min-width: 750px) 25vw, 50vw', loading: 'lazy', alt: '' }}
+                {% elsif shade.swatch.color == blank %}
+                  <span>{{ 'shade_finder.no_swatch' | t }}</span>
+                {% endif %}
+              </div>
+              <div class="shade-finder__card-copy">
+                <h3>{{ shade.name | escape }}</h3>
+                <a data-control="text" class="text-link" href="{{ shade_url | escape }}">{% if exact_variant %}{{ 'shade_finder.view_shade' | t }}{% else %}{{ 'shade_finder.view_options' | t }}{% endif %}<span class="visually-hidden">: {{ shade.name | escape }}</span><span aria-hidden="true">↗</span></a>
+                <button data-control="choice" class="shade-finder__choose" type="button" aria-pressed="false" data-shade-choose hidden>{{ 'shade_finder.compare' | t }}<span class="visually-hidden">: {{ shade.name | escape }}</span><span class="shade-finder__check" aria-hidden="true">✓</span></button>
+              </div>
+            </article>
+          </li>
+        {% endfor %}
+      </ul>
+      <div class="shade-finder__comparison" id="ShadeComparison-{{ section.id }}" role="region" aria-label="{{ 'shade_finder.comparison' | t | escape }}" tabindex="-1" data-shade-comparison hidden>
+        <div class="shade-finder__comparison-heading"><h3>{{ 'shade_finder.comparison' | t }}</h3><button data-control="text" class="text-link" type="button" data-shade-clear>{{ 'shade_finder.clear' | t }}</button></div>
+        <div class="shade-finder__pair" data-shade-pair></div>
+      </div>
+      <p class="shade-finder__note">{{ 'shade_finder.screen_note' | t }}</p>
+    </section>
+  </elarune-shade-finder>
+{% elsif request.design_mode %}
+  <div class="page-width"><p class="editor-note">{{ 'shade_finder.empty' | t }}</p></div>
+{% endif %}
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.shade_finder_f7a8d3",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:editor.text.show_real_product_option_swatches_and_compare_two_side_by_side_sa_6b9bcf"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:editor.text.product_fb9ef8",
+      "info": "t:editor.text.leave_blank_on_a_product_template_to_use_its_current_product_21d42e"
+    },
+    {
+      "type": "select",
+      "id": "option_position",
+      "label": "t:editor.text.option_to_show_bcbcf8",
+      "default": "auto",
+      "options": [
+        {
+          "value": "auto",
+          "label": "t:editor.text.first_option_with_swatches_a9a02a"
+        },
+        {
+          "value": "1",
+          "label": "t:editor.text.first_product_option_efc411"
+        },
+        {
+          "value": "2",
+          "label": "t:editor.text.second_product_option_f0a349"
+        },
+        {
+          "value": "3",
+          "label": "t:editor.text.third_product_option_b0a06c"
+        }
+      ],
+      "info": "t:editor.text.choose_the_position_of_your_shade_option_positions_remain_valid_w_5054f7"
+    },
+    {
+      "type": "range",
+      "id": "shade_limit",
+      "label": "t:editor.text.maximum_shades_to_display_890e79",
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "default": 12,
+      "info": "t:editor.text.the_product_link_always_gives_access_to_the_complete_selection_06e35d"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:editor.text.introduction_b60535"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:editor.text.shade_finder_f7a8d3"
+    }
+  ]
+}
+{% endschema %}

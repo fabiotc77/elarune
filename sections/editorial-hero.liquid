@@ -1,0 +1,446 @@
+{%- capture premium_section_body -%}
+{%- liquid
+  assign eager = true
+  if section.index > 1
+    assign eager = false
+  endif
+  assign image_loading = 'eager'
+  if eager == false
+    assign image_loading = 'lazy'
+  endif
+
+  assign chapters = section.blocks | where: 'type', 'chapter'
+  assign first_chapter = chapters | first
+  assign first_product = first_chapter.settings.product
+
+  assign hero_image = section.settings.image
+  if first_chapter.settings.image != blank
+    assign hero_image = first_chapter.settings.image
+  elsif first_product.featured_image != blank
+    assign hero_image = first_product.featured_image
+  endif
+
+  assign hero_eyebrow = section.settings.eyebrow
+  if first_chapter.settings.eyebrow != blank
+    assign hero_eyebrow = first_chapter.settings.eyebrow
+  endif
+
+  assign cta_label = section.settings.button_label
+  assign cta_link = section.settings.link
+  if first_product != blank
+    assign cta_link = first_product.url
+    assign price_text = first_product.price | money
+    assign cta_label = 'editorial_hero.acquire' | t: product: first_product.title, price: price_text
+  endif
+-%}
+<div class="page-width hero-container">
+  {%- capture cta_template -%}{{ 'editorial_hero.acquire' | t: product: '%%PRODUCT%%', price: '%%PRICE%%' }}{%- endcapture -%}
+  <section class="hero hero--sensory-atelier" aria-labelledby="HeroHeading-{{ section.id }}" data-cta-template="{{ cta_template | strip | escape }}">
+    <div class="hero-copy">
+      {% if hero_eyebrow != blank %}
+        <div class="hero-eyebrow-wrapper">
+          <span class="hero-eyebrow-pulsar" aria-hidden="true"></span>
+          <p class="eyebrow" data-hero-eyebrow>{{ hero_eyebrow | escape }}</p>
+        </div>
+      {% endif %}
+
+      <{{ section.settings.heading_tag }} id="HeroHeading-{{ section.id }}" class="hero-heading">{{ section.settings.heading | escape }}{% if section.settings.heading_accent != blank %} <em>{{ section.settings.heading_accent | escape }}</em>{% endif %}</{{ section.settings.heading_tag }}>
+
+      {% if section.settings.text != blank %}<p class="hero-text">{{ section.settings.text | escape }}</p>{% endif %}
+
+      {%- if chapters.size > 0 -%}
+        <div class="sensory-chapter-nav" role="tablist" aria-label="{{ section.settings.passport_label | default: section.settings.heading | escape }}">
+          {%- for block in chapters -%}
+            {%- liquid
+              assign chapter_product = block.settings.product
+              assign chapter_name = block.settings.label | default: chapter_product.title
+              assign chapter_image = block.settings.image | default: chapter_product.featured_image
+              assign chapter_price = ''
+              if chapter_product != blank
+                assign chapter_price = chapter_product.price | money
+              endif
+              assign chapter_url = chapter_product.url
+              assign chapter_alt = block.settings.image_alt | default: chapter_name
+            -%}
+            <button type="button" role="tab" class="sensory-tab{% if forloop.first %} is-active{% endif %}"
+              id="SensoryTab-{{ section.id }}-{{ block.id }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+              data-eyebrow="{{ block.settings.eyebrow | escape }}"
+              data-phase="{{ block.settings.phase | escape }}"
+              data-active="{{ block.settings.actives | escape }}"
+              data-visc="{{ block.settings.texture | escape }}"
+              data-name="{{ chapter_product.title | escape }}"
+              data-price="{{ chapter_price | escape }}"
+              data-link="{{ chapter_url }}"
+              data-alt="{{ chapter_alt | escape }}"
+              {% if chapter_image != blank %}data-img="{{ chapter_image | image_url: width: 1400 }}" data-img-srcset="{{ chapter_image | image_url: width: 600 }} 600w, {{ chapter_image | image_url: width: 1000 }} 1000w, {{ chapter_image | image_url: width: 1400 }} 1400w"{% endif %}
+              {{ block.shopify_attributes }}>
+              <span class="sensory-tab-index">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="sensory-tab-title">{{ chapter_name | escape }}</span>
+            </button>
+          {%- endfor -%}
+        </div>
+
+        {%- assign has_passport = false -%}
+        {%- if first_chapter.settings.phase != blank or first_chapter.settings.actives != blank or first_chapter.settings.texture != blank -%}{%- assign has_passport = true -%}{%- endif -%}
+        {%- if has_passport -%}
+          <div class="hero-formula-passport" aria-live="polite">
+            <div class="passport-header">
+              {% if section.settings.passport_label != blank %}<span class="passport-label">{{ section.settings.passport_label | escape }}</span>{% endif %}
+              <span class="passport-phase" data-passport="phase">{{ first_chapter.settings.phase | escape }}</span>
+            </div>
+            <div class="passport-metrics">
+              {% if section.settings.actives_label != blank %}
+                <div class="passport-metric">
+                  <span class="metric-key">{{ section.settings.actives_label | escape }}</span>
+                  <span class="metric-val" data-passport="active">{{ first_chapter.settings.actives | escape }}</span>
+                </div>
+              {% endif %}
+              {% if section.settings.texture_label != blank %}
+                <div class="passport-metric">
+                  <span class="metric-key">{{ section.settings.texture_label | escape }}</span>
+                  <span class="metric-val" data-passport="visc">{{ first_chapter.settings.texture | escape }}</span>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+
+      <div class="hero-copy-actions">
+        {% if cta_link != blank and cta_label != blank %}
+          <a data-control="primary" class="button hero-acquire-btn" href="{{ cta_link }}">
+            <span class="btn-label">{{ cta_label }}</span>
+            <span class="btn-arrow" aria-hidden="true">&#8599;</span>
+          </a>
+        {% endif %}
+        {% if section.settings.secondary_link != blank and section.settings.secondary_label != blank %}
+          <a data-control="text" class="text-link hero-discover-link" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_label | escape }}</a>
+        {% endif %}
+      </div>
+
+      {% if section.settings.note != blank %}<p class="hero-note">{{ section.settings.note | escape }}</p>{% endif %}
+    </div>
+
+    <div class="hero-media">
+      {% if hero_image != blank %}
+        {{ hero_image | image_url: width: 2000 | image_tag: widths: '400, 600, 800, 1000, 1400, 1800, 2000', sizes: '(min-width: 750px) 58vw, 100vw', loading: image_loading, fetchpriority: 'high', preload: eager, class: 'hero-media-image', alt: first_chapter.settings.image_alt }}
+      {% else %}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'hero-media-image placeholder-svg' }}
+      {% endif %}
+
+      {%- if first_product != blank and first_chapter.settings.texture != blank -%}
+        <div class="hero-specimen-pill" aria-hidden="true">
+          <span class="specimen-pulsar"></span>
+          <span class="specimen-text" data-specimen-name>{{ first_product.title | escape }} &middot; {{ first_chapter.settings.texture | escape }}</span>
+        </div>
+      {%- endif -%}
+
+      {% if section.settings.caption != blank %}<div class="hero-caption"><span>{{ section.settings.caption | escape }}</span></div>{% endif %}
+    </div>
+  </section>
+  {% render 'launch-check', source_section: section, kind: 'hero' %}
+</div>
+<script src="{{ 'editorial-hero.js' | asset_url }}" defer="defer"></script>
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.editorial_hero_9f219e",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd",
+      "default": "A moment for yourself"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17",
+      "default": "Good skin. A daily ritual."
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "t:editor.text.italic_heading_line_1ccf8b",
+      "info": "t:editor.text.optional_second_line_of_the_heading_d163d9"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "t:editor.text.heading_level_571600",
+      "options": [
+        {
+          "value": "h1",
+          "label": "t:editor.text.primary_page_heading_h1_7bc8c0"
+        },
+        {
+          "value": "h2",
+          "label": "t:editor.text.section_heading_h2_ec371b"
+        }
+      ],
+      "default": "h1",
+      "info": "t:editor.text.use_one_h1_per_page_69bc13"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:editor.text.description_526e00",
+      "default": "Thoughtfully chosen care, for the skin you are in. Discover your everyday essentials."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:editor.text.campaign_image_e11542"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:editor.text.button_label_57a953",
+      "default": "Explore the collection"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:editor.text.button_link_168eeb"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "t:editor.text.secondary_link_label_f5f7a0"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "t:editor.text.secondary_link_80a065"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "t:editor.text.image_caption_bc8691"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "t:editor.text.small_supporting_line_149cc8"
+    },
+    {
+      "type": "header",
+      "content": "t:editorial_hero.passport"
+    },
+    {
+      "type": "text",
+      "id": "passport_label",
+      "label": "t:editorial_hero.passport_label",
+      "default": "Formulation passport"
+    },
+    {
+      "type": "text",
+      "id": "actives_label",
+      "label": "t:editorial_hero.actives",
+      "default": "Key actives"
+    },
+    {
+      "type": "text",
+      "id": "texture_label",
+      "label": "t:editorial_hero.texture",
+      "default": "Texture"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:editor.text.editorial_hero_9f219e",
+      "blocks": [
+        {
+          "type": "chapter"
+        },
+        {
+          "type": "chapter"
+        },
+        {
+          "type": "chapter"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "chapter",
+      "name": "t:editorial_hero.chapter",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:editorial_hero.product"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:editorial_hero.label"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "t:editor.text.eyebrow_d821dd"
+        },
+        {
+          "type": "text",
+          "id": "phase",
+          "label": "t:editorial_hero.phase"
+        },
+        {
+          "type": "text",
+          "id": "actives",
+          "label": "t:editorial_hero.actives"
+        },
+        {
+          "type": "text",
+          "id": "texture",
+          "label": "t:editorial_hero.texture"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:editor.text.campaign_image_e11542"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "t:ingredient_spotlight.alt"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

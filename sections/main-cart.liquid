@@ -1,0 +1,207 @@
+{%- capture premium_section_body -%}
+{{ 'cart-page.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cart-page.js' | asset_url }}" type="module"></script>
+<elarune-cart data-cart-url="{{ routes.cart_url }}" data-updating="{{ 'cart_feedback.updating' | t | escape }}" data-updated="{{ 'cart_feedback.updated' | t | escape }}" data-uncertain="{{ 'cart_feedback.uncertain' | t | escape }}">
+{% for item in cart.items %}{% if item.item_components != blank %}{{ 'bundle-components.css' | asset_url | stylesheet_tag }}{% break %}{% endif %}{% endfor %}
+{% for item in cart.items %}{% if item.parent_relationship != blank or item.instructions.can_update_quantity == false or item.instructions.can_remove == false %}{{ 'cart-relationships.css' | asset_url | stylesheet_tag }}{% break %}{% endif %}{% endfor %}
+<section class="cart-page page-width section-space">
+  <header class="cart-page__heading">
+    <div><p class="eyebrow">{{ 'cart_design.eyebrow' | t }}</p><h1>{{ 'cart.title' | t }}{% unless cart.empty? %} <span class="cart-page__count">({{ cart.item_count }})</span>{% endunless %}</h1></div>
+    {% unless cart.empty? %}<a data-control="text" class="text-link" href="{{ routes.all_products_collection_url }}">{{ 'general.continue' | t }} <span aria-hidden="true">↗</span></a>{% endunless %}
+  </header>
+  <div class="cart-feedback" data-cart-feedback><p role="status" aria-live="polite" aria-atomic="true" data-cart-status></p><p role="alert" data-cart-error hidden></p><a data-control="text" class="text-link" href="{{ routes.cart_url }}" data-cart-review hidden>{{ 'cart_feedback.review' | t }}</a></div>
+  {% if cart.empty? %}
+    <div class="cart-empty{% if section.settings.empty_image != blank or section.settings.show_discovery_media and request.design_mode %} cart-empty--with-media{% endif %}">
+      <div class="cart-empty__copy">
+        <p class="cart-empty__status">{{ 'cart.empty' | t }}</p>
+        <h2>{{ 'cart_design.empty_heading' | t }}</h2>
+        <p class="cart-empty__text">{{ 'cart_design.empty_text' | t }}</p>
+        <div class="cart-empty__actions"><a data-control="primary" class="button" href="{{ routes.all_products_collection_url }}">{{ 'general.continue' | t }} <span aria-hidden="true">↗</span></a><a data-control="text" class="text-link" href="{{ routes.collections_url }}">{{ 'collection_list.title' | t }}</a></div>
+      </div>
+      {% if section.settings.empty_image != blank or section.settings.show_discovery_media and request.design_mode %}<div class="cart-empty__media">
+        {% if section.settings.empty_image != blank %}{{ section.settings.empty_image | image_url: width: 1440 | image_tag: widths: '480, 720, 960, 1440', sizes: '(min-width: 750px) 50vw, 100vw', loading: 'lazy' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
+      </div>{% endif %}
+    </div>
+  {% else %}
+    {{ 'cart-line-price.css' | asset_url | stylesheet_tag }}
+    <form action="{{ routes.cart_url }}" method="post" class="cart-page__form">
+      <div class="cart-page__items">
+        <ul class="cart-lines">
+          {% for item in cart.items %}<li class="cart-line" data-cart-line="{{ item.key | escape }}">
+            <div class="cart-line__media">{% if item.image %}<a href="{{ item.url }}">{{ item.image | image_url: width: 360 | image_tag: widths: '120, 240, 360', sizes: '(min-width: 750px) 136px, 88px', loading: 'lazy', alt: item.product.title }}</a>{% else %}<svg viewBox="0 0 80 100" width="80" height="100" fill="none" aria-hidden="true"><path d="M19 29h42l4 57H15l4-57Z" stroke="currentColor"/><path d="M29 35V23a11 11 0 0 1 22 0v12M31 56h19m-19 0v18m0-9h15m-15 9h19" stroke="currentColor"/></svg>{% endif %}</div>
+            <div class="cart-line__details">
+              <h2><a href="{{ item.url }}">{{ item.product.title | escape }}</a></h2>
+              {% unless item.product.has_only_default_variant %}<p class="cart-line__variant">{{ item.variant.title | escape }}</p>{% endunless %}
+              {% render 'cart-line-relationship', item: item %}
+              {% if item.selling_plan_allocation %}<p>{{ item.selling_plan_allocation.selling_plan.name | escape }}</p>{% endif %}
+              {% for property in item.properties %}{% render 'cart-property', property: property, item: item %}{% endfor %}
+              {% render 'bundle-components', line_item: item %}
+              {% for discount in item.line_level_discount_allocations %}<p class="cart-line__discount">{{ discount.discount_application.title | escape }} (−{{ discount.amount | money }})</p>{% endfor %}
+              <div class="cart-line__controls">{% render 'cart-line-controls', item: item %}</div>
+            </div>
+            {% render 'cart-line-price', item: item %}
+          </li>{% endfor %}
+        </ul>
+        <div class="cart-page__update"><p class="muted">{{ 'cart_design.update_hint' | t }}</p><button data-control="secondary" class="button button--secondary" type="submit" name="update">{{ 'cart.update' | t }}</button></div>
+      </div>
+      <div class="cart-summary">
+        <h2>{{ 'cart_design.summary' | t }}</h2>
+        {% for discount in cart.cart_level_discount_applications %}<p class="cart-summary__discount"><span>{{ discount.title | escape }}</span><bdi>−{{ discount.total_allocated_amount | money }}</bdi></p>{% endfor %}
+        <p class="cart-summary-total"><span>{{ 'cart.total' | t }}</span><bdi>{{ cart.total_price | money_with_currency }}</bdi></p>
+        <p class="cart-summary__notice muted">{% if cart.taxes_included %}{{ 'product_purchase_notices.taxes_included' | t }} {{ 'cart_purchase.shipping_calculated' | t }}{% else %}{{ 'cart.checkout_notice' | t }}{% endif %}</p>
+        <details class="cart-summary__note"{% if cart.note != blank %} open{% endif %}><summary data-control="disclosure">{{ 'cart.note' | t }}<span aria-hidden="true">+</span></summary><label class="visually-hidden" for="CartNote">{{ 'cart.note' | t }}</label><textarea data-control="field" id="CartNote" name="note">{{ cart.note | escape }}</textarea></details>
+        <button data-control="primary" class="button" type="submit" name="checkout">{{ 'cart.checkout' | t }} <span aria-hidden="true">→</span></button>
+        {% if additional_checkout_buttons %}
+          <div class="cart-summary__accelerated additional-checkout-buttons--vertical">
+            {{ content_for_additional_checkout_buttons }}
+          </div>
+        {% endif %}
+      </div>
+    </form>
+  {% endif %}
+</section>
+</elarune-cart>
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.cart_6d2d59",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "empty_image",
+      "label": "t:editor.text.empty_bag_image_ff746c"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_discovery_media",
+      "label": "t:editor.text.use_elarune_discovery_artwork_f23671",
+      "default": false,
+      "info": "t:editor.text.shown_when_the_bag_is_empty_and_no_custom_image_is_selected_ca92ef"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ]
+}
+{% endschema %}

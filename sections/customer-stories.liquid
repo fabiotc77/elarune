@@ -1,0 +1,87 @@
+{{ 'customer-stories.css' | asset_url | stylesheet_tag }}
+{% liquid
+  assign quote_count = 0
+  assign app_count = 0
+  for block in section.blocks
+    if block.type == 'quote' and block.settings.quote != blank
+      assign quote_count = quote_count | plus: 1
+    elsif block.type == '@app'
+      assign app_count = app_count | plus: 1
+    endif
+  endfor
+  assign stories_title = section.settings.heading
+  if stories_title == blank
+    assign stories_title = 'stories.title' | t
+  endif
+  assign feedback_form_id = 'CustomerFeedback-' | append: section.id
+%}
+{% if quote_count > 0 or app_count > 0 or section.settings.show_form %}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'rise' }}">
+<section class="customer-stories{% if quote_count == 0 and app_count == 0 %} customer-stories--invitation{% endif %}" aria-labelledby="Stories-{{ section.id }}">
+ <div class="customer-stories-intro premium-reveal">{% if section.settings.demo_content %}<p class="customer-demo-label">{{ 'stories.demo_label' | t }}</p>{% endif %}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p><h2 id="Stories-{{ section.id }}">{{ stories_title | escape }}</h2>{% if section.settings.introduction != blank %}<p class="customer-stories-description">{{ section.settings.introduction | escape }}</p>{% endif %}</div>
+ {% if quote_count > 0 %}
+ <premium-rail class="customer-story-rail" data-kind="quotes" data-autoplay="false">
+  <div class="premium-rail-track" tabindex="0" role="region" aria-label="{{ stories_title | escape }}">
+  {% for block in section.blocks %}{% if block.type == 'quote' and block.settings.quote != blank %}
+   <figure class="premium-rail-card customer-quote" {{ block.shopify_attributes }}>
+    {% if block.settings.rating > 0 %}<div class="customer-rating" role="img" aria-label="{% if section.settings.demo_content %}{{ 'stories.demo_label' | t | escape }} · {% endif %}{{ 'stories.rating' | t: value: block.settings.rating | escape }}"><span aria-hidden="true">{% for n in (1..5) %}<span{% if n > block.settings.rating %} class="customer-rating-empty"{% endif %}>★</span>{% endfor %}</span></div>{% endif %}
+    <blockquote><p>{{ block.settings.quote | escape | newline_to_br }}</p></blockquote>
+    <figcaption>{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 120 | image_tag: widths: '60, 120', sizes: '48px', loading: 'lazy', alt: '' }}{% endif %}<div>{% if block.settings.author != blank %}<strong>{{ block.settings.author | escape }}</strong>{% endif %}{% if block.settings.context != blank %}<span>{{ block.settings.context | escape }}</span>{% endif %}{% if section.settings.demo_content %}<span class="customer-quote-demo">{{ 'stories.demo_label' | t }}</span>{% endif %}</div></figcaption>
+    {% if block.settings.product != blank %}<a class="customer-story-product" href="{{ block.settings.product.url }}">{{ block.settings.product.title | escape }} <span aria-hidden="true">↗</span></a>{% endif %}
+   </figure>
+  {% endif %}{% endfor %}
+  </div>
+  <div class="premium-rail-controls" hidden><button data-control="icon" type="button" data-previous aria-label="{{ 'premium.previous' | t }}">←</button><button data-control="icon" type="button" data-next aria-label="{{ 'premium.next' | t }}">→</button></div>
+ </premium-rail>
+ {% if quote_count > 1 %}<script src="{{ 'premium-rails.js' | asset_url }}" type="module"></script>{% endif %}
+ {% endif %}
+ {% if app_count > 0 %}<div class="customer-story-apps">{% for block in section.blocks %}{% if block.type == '@app' %}{% render block %}{% endif %}{% endfor %}</div>{% endif %}
+ {% if section.settings.show_form %}
+ {% form 'contact', id: feedback_form_id, class: 'customer-story-form premium-reveal' %}
+ <details class="customer-story-share"{% if form.errors or form.posted_successfully? or quote_count == 0 %} open{% endif %}>
+  <summary data-control="disclosure">{{ 'stories.share' | t }}<span aria-hidden="true">＋</span></summary>
+  <div class="customer-story-form-content">
+  {% if section.settings.form_heading != blank %}<h3>{{ section.settings.form_heading | escape }}</h3>{% endif %}{% if section.settings.form_text != blank %}<p>{{ section.settings.form_text | escape }}</p>{% endif %}
+   {% if form.posted_successfully? %}<p role="status" class="customer-story-notice" tabindex="-1" autofocus>{{ 'contact.success' | t }}</p>{% endif %}
+   {% if form.errors %}<div class="customer-story-notice" role="alert"><p>{{ 'contact.error_heading' | t }}</p>{{ form.errors | default_errors }}</div>{% endif %}
+   <div class="customer-story-fields">
+    <div><label for="{{ feedback_form_id }}-name">{{ 'contact.name' | t }}</label><input data-control="field" id="{{ feedback_form_id }}-name" type="text" name="contact[name]" autocomplete="name" value="{{ form.name | default: customer.name | escape }}" required></div>
+    <div><label for="{{ feedback_form_id }}-email">{{ 'contact.email' | t }}</label><input data-control="field" id="{{ feedback_form_id }}-email" type="email" name="contact[email]" autocomplete="email" autocapitalize="off" value="{{ form.email | default: customer.email | escape }}" required{% if form.errors contains 'email' %} aria-invalid="true"{% endif %}></div>
+   </div>
+   <label for="{{ feedback_form_id }}-body">{{ 'stories.experience' | t }}</label><textarea data-control="field" id="{{ feedback_form_id }}-body" name="contact[body]" rows="3" required>{{ form.body | escape }}</textarea>
+   <button data-control="primary" type="submit">{{ 'stories.send' | t }} <span aria-hidden="true">↗</span></button>
+  </div>
+ </details>
+ {% endform %}
+ {% endif %}
+</section>
+</premium-section>
+{% endif %}
+{% schema %}
+{
+ "name":"t:stories.name","tag":"section","disabled_on":{"groups":["header","footer"]},"max_blocks":12,
+ "settings":[
+  {"type":"checkbox","id":"demo_content","label":"t:stories.demo_label","default":false},
+  {"type":"paragraph","content":"t:stories.permission"},
+  {"type":"text","id":"eyebrow","label":"t:premium.label"},
+  {"type":"text","id":"heading","label":"t:premium.heading"},
+  {"type":"textarea","id":"introduction","label":"t:premium.text"},
+  {"type":"checkbox","id":"show_form","label":"t:stories.show_form","default":true},
+  {"type":"text","id":"form_heading","label":"t:stories.form_heading"},
+  {"type":"textarea","id":"form_text","label":"t:stories.form_text"},
+  {"type":"select","id":"experience_motion","label":"t:premium.motion","options":[{"value":"none","label":"t:premium.none"},{"value":"fade","label":"t:premium.fade"},{"value":"rise","label":"t:premium.rise"}],"default":"rise"}
+ ],
+ "blocks":[
+  {"type":"@app"},
+  {"type":"quote","name":"t:stories.quote","settings":[
+   {"type":"textarea","id":"quote","label":"t:stories.quote"},
+   {"type":"text","id":"author","label":"t:stories.author"},
+   {"type":"text","id":"context","label":"t:stories.context"},
+   {"type":"image_picker","id":"image","label":"t:premium.image"},
+   {"type":"range","id":"rating","label":"t:stories.rating","min":0,"max":5,"step":1,"default":0},
+   {"type":"product","id":"product","label":"t:premium.product"}
+  ]}
+ ],
+ "presets":[{"name":"t:stories.name"}]
+}
+{% endschema %}

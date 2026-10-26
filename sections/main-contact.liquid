@@ -1,0 +1,254 @@
+{%- capture premium_section_body -%}
+{{ 'contact.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'contact-atelier.js' | asset_url }}" defer="defer"></script>
+{%- liquid
+  assign contact_id = 'Contact-' | append: section.id
+  assign email_id = contact_id | append: '-email'
+-%}
+<contact-atelier class="contact-atelier" data-topic="ritual">
+<section class="contact-page page-width section-space" aria-labelledby="{{ contact_id }}-title">
+  <div class="contact-page__intro">
+    <p class="contact-page__eyebrow">{{ 'contact.atelier.eyebrow' | t }}</p>
+    <h1 id="{{ contact_id }}-title">{{ page.title | escape }}</h1>
+    <p class="contact-page__invitation">{{ 'contact.atelier.invitation' | t }}</p>
+    <p class="contact-page__lead">{{ 'contact.atelier.intro' | t }}</p>
+    {%- if page.content != blank -%}
+      <div class="rte">{{ page.content }}</div>
+    {%- endif -%}
+    {%- if section.settings.details != blank -%}
+      <div class="contact-page__details rte">{{ section.settings.details }}</div>
+    {%- endif -%}
+    {%- if section.settings.atelier_image != blank -%}
+    <figure class="contact-page__still-life" aria-hidden="true">
+        {{ section.settings.atelier_image | image_url: width: 1100 | image_tag: widths: '400, 600, 800, 1100', sizes: '(min-width: 990px) 42vw, 100vw', loading: 'lazy', alt: '' }}
+      <span class="contact-page__mist"></span>
+      <figcaption>{{ 'contact.atelier.caption' | t }}</figcaption>
+    </figure>
+    {%- endif -%}
+  </div>
+  {%- form 'contact', id: contact_id, class: 'contact-page__form' -%}
+    <div class="contact-page__form-heading">
+      <span class="contact-page__eyebrow">{{ 'contact.atelier.note' | t }}</span>
+      <span class="contact-page__seal" aria-hidden="true">✳</span>
+      <h2>{{ 'contact.atelier.form_title' | t }}</h2>
+    </div>
+    {%- if form.posted_successfully? -%}
+      <div class="contact-page__notice" role="status" tabindex="-1" autofocus>
+        {{ 'contact.success' | t }}
+      </div>
+    {%- elsif form.errors -%}
+      <div class="contact-page__notice" role="alert" tabindex="-1" autofocus aria-labelledby="{{ contact_id }}-error-title">
+        <h2 id="{{ contact_id }}-error-title">{{ 'contact.error_heading' | t }}</h2>
+        <ul>
+          {%- for field in form.errors -%}
+            <li>
+              {%- if field == 'email' -%}
+                <a href="#{{ email_id }}">{{ form.errors.translated_fields[field] | capitalize | escape }} {{ form.errors.messages[field] | escape }}</a>
+              {%- else -%}
+                {{ form.errors.translated_fields[field] | capitalize | escape }} {{ form.errors.messages[field] | escape }}
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+    <fieldset class="contact-page__topics">
+      <legend>{{ 'contact.atelier.topic' | t }}</legend>
+      <div class="contact-page__topic-grid">
+        {%- assign topic_label = 'contact.atelier.topic' | t -%}
+        {%- assign selected_topic = form[topic_label] -%}
+        {%- assign contact_topics = 'ritual,order,other' | split: ',' -%}
+        {%- for topic in contact_topics -%}
+          {%- assign topic_key = 'contact.atelier.' | append: topic -%}
+          {%- assign tip_key = topic_key | append: '_tip' -%}
+          <label class="contact-page__topic">
+            {%- assign topic_value = topic_key | t -%}
+            <input type="radio" name="contact[{{ topic_label | escape }}]" value="{{ topic_value | escape }}" data-contact-topic="{{ topic }}" data-tip="{{ tip_key | t | escape }}" {% if selected_topic == topic_value or selected_topic == blank and forloop.first %}checked{% endif %}>
+            <span class="contact-page__topic-surface">
+              <span class="contact-page__material contact-page__material--{{ topic }}" aria-hidden="true"></span>
+              <span>{{ topic_key | t }}</span>
+              <span class="contact-page__topic-mark" aria-hidden="true">↗</span>
+            </span>
+          </label>
+        {%- endfor -%}
+      </div>
+    </fieldset>
+    <div class="contact-page__field">
+      <label for="{{ contact_id }}-name">{{ 'contact.name' | t }}</label>
+      <input data-control="field" id="{{ contact_id }}-name" type="text" name="contact[name]" autocomplete="name" value="{{ form.name | default: customer.name | escape }}">
+    </div>
+    <div class="contact-page__field">
+      <label for="{{ email_id }}">{{ 'contact.email' | t }} <span aria-hidden="true">*</span></label>
+      <input data-control="field" id="{{ email_id }}" type="email" name="contact[email]" autocomplete="email" autocorrect="off" autocapitalize="off" required value="{{ form.email | default: customer.email | escape }}"
+        {% if form.errors contains 'email' %}aria-invalid="true" aria-describedby="{{ contact_id }}-email-error"{% endif %}>
+      {%- if form.errors contains 'email' -%}
+        <p id="{{ contact_id }}-email-error" class="contact-page__field-error">{{ form.errors.translated_fields.email | capitalize | escape }} {{ form.errors.messages.email | escape }}</p>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.show_phone -%}
+      <div class="contact-page__field contact-page__field--wide">
+        <label for="{{ contact_id }}-phone">{{ 'contact.phone' | t }}</label>
+        <input data-control="field" id="{{ contact_id }}-phone" type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone | default: customer.phone | escape }}">
+      </div>
+    {%- endif -%}
+    <div class="contact-page__field contact-page__field--wide">
+      <label for="{{ contact_id }}-body">{{ 'contact.message' | t }} <span aria-hidden="true">*</span></label>
+      <p class="contact-page__tip" id="{{ contact_id }}-tip" data-contact-tip>{{ 'contact.atelier.other_tip' | t }}</p>
+      <textarea aria-describedby="{{ contact_id }}-tip" data-control="field" id="{{ contact_id }}-body" name="contact[body]" rows="5" required>{{ form.body | escape }}</textarea>
+    </div>
+    <button data-control="primary" class="button contact-page__submit" type="submit">{{ 'contact.send' | t }}<span aria-hidden="true">↗</span></button>
+    <p class="contact-page__footnote">{{ 'contact.atelier.required' | t }}</p>
+  {%- endform -%}
+</section>
+</contact-atelier>
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.contact_page_d9d917",
+  "limit": 1,
+  "enabled_on": {
+    "templates": [
+      "page"
+    ]
+  },
+  "settings": [
+    {"type":"image_picker","id":"atelier_image","label":"t:contact_atelier.image"},
+    {
+      "type": "richtext",
+      "id": "details",
+      "label": "t:editor.text.contact_details_968139",
+      "info": "t:editor.text.add_your_actual_opening_hours_or_contact_information_do_not_promi_f0cb0b"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone",
+      "label": "t:editor.text.show_optional_phone_field_df8ce1",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ]
+}
+{% endschema %}

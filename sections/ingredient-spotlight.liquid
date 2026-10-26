@@ -1,0 +1,237 @@
+{{ 'ingredient-spotlight.css' | asset_url | stylesheet_tag }}
+<section class="ingredient-spotlight" aria-labelledby="IngredientSpotlight-{{ section.id }}">
+  <div class="ingredient-spotlight__inner">
+    <header class="ingredient-spotlight__heading">
+      <p class="ingredient-spotlight__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      <h2 id="IngredientSpotlight-{{ section.id }}">
+        {{ section.settings.heading | escape }}
+        {% if section.settings.concentration != blank %}
+          <span class="ingredient-spotlight__concentration-badge">{{ section.settings.concentration | escape }}</span>
+        {% endif %}
+      </h2>
+      {% if section.settings.subtitle != blank %}
+        <p class="ingredient-spotlight__subtitle">{{ section.settings.subtitle | escape }}</p>
+      {% endif %}
+      {% if section.settings.illustrative %}
+        <p class="ingredient-spotlight__demo">{{ 'ingredient_spotlight.demo' | t }}</p>
+      {% endif %}
+    </header>
+
+    <div class="ingredient-spotlight__study">
+      <div class="ingredient-spotlight__image">
+        <div class="ingredient-spotlight__image-frame">
+          {% if section.settings.image != blank %}
+            {%- assign ingredient_alt = section.settings.image_alt | default: section.settings.heading -%}{{ section.settings.image | image_url: width: 1400 | image_tag: widths: '480, 750, 1000, 1400', sizes: '(min-width: 990px) 45vw, 92vw', loading: 'lazy', alt: ingredient_alt }}
+          {% else %}
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+          {% if section.settings.specimen_code != blank or section.settings.specimen_note != blank %}
+            <div class="ingredient-spotlight__specimen-tag">
+              {% if section.settings.specimen_code != blank %}<span class="specimen-code">{{ section.settings.specimen_code | escape }}</span>{% endif %}
+              {% if section.settings.specimen_note != blank %}<span class="specimen-tech">{{ section.settings.specimen_note | escape }}</span>{% endif %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="ingredient-spotlight__dossier">
+        {% if section.settings.dossier_label != blank or section.settings.dossier_meta != blank %}
+          <div class="ingredient-spotlight__dossier-header">
+            {% if section.settings.dossier_label != blank %}<span class="dossier-label">{{ section.settings.dossier_label | escape }}</span>{% endif %}
+            {% if section.settings.dossier_meta != blank %}<span class="dossier-purity">{{ section.settings.dossier_meta | escape }}</span>{% endif %}
+          </div>
+        {% endif %}
+        <ul class="ingredient-spotlight__notes" role="list">
+          {% for block in section.blocks %}
+            {% if block.type == 'benefit' and block.settings.text != blank %}
+              <li class="ingredient-spotlight__benefit-card" {{ block.shopify_attributes }}>
+                <div class="benefit-card__num">0{{ forloop.index }}</div>
+                <div class="benefit-card__content">
+                  <div class="benefit-card__top">
+                    <h3 class="benefit-card__title">{{ block.settings.text | escape }}</h3>
+                    {% if block.settings.potency != blank %}
+                      <span class="benefit-card__potency">{{ block.settings.potency | escape }}</span>
+                    {% endif %}
+                  </div>
+                  {% if block.settings.description != blank %}
+                    <p class="benefit-card__desc">{{ block.settings.description | escape }}</p>
+                  {% endif %}
+                  {% if block.settings.meter_label != blank or block.settings.meter_value != blank %}
+                    <div class="benefit-card__meter">
+                      {% if block.settings.meter_label != blank %}<span class="meter-label">{{ block.settings.meter_label | escape }}</span>{% endif %}
+                      {% if block.settings.meter_value != blank %}<span class="meter-value">{{ block.settings.meter_value | escape }}</span>{% endif %}
+                    </div>
+                  {% endif %}
+                </div>
+                <i aria-hidden="true"></i>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    {%- assign partner_blocks = section.blocks | where: 'type', 'partner' -%}
+    {%- if partner_blocks.size > 0 -%}
+    <div class="ingredient-spotlight__synergy-wrapper">
+      {% if section.settings.synergy_label != blank %}
+        <div class="ingredient-spotlight__synergy-label">
+          <span>{{ section.settings.synergy_label | escape }}</span>
+        </div>
+      {% endif %}
+      <ul class="ingredient-spotlight__partners" role="list">
+        {% for block in section.blocks %}
+          {% if block.type == 'partner' and block.settings.text != blank %}
+            <li class="ingredient-spotlight__partner-pill" {{ block.shopify_attributes }}>
+              <span class="partner-plus" aria-hidden="true">+</span>
+              <div class="partner-info">
+                <span class="partner-name">{{ block.settings.text | escape }}</span>
+                {% if block.settings.role != blank %}
+                  <span class="partner-role">{{ block.settings.role | escape }}</span>
+                {% endif %}
+              </div>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "t:ingredient_spotlight.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd",
+      "default": "Ingredient Spotlight"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17",
+      "default": "A considered formula."
+    },
+    {
+      "type": "text",
+      "id": "concentration",
+      "label": "t:ingredient_spotlight.concentration"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "t:editor.text.description_526e00"
+    },
+    {
+      "type": "text",
+      "id": "specimen_code",
+      "label": "t:ingredient_spotlight.specimen_code"
+    },
+    {
+      "type": "text",
+      "id": "specimen_note",
+      "label": "t:ingredient_spotlight.specimen_note"
+    },
+    {
+      "type": "text",
+      "id": "dossier_label",
+      "label": "t:ingredient_spotlight.dossier_label"
+    },
+    {
+      "type": "text",
+      "id": "dossier_meta",
+      "label": "t:ingredient_spotlight.dossier_meta"
+    },
+    {
+      "type": "text",
+      "id": "synergy_label",
+      "label": "t:ingredient_spotlight.synergy_label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:ingredient_spotlight.image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "t:ingredient_spotlight.alt"
+    },
+    {
+      "type": "checkbox",
+      "id": "illustrative",
+      "label": "t:ingredient_spotlight.illustrative",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "t:ingredient_spotlight.help"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "t:ingredient_spotlight.note",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:editor.text.description_526e00"
+        },
+        {
+          "type": "text",
+          "id": "potency",
+          "label": "t:ingredient_spotlight.potency"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:editor.text.description_526e00"
+        },
+        {
+          "type": "text",
+          "id": "meter_label",
+          "label": "t:ingredient_spotlight.meter_label"
+        },
+        {
+          "type": "text",
+          "id": "meter_value",
+          "label": "t:ingredient_spotlight.meter_value"
+        }
+      ]
+    },
+    {
+      "type": "partner",
+      "name": "t:ingredient_spotlight.partner",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:editor.text.heading_b34f17"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "t:ingredient_spotlight.partner_role"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:ingredient_spotlight.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,692 @@
+{
+  "general": {
+    "skip": "Saltar al contenido",
+    "menu": "Menú",
+    "navigation": "Navegación principal",
+    "search": "Buscar",
+    "footer": "Navegación del pie de página",
+    "view_all": "Ver todo",
+    "continue": "Seguir comprando",
+    "pagination": "Paginación",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "not_found": "Página no encontrada",
+    "meta": {
+      "tags": "Etiquetado \"{{ tags }}\"",
+      "page": "Página {{ page }}"
+    }
+  },
+  "cart": {
+    "title": "Carrito",
+    "empty": "Tu carrito está vacío.",
+    "remove": "Eliminar",
+    "note": "Nota del pedido",
+    "total": "Total estimado",
+    "update": "Actualizar carrito",
+    "checkout": "Finalizar compra",
+    "checkout_notice": "Los impuestos, descuentos y gastos de envío se calculan al finalizar la compra."
+  },
+  "product": {
+    "variant": "Elige una opción",
+    "quantity": "Cantidad",
+    "add": "Añadir al carrito",
+    "sold_out": "Agotado",
+    "from": "Desde",
+    "regular_price": "Precio habitual",
+    "share": "Compartir",
+    "share_product": "Compartir esta fórmula",
+    "copy_link": "Copiar enlace",
+    "link_copied": "Enlace copiado al portapapeles",
+    "close_share": "Cerrar menú de compartir",
+    "share_on": "Compartir en {{ platform }}",
+    "share_whatsapp": "WhatsApp",
+    "share_facebook": "Facebook",
+    "share_pinterest": "Pinterest",
+    "share_email": "Correo electrónico"
+  },
+  "collection": {
+    "products": "productos",
+    "sort": "Ordenar por",
+    "empty": "No se encontraron productos."
+  },
+  "search": {
+    "empty": "No se encontraron resultados."
+  },
+  "localization": {
+    "country": "País / región",
+    "language": "Idioma",
+    "apply": "Aplicar",
+    "heading": "Región e idioma",
+    "notice": "Los idiomas disponibles y los precios pueden variar según el país o la región."
+  },
+  "beauty": {
+    "before": "Antes",
+    "after": "Después",
+    "compare": "Comparar imágenes",
+    "morning": "Mañana",
+    "evening": "Noche",
+    "all": "Todas las rutinas",
+    "editor_note": "Antes / después: selecciona dos imágenes del mismo sujeto e incluye la duración y el contexto exactos. Nunca presentes resultados generados como evidencia clínica."
+  },
+  "product_comparison": {
+    "title": "Compara tus esenciales",
+    "view_product": "Ver producto",
+    "empty": "Elige productos y añade los detalles de comparación en el editor de temas.",
+    "not_provided": "Sin especificar",
+    "attribute": "Detalles del producto",
+    "available_options": "Opciones disponibles",
+    "scroll_hint": "Desliza para comparar",
+    "choose_cream": "Elige tu crema",
+    "compare_details": "Comparar tamaños y detalles"
+  },
+  "contact": {
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "message": "Mensaje",
+    "send": "Enviar mensaje",
+    "success": "Gracias. Tu mensaje se ha enviado.",
+    "error_heading": "Revisa lo siguiente:",
+    "atelier": {
+      "eyebrow": "Conversaciones de belleza",
+      "invitation": "El cuidado empieza con una conversación.",
+      "intro": "Tu ritual diario, una curiosidad o una pregunta sobre tu pedido. Te escuchamos.",
+      "caption": "Un poco de cuidado. Un toque personal.",
+      "note": "Una nota para nosotros",
+      "form_title": "¿Qué tienes en mente?",
+      "topic": "Me gustaría hablar de",
+      "ritual": "Mi ritual",
+      "order": "Mi pedido",
+      "other": "Otra cosa",
+      "ritual_tip": "Cuéntanos tu rutina actual y qué productos te interesan.",
+      "order_tip": "Incluye el número de pedido si lo tienes. No compartas datos de pago.",
+      "other_tip": "Ideas, colaboraciones o simplemente un saludo. Estás en casa.",
+      "required": "* El correo y el mensaje son obligatorios."
+    }
+  },
+  "beauty_video_gallery": {
+    "heading": "Con sus propias palabras",
+    "scroll_hint": "Desplázate para explorar los vídeos",
+    "shop_product": "Explorar {{ product }}",
+    "transcript": "Leer transcripción",
+    "empty": "Añade un vídeo y sus detalles en el editor de temas."
+  },
+  "results_timeline": {
+    "title": "Tu rutina con el paso del tiempo",
+    "evidence": "Leer información de respaldo",
+    "empty": "Añade etapas e información de respaldo en el editor de temas.",
+    "editor_method": "Incluye evidencia y contexto: tipo de prueba, tamaño de la muestra, duración y fuente cuando corresponda. Las afirmaciones deben estar respaldadas.",
+    "editor_empty": "Añade resultados verificados, una declaración de confianza o entradas cronológicas. No se genera ninguna afirmación automáticamente."
+  },
+  "editorial": {
+    "read_article": "Leer artículo",
+    "empty": "Aún no hay artículos.",
+    "back_to_blog": "Volver a {{ blog }}",
+    "tags": "Temas",
+    "comments": "Comentarios",
+    "comment_name": "Nombre",
+    "comment_email": "Correo electrónico",
+    "comment_body": "Comentario",
+    "comment_send": "Enviar comentario",
+    "comment_success": "Gracias. Tu comentario se ha enviado.",
+    "comment_pending": "Gracias. Tu comentario se ha enviado y aparecerá después de su aprobación.",
+    "comment_error": "Revisa lo siguiente:",
+    "moderation_notice": "Los comentarios se revisan antes de publicarse."
+  },
+  "gift_card": {
+    "title": "Tarjeta de regalo",
+    "balance": "Saldo disponible",
+    "initial_value": "Valor original",
+    "code": "Código de la tarjeta de regalo",
+    "instruction": "Usa este código al pagar.",
+    "disabled": "Esta tarjeta de regalo se ha desactivado.",
+    "expired": "Esta tarjeta de regalo ha caducado.",
+    "empty_balance": "Esta tarjeta de regalo no tiene saldo restante.",
+    "expires_on": "Caduca el {{ date }}",
+    "expired_on": "Caducó el {{ date }}",
+    "copy": "Copiar código",
+    "copied": "Código copiado",
+    "copy_failed": "Selecciona el código y cópialo manualmente.",
+    "print": "Imprimir tarjeta de regalo",
+    "shop": "Visitar la tienda",
+    "wallet": "Añadir a Apple Wallet",
+    "unavailable": "Los datos de la tarjeta de regalo no están disponibles.",
+    "message": "Un mensaje para ti"
+  },
+  "complementary_products": {
+    "title": "Completa tu rutina",
+    "empty": "Elige productos complementarios o configura las recomendaciones en Shopify Search & Discovery."
+  },
+  "password_page": {
+    "title": "Acceso a la tienda",
+    "introduction": "Introduce la contraseña para visitar la tienda.",
+    "password": "Contraseña",
+    "enter": "Entrar a la tienda",
+    "error_heading": "Revisa tu contraseña.",
+    "owner": "Acceso para el propietario"
+  },
+  "skin_concerns": {
+    "title": "Descubre cuidados para tu piel",
+    "empty": "Elige una colección para esta categoría de cuidado."
+  },
+  "collection_list": {
+    "title": "Colecciones",
+    "empty": "Aún no hay colecciones disponibles.",
+    "shop_all": "Todos los productos",
+    "product_count_one": "{{ count }} producto",
+    "product_count_other": "{{ count }} productos"
+  },
+  "newsletter": {
+    "heading": "Un poco de cuidado, directo a ti.",
+    "email": "Correo electrónico",
+    "subscribe": "Suscribirme",
+    "consent": "Suscríbete para recibir noticias y ofertas de {{ shop }} por correo electrónico. Puedes darte de baja en cualquier momento.",
+    "success": "Gracias. Hemos recibido tu solicitud de suscripción.",
+    "error_heading": "Revisa lo siguiente:"
+  },
+  "free_shipping": {
+    "title": "Envío gratis",
+    "remaining": "Faltan {{ amount }} para alcanzar el mínimo de envío gratis.",
+    "reached": "Tu carrito alcanza el mínimo para el envío gratis.",
+    "destination": "País de entrega: {{ country }}",
+    "checkout_note": "Las opciones y los gastos de envío se confirman al finalizar la compra.",
+    "policy": "Información de envío",
+    "setup": "Introduce el importe mínimo para este país y moneda y activa el indicador. Se muestra cuando el carrito contiene productos físicos sin suscripción.",
+    "duplicate": "Hay varias reglas de envío para este país y moneda. Deja una sola para que aparezca el indicador."
+  },
+  "facets": {
+    "title": "Filtros",
+    "apply": "Aplicar filtros",
+    "clear": "Borrar filtros",
+    "remove": "Quitar {{ value }}",
+    "minimum": "Precio mínimo",
+    "maximum": "Precio máximo"
+  },
+  "search_page": {
+    "results": "Resultados para «{{ terms }}»: {{ count }}",
+    "article": "Artículo",
+    "page": "Página",
+    "filter_note": "Los filtros de productos se aplican a los resultados de productos.",
+    "start": "Busca productos, guías e información de la tienda.",
+    "eyebrow": "El arte de descubrir",
+    "heading": "Encuentra tu próximo ritual.",
+    "empty_heading": "Te espera un pequeño descubrimiento.",
+    "empty_help": "Prueba una búsqueda más breve o explora la colección de abajo.",
+    "explore": "Explorar las colecciones",
+    "discover": "Un lugar por donde empezar",
+    "placeholder": "Productos, ingredientes, rituales…"
+  },
+  "cart_upsell": {
+    "title": "También te puede gustar",
+    "adding": "Añadiendo al carrito…",
+    "uncertain": "Puede que el artículo ya esté en tu carrito. Compruébalo antes de volver a intentarlo.",
+    "review": "Revisar el carrito",
+    "empty": "Elige los productos que quieras recomendar. Se muestran cuando hay un artículo en el carrito, salvo los que ya se hayan añadido o estén agotados."
+  },
+  "shade_finder": {
+    "heading": "Explora los tonos.",
+    "view_all": "Explorar todas las opciones",
+    "instruction": "Selecciona hasta dos tonos para comparar.",
+    "selected_count": "{{ count }} / 2 seleccionados",
+    "limit": "Quita un tono seleccionado antes de añadir otro.",
+    "no_swatch": "No se ha añadido una muestra de color",
+    "view_shade": "Ver tono",
+    "view_options": "Ver opciones",
+    "compare": "Comparar",
+    "comparison": "Lado a lado",
+    "clear": "Borrar selección",
+    "screen_note": "Los colores pueden verse diferentes en pantalla. Consulta los detalles del producto para elegir.",
+    "empty": "Elige un producto con muestras guardadas o selecciona la posición de su opción de tono."
+  },
+  "predictive_search": {
+    "title": "Sugerencias de búsqueda",
+    "loading": "Cargando sugerencias…",
+    "count": "Sugerencias: {{ count }}",
+    "clear": "Borrar",
+    "all": "Buscar «{{ terms }}»"
+  },
+  "launch_check": {
+    "title": "Revisión de configuración",
+    "review": "Puntos por revisar: {{ count }}",
+    "clear": "No se detectaron campos vacíos en esta sección.",
+    "scope": "Solo campos de la sección. Antes de publicar, revisar las afirmaciones, los envíos, las traducciones y una compra móvil.",
+    "location": "Actualizar estos campos en los ajustes de esta sección.",
+    "menu": "Seleccionar un menú con enlaces.",
+    "image": "Seleccionar una imagen de campaña y revisar su punto focal en móvil.",
+    "alt": "Revisar el texto alternativo vacío. Describir las imágenes que transmiten información.",
+    "heading": "Añadir un título o una línea de título en cursiva.",
+    "primary": "Completar el texto y el enlace del botón principal o dejar ambos vacíos.",
+    "secondary": "Completar el texto y el destino del enlace secundario o dejar ambos vacíos.",
+    "collection": "Seleccionar una colección.",
+    "empty_collection": "Esta colección no tiene productos visibles aquí. Revisar sus productos y disponibilidad en el mercado.",
+    "steps": "Añadir un paso de rutina.",
+    "step_title": "Paso {{ number }}: añadir un título.",
+    "step_product": "Paso {{ number }}: seleccionar un producto si se desea enlazarlo. Se permiten pasos solo de texto.",
+    "step_availability": "Paso {{ number }}: el producto seleccionado no está disponible aquí. Revisar el mercado y el inventario.",
+    "step_copy": "Paso {{ number }}: añadir las instrucciones de uso reales del producto."
+  },
+  "pickup": {
+    "title": "Recogida en tienda",
+    "available": "Disponible para recoger",
+    "unavailable": "Recogida no disponible por ahora",
+    "locations": "Puntos de recogida",
+    "note": "Las opciones de recogida se confirman al finalizar la compra.",
+    "empty": "No hay puntos de recogida para esta variante. Revisa los ajustes de recogida y de inventario en Shopify."
+  },
+  "gift_recipient": {
+    "title": "Un regalo personal.",
+    "enable": "Enviar esta tarjeta regalo a otra persona",
+    "email": "Correo del destinatario",
+    "name": "Nombre del destinatario",
+    "message": "Mensaje personal",
+    "send_on": "Fecha de envío",
+    "email_hint": "Obligatorio para enviar a otra persona.",
+    "name_hint": "Opcional. Hasta 255 caracteres.",
+    "message_hint": "Opcional. Hasta 200 caracteres.",
+    "schedule_note": "Opcional. Elige una fecha dentro de 90 días o déjala en blanco para enviar después de la compra.",
+    "scheduled": "Envío programado: {{ date }}"
+  },
+  "bundle_components": {
+    "title": "Contenido del set"
+  },
+  "cart_relationship": {
+    "parent": "Vinculado a: {{ product }}",
+    "quantity_fixed": "La cantidad de este artículo no se puede cambiar por separado.",
+    "remove_fixed": "Este artículo no se puede eliminar por separado."
+  },
+  "image_zoom": {
+    "open": "Ampliar imagen",
+    "title": "Imagen del producto",
+    "close": "Cerrar",
+    "original": "Abrir imagen a tamaño completo",
+    "error": "No se pudo cargar esta imagen. Prueba a abrirla directamente."
+  },
+  "purchase_options": {
+    "title": "Opciones de compra",
+    "hint": "Elige una opción para actualizar tu compra. Todos los precios son por artículo.",
+    "one_time": "Compra única",
+    "choose": "Elige una opción de compra",
+    "unavailable": "No hay un plan de compra disponible para esta variante.",
+    "per_delivery": "Por entrega",
+    "checkout": "A pagar al finalizar la compra",
+    "after_orders": "Después de {{ count }} pedidos: {{ price }} por artículo."
+  },
+  "cart_price": {
+    "original_total": "Total del artículo antes del descuento",
+    "total": "Total del artículo",
+    "unit": "Precio por unidad de medida"
+  },
+  "external_video": {
+    "watch": "Ver vídeo",
+    "close": "Cerrar vídeo",
+    "direct": "Abrir el vídeo directamente"
+  },
+  "account_access": {
+    "title": "Cuenta"
+  },
+  "related_products": {
+    "title": "También te puede gustar",
+    "empty": "Elige productos de respaldo o configura recomendaciones de productos relacionados en Shopify Search & Discovery."
+  },
+  "custom_liquid": {
+    "empty": "Añade Liquid o HTML en la configuración de esta sección."
+  },
+  "product_model": {
+    "open": "Ver en 3D",
+    "close": "Cerrar vista 3D",
+    "loading": "Cargando vista 3D…",
+    "error": "No se pudo cargar la vista 3D. Inténtalo de nuevo o descarga el modelo a continuación.",
+    "download": "Descargar modelo 3D",
+    "ar": "Ver en tu espacio",
+    "hint": "Arrastra o usa las flechas para girar. Usa los controles del visor para ampliar. Pulsa Escape para cerrar."
+  },
+  "product_options": {
+    "unavailable_choice": "No disponible con esta selección",
+    "unavailable_combination": "Esta combinación no está disponible. Elige otra opción."
+  },
+  "product_purchase_notices": {
+    "taxes_included": "Impuestos incluidos.",
+    "duties_included": "Aranceles incluidos.",
+    "shipping_policy": "Política de envíos"
+  },
+  "cart_design": {
+    "eyebrow": "Tus rituales diarios",
+    "empty_heading": "Aquí hay lugar para un poco de cuidado.",
+    "empty_text": "Explora la colección y encuentra los esenciales para tu próximo ritual.",
+    "summary": "Resumen del pedido",
+    "update_hint": "Guarda los cambios de cantidad con «Actualizar carrito»."
+  },
+  "footer_design": {
+    "discover": "Descubrir",
+    "information": "Atención al cliente",
+    "theme_credit": "Tema de Mufatech"
+  },
+  "routine_chapters": {
+    "steps_one": "{{ count }} paso",
+    "steps_other": "{{ count }} pasos",
+    "guide_label": "Tu ritual de un vistazo",
+    "morning_heading": "Un nuevo comienzo, a tu ritmo.",
+    "morning_text": "Explora la selección de mañana, del primer paso al último toque de cuidado. Abre un producto para conocer su formato y las opciones disponibles.",
+    "evening_heading": "Haz espacio para tu ritual de noche.",
+    "evening_text": "Descubre la selección de noche y el lugar de cada producto en ella. Abre su ficha para consultar los detalles y las instrucciones de uso.",
+    "all_heading": "Tu cuidado diario, en conjunto.",
+    "all_text": "Explora todos los pasos seleccionados en un solo lugar. Compara los productos para tu día y elige la selección que se adapte a tu ritual.",
+    "overview": "Los pasos de esta selección"
+  },
+  "routine_purchase": {
+    "title": "Compra tu rutina",
+    "instruction": "Selecciona los productos y sus opciones. Añadiremos una unidad de cada variante seleccionada a tu bolsa.",
+    "include": "Incluir en mi rutina",
+    "add_selected": "Añadir productos seleccionados a la bolsa",
+    "uncertain": "Es posible que algunos productos ya estén en tu bolsa. Revísala antes de volver a añadir productos.",
+    "empty": "Selecciona productos para esta rutina en el editor de temas."
+  },
+  "cart_purchase": {
+    "shipping_calculated": "Los gastos de envío se calculan al finalizar la compra."
+  },
+  "cart_feedback": {
+    "updating": "Actualizando tu carrito…",
+    "updated": "Tu carrito está actualizado.",
+    "uncertain": "No pudimos confirmar este cambio. Revisa tu carrito antes de volver a intentarlo.",
+    "review": "Revisar carrito"
+  },
+  "sensory": {
+    "quick_view": "Ver de cerca",
+    "added": "Añadido a tu bolsa.",
+    "cream": "Extender la crema",
+    "spray": "Aplicar la bruma",
+    "replay": "Repetir la textura",
+    "texture_position": "Explora la textura"
+  },
+  "premium": {
+    "new": "Nuevo",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "pause": "Pausar",
+    "play": "Reproducir",
+    "loading": "Cargando…",
+    "unavailable": "La vista previa no está disponible. Abra la página completa a continuación.",
+    "rating": "Valoración",
+    "increase": "Aumentar cantidad",
+    "decrease": "Reducir cantidad",
+    "details": "Detalles del producto"
+  },
+  "stories": {
+    "title": "Tu ritual. Tus palabras.",
+    "share": "Comparte tu experiencia",
+    "experience": "Tu experiencia",
+    "send": "Enviar tu opinión",
+    "rating": "{{ value }} de 5 estrellas",
+    "demo_label": "Reseñas de ejemplo · Contenido de demostración"
+  },
+  "editorial_gallery": {
+    "title": "La selección visual"
+  },
+  "vanity": {
+    "choose": "Elegir",
+    "change": "Cambiar",
+    "remove": "Quitar",
+    "hint": "Toca un producto para crear tu ritual.",
+    "yours": "Tu ritual",
+    "empty": "Elige los productos de tu mesa. Cada paso es opcional.",
+    "total": "Total de productos",
+    "close": "Cerrar",
+    "select": "Colocar en mi mesa",
+    "setup": "Añade productos a los pasos en el editor de temas.",
+    "product_page": "Consulta las opciones de compra en la página del producto."
+  },
+  "ritual_builder": {
+    "heading": "Build Your Ritual",
+    "intro": "Three steps. Made for your skin.",
+    "need": "What does your skin need?",
+    "feel": "How does your skin feel?",
+    "level": "Your routine?",
+    "hydration": "Hydration",
+    "glow": "Glow",
+    "calm": "Calm",
+    "firmness": "Firmness",
+    "dry": "Dry",
+    "balanced": "Balanced",
+    "oily": "Oily",
+    "sensitive": "Sensitive",
+    "essential": "Essential",
+    "complete": "Complete",
+    "cleanse": "Cleanse",
+    "treat": "Treat",
+    "finish": "Finish",
+    "yours": "Your ritual",
+    "add": "Add complete ritual",
+    "note": "Explore a three-step edit based on your preferences. Review each product to find your fit.",
+    "unavailable": "A complete ritual is not available for this selection. Explore the products individually.",
+    "updated": "Your ritual has been updated."
+  },
+  "ingredient_spotlight": {
+    "demo": "Illustrative formula · Demo content"
+  },
+  "skin_timeline": {
+    "select": "Move through the timeline",
+    "demo": "Illustrative timeline · Images and days do not represent product results."
+  },
+  "social_media": {
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "pinterest": "Pinterest",
+    "youtube": "YouTube",
+    "tiktok": "TikTok",
+    "whatsapp": "WhatsApp",
+    "x": "X",
+    "threads": "Threads",
+    "snapchat": "Snapchat",
+    "linkedin": "LinkedIn",
+    "follow": "Síguenos"
+  },
+  "inventory": {
+    "in_stock": "En stock",
+    "low_stock": "Stock limitado · Solo quedan {{ count }}",
+    "very_low_stock": "Últimas unidades · Solo quedan {{ count }}",
+    "sold_out": "Agotado · No disponible por ahora",
+    "batch_passport": "Lote {{ batch }}",
+    "authenticity": "Información del lote",
+    "notify_me": "Avisarme cuando esté disponible",
+    "notify_eyebrow": "Lista de avisos de stock",
+    "notify_title": "Avísame cuando vuelva",
+    "notify_subtext": "Introduce tu correo para recibir un aviso en cuanto {{ product }} vuelva a estar disponible.",
+    "notify_email_label": "Dirección de correo",
+    "notify_email_placeholder": "Introduzca su correo",
+    "notify_submit": "Unirme a la lista",
+    "notify_reassurance": "Tu correo electrónico se enviará a la tienda con esta solicitud.",
+    "volume_ml": "ml",
+    "volume_floz": "fl. oz.",
+    "volume_toggle": "Cambiar unidad de volumen",
+    "notify_success_title": "Solicitud enviada",
+    "notify_success_subtext": "Gracias. La tienda ha recibido tu solicitud."
+  },
+  "Share": "Compartir",
+  "volume_pricing": {
+    "title": "Compre en lote y ahorre",
+    "select_tier": "Seleccionar cantidad",
+    "single_pack": "Artículo individual",
+    "double_pack": "Dúo ritual",
+    "trio_pack": "Trío ritual",
+    "standard_pack": "Estándar",
+    "popular": "Más popular",
+    "best_value": "Mejor valor",
+    "save_pct": "Ahorre {{ percent }}%",
+    "each": "unidad",
+    "per_unit": "por unidad"
+  },
+  "customer": {
+    "login": {
+      "title": "Iniciar sesión",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Iniciar sesión",
+      "forgot": "¿Olvidaste tu contraseña?",
+      "no_account": "¿Aún no tienes una cuenta?",
+      "disabled": "Las cuentas de cliente no están habilitadas en esta tienda."
+    },
+    "recover_password": {
+      "title": "Restablecer tu contraseña",
+      "subtext": "Te enviaremos un correo para restablecer tu contraseña.",
+      "success": "Te hemos enviado un correo con un enlace para actualizar tu contraseña.",
+      "submit": "Enviar enlace",
+      "cancel": "Volver a iniciar sesión"
+    },
+    "register": {
+      "title": "Crear cuenta",
+      "first_name": "Nombre",
+      "last_name": "Apellidos",
+      "submit": "Crear cuenta",
+      "has_account": "¿Ya tienes una cuenta?"
+    },
+    "activate_account": {
+      "title": "Activar cuenta",
+      "subtext": "Crea tu contraseña para activar tu cuenta.",
+      "password": "Contraseña",
+      "password_confirm": "Confirmar contraseña",
+      "submit": "Activar cuenta",
+      "decline": "Rechazar invitación"
+    },
+    "reset_password": {
+      "title": "Establecer una nueva contraseña",
+      "subtext": "Introduce una nueva contraseña para tu cuenta.",
+      "password": "Nueva contraseña",
+      "password_confirm": "Confirmar contraseña",
+      "submit": "Guardar contraseña"
+    },
+    "account": {
+      "title": "Cuenta",
+      "welcome": "Bienvenido de nuevo, {{ name }}.",
+      "log_out": "Cerrar sesión",
+      "default_address": "Dirección predeterminada",
+      "view_addresses": "Ver direcciones ({{ count }})"
+    },
+    "orders": {
+      "title": "Historial de pedidos",
+      "none": "Todavía no has realizado ningún pedido.",
+      "order_number": "Pedido",
+      "date": "Fecha",
+      "payment_status": "Pago",
+      "fulfillment_status": "Envío",
+      "total": "Total"
+    },
+    "order": {
+      "title": "Pedido {{ name }}",
+      "date": "Realizado el {{ date }}",
+      "return": "Volver a la cuenta",
+      "cancelled": "Pedido cancelado el {{ date }}",
+      "product": "Producto",
+      "sku": "SKU",
+      "price": "Precio",
+      "quantity": "Cantidad",
+      "total": "Total",
+      "subtotal": "Subtotal",
+      "shipping": "Envío",
+      "tax": "Impuestos",
+      "fulfilled_at": "Enviado el {{ date }}",
+      "billing_address": "Dirección de facturación",
+      "shipping_address": "Dirección de envío",
+      "payment_status": "Estado del pago",
+      "fulfillment_status": "Estado del envío"
+    },
+    "addresses": {
+      "title": "Direcciones",
+      "none": "Aún no hay ninguna dirección guardada.",
+      "add_new": "Añadir una dirección nueva",
+      "add": "Añadir dirección",
+      "update": "Actualizar dirección",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "default": "Predeterminada",
+      "set_default": "Establecer como dirección predeterminada",
+      "company": "Empresa",
+      "address1": "Dirección",
+      "address2": "Apartamento, piso, etc.",
+      "city": "Ciudad",
+      "zip": "Código postal",
+      "country": "País / Región",
+      "province": "Estado / Provincia",
+      "phone": "Teléfono"
+    }
+  },
+  "editorial_hero": {
+    "acquire": "Comprar {{ product }} — {{ price }}"
+  },
+  "faq": {
+    "editor_note": "Añade una respuesta para publicar esta pregunta."
+  },
+  "product_card": {
+    "sale": "Oferta",
+    "save_amount": "Ahorra {{ amount }}"
+  },
+  "multicolumn": {
+    "list_label": "Columnas de contenido"
+  },
+  "collapsible": {
+    "editor_note": "Añade contenido o selecciona una página para publicar esta fila."
+  },
+  "consent": {
+    "region": "Opciones de cookies",
+    "heading": "Tus opciones de cookies",
+    "message": "Usamos cookies y tecnologías similares para que esta tienda funcione y, con tu consentimiento, para análisis y marketing.",
+    "accept": "Aceptar todo",
+    "decline": "Rechazar todo",
+    "manage": "Gestionar preferencias",
+    "save": "Guardar preferencias",
+    "preferences_title": "Categorías de cookies",
+    "necessary": "Estrictamente necesarias",
+    "necessary_description": "Necesarias para que la tienda funcione, como el carrito y el pago. Siempre activas.",
+    "analytics": "Análisis",
+    "analytics_description": "Nos ayudan a entender cómo se usa la tienda para poder mejorarla.",
+    "marketing": "Marketing",
+    "marketing_description": "Se usan para mostrar ofertas relevantes y medir la publicidad.",
+    "preferences": "Preferencias",
+    "preferences_description": "Recuerdan opciones como el idioma y la región.",
+    "privacy_policy": "Política de privacidad",
+    "saved": "Se han guardado tus opciones de cookies.",
+    "error": "No se han podido guardar tus opciones. Inténtalo de nuevo."
+  },
+  "collection_paging": {
+    "load_more": "Cargar más",
+    "loaded": "Más productos cargados: {{ count }}",
+    "showing": "Mostrando {{ shown }} de {{ total }}"
+  },
+  "slideshow": {
+    "label": "Presentación de diapositivas",
+    "slide_label": "Diapositiva {{ index }} de {{ count }}",
+    "go_to": "Mostrar diapositiva {{ index }}"
+  },
+  "video_section": {
+    "play": "Reproducir vídeo",
+    "pause": "Pausar vídeo",
+    "load_video": "Reproducir vídeo: {{ title }}",
+    "fallback_title": "Vídeo",
+    "editor_empty": "Añade un vídeo alojado en Shopify o una URL de YouTube o Vimeo para mostrar esta sección."
+  },
+  "logo_list": {
+    "list_label": "Logotipos",
+    "play": "Reanudar el desplazamiento de logotipos",
+    "pause": "Pausar el desplazamiento de logotipos",
+    "editor_empty": "Añade bloques de logotipo para mostrar esta sección.",
+    "editor_no_quote": "Añade una cita para mostrar este logotipo en las pestañas de citas."
+  },
+  "countdown": {
+    "days": "Días",
+    "hours": "Horas",
+    "minutes": "Minutos",
+    "seconds": "Segundos",
+    "timer_label": "Tiempo restante",
+    "ends_on_html": "Termina el {{ date }}",
+    "ended": "Esta cuenta atrás ha terminado.",
+    "editor_missing": "Introduce una fecha de finalización para mostrar esta cuenta atrás. Hasta entonces, los visitantes no verán nada.",
+    "editor_invalid": "Revisa la fecha y la hora de finalización. Usa YYYY-MM-DD y HH:MM.",
+    "editor_hidden": "La cuenta atrás ha terminado. Esta sección está oculta para los visitantes."
+  },
+  "neutral": {
+    "back_in_stock_request": "Solicitud de aviso de reposición: {{ product }} ({{ variant }})",
+    "volume_pricing": {
+      "pack_of": "Pack de {{ quantity }}",
+      "discount_at_checkout": "Ahorra un {{ percent }} % al pagar"
+    }
+  }
+}

@@ -1,0 +1,606 @@
+{% render 'section-scheme', section: section %}
+{%- capture premium_section_body -%}
+{%- liquid
+  assign layout = section.settings.layout
+  assign expiry = section.settings.expiry
+  assign offset = section.settings.timezone | default: '+00:00'
+  assign end_date = section.settings.end_date | strip
+  assign end_time = section.settings.end_time | strip
+  if end_time == blank
+    assign end_time = '00:00'
+  endif
+
+  comment
+    Truthful timing only: nothing renders for visitors until the merchant enters a real end date.
+    The remaining time is computed on the server so the banner is correct without JavaScript.
+  endcomment
+  assign state = 'missing'
+  assign remaining = 0
+  assign iso = ''
+  assign hh = '00'
+  assign mm = '00'
+  if end_date != blank
+    assign state = 'invalid'
+    assign date_parts = end_date | split: '-'
+    assign time_parts = end_time | split: ':'
+    if end_date.size == 10 and date_parts.size == 3 and time_parts.size == 2
+      assign year = date_parts[0] | plus: 0
+      assign month = date_parts[1] | plus: 0
+      assign day = date_parts[2] | plus: 0
+      assign hour = time_parts[0] | plus: 0
+      assign minute = time_parts[1] | plus: 0
+      assign minute_size = time_parts[1] | size
+      if year >= 2000 and year <= 2200 and month >= 1 and month <= 12 and day >= 1 and day <= 31 and hour >= 0 and hour <= 23 and minute >= 0 and minute <= 59 and minute_size == 2
+        assign hh = hour | prepend: '0' | slice: -2, 2
+        assign mm = minute | prepend: '0' | slice: -2, 2
+        assign iso = end_date | append: 'T' | append: hh | append: ':' | append: mm | append: ':00' | append: offset
+        assign end_s = iso | date: '%s' | plus: 0
+        if end_s > 946684800
+          assign now_s = 'now' | date: '%s' | plus: 0
+          assign remaining = end_s | minus: now_s
+          assign state = 'running'
+          if remaining <= 0
+            assign state = 'ended'
+            assign remaining = 0
+          endif
+        endif
+      endif
+    endif
+  endif
+
+  assign render_banner = false
+  if state == 'running'
+    assign render_banner = true
+  elsif state == 'ended' and expiry != 'hide'
+    assign render_banner = true
+  endif
+
+  assign display_remaining = remaining
+  if section.settings.show_seconds == false and remaining > 0
+    assign display_remaining = remaining | plus: 59 | divided_by: 60 | times: 60
+  endif
+  assign days = display_remaining | divided_by: 86400
+  assign hours = display_remaining | modulo: 86400 | divided_by: 3600
+  assign minutes = display_remaining | modulo: 3600 | divided_by: 60
+  assign seconds = display_remaining | modulo: 60
+  if days < 10
+    assign days = days | prepend: '0'
+  endif
+  assign hours = hours | prepend: '0' | slice: -2, 2
+  assign minutes = minutes | prepend: '0' | slice: -2, 2
+  assign seconds = seconds | prepend: '0' | slice: -2, 2
+
+  assign show_message = false
+  if state == 'ended' and expiry == 'message'
+    assign show_message = true
+  endif
+
+  assign ended_text = section.settings.ended_message | strip
+  if ended_text == blank
+    assign ended_text = 'countdown.ended' | t
+  endif
+
+  assign has_media = false
+  if layout != 'bar'
+    if section.settings.image != blank or request.design_mode
+      assign has_media = true
+    endif
+  endif
+  assign media_sizes = '(min-width: 990px) 50vw, 100vw'
+  if layout == 'full'
+    assign media_sizes = '100vw'
+  endif
+-%}
+{%- if render_banner or request.design_mode -%}
+  {{ 'section-countdown-banner.css' | asset_url | stylesheet_tag }}
+  {%- if state == 'running' or state == 'ended' -%}<script src="{{ 'section-countdown-banner.js' | asset_url }}" type="module" defer></script>{%- endif -%}
+  <countdown-banner
+    class="countdown-banner countdown-banner--{{ layout }}{% if layout != 'bar' %} section-space{% endif %}"
+    data-state="{{ state }}"
+    data-expiry="{{ expiry }}"
+    data-date="{{ end_date | escape }}"
+    data-time="{{ end_time | escape }}"
+    data-offset="{{ offset | escape }}"
+    style="--countdown-scrim:{{ section.settings.overlay_opacity | divided_by: 100.0 }}"
+  >
+    <div class="countdown-banner__inner page-width{% if has_media %} countdown-banner__inner--media{% endif %}" data-image-position="{{ section.settings.image_position }}">
+      {%- if has_media -%}
+        <div class="countdown-banner__media">
+          {%- if section.settings.image != blank -%}
+            {%- capture image_style -%}object-position:{{ section.settings.image.presentation.focal_point | default: '50% 50%' }}{%- endcapture -%}
+            {%- assign image_alt = section.settings.image.alt | escape -%}
+            {%- if layout == 'full' -%}{%- assign image_alt = '' -%}{%- endif -%}
+            {{ section.settings.image | image_url: width: 2400 | image_tag: widths: '480, 750, 1080, 1500, 1920, 2400', sizes: media_sizes, loading: 'lazy', alt: image_alt, class: 'countdown-banner__image', style: image_style }}
+          {%- else -%}
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'countdown-banner__placeholder' }}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="countdown-banner__content">
+        {%- if request.design_mode -%}
+          {%- case state -%}
+            {%- when 'missing' -%}<p class="editor-note countdown-banner__note">{{ 'countdown.editor_missing' | t }}</p>
+            {%- when 'invalid' -%}<p class="editor-note countdown-banner__note">{{ 'countdown.editor_invalid' | t }}</p>
+            {%- when 'ended' -%}{%- if expiry == 'hide' -%}<p class="editor-note countdown-banner__note">{{ 'countdown.editor_hidden' | t }}</p>{%- endif -%}
+          {%- endcase -%}
+          <p class="editor-note countdown-banner__note" data-invalid-note hidden>{{ 'countdown.editor_invalid' | t }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.text != blank -%}
+          <div class="countdown-banner__copy">
+            {%- if section.settings.eyebrow != blank -%}<p class="eyebrow countdown-banner__eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+            {%- if section.settings.heading != blank -%}<h2 class="countdown-banner__heading">{{ section.settings.heading | escape }}</h2>{%- endif -%}
+            {%- if section.settings.text != blank -%}<div class="rte countdown-banner__text">{{ section.settings.text }}</div>{%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if state == 'running' or state == 'ended' -%}
+          <div class="countdown-banner__clock">
+            {%- capture deadline_html -%}<time datetime="{{ iso | escape }}" data-deadline>{{ end_date | escape }} {{ hh }}:{{ mm }} (UTC{{ offset | escape }})</time>{%- endcapture -%}
+            <p class="countdown-banner__deadline" data-deadline-row{% if state == 'ended' %} hidden{% endif %}>{{ 'countdown.ends_on_html' | t: date: deadline_html }}</p>
+            <div class="countdown-banner__timer" role="timer" aria-live="off" aria-atomic="true" aria-label="{{ 'countdown.timer_label' | t | escape }}" data-timer{% if show_message %} hidden{% endif %}>
+              <span class="countdown-unit"><span class="countdown-unit__value" data-unit="days">{{ days }}</span><span class="countdown-unit__label">{{ 'countdown.days' | t }}</span></span>
+              <span class="countdown-unit"><span class="countdown-unit__value" data-unit="hours">{{ hours }}</span><span class="countdown-unit__label">{{ 'countdown.hours' | t }}</span></span>
+              <span class="countdown-unit"><span class="countdown-unit__value" data-unit="minutes">{{ minutes }}</span><span class="countdown-unit__label">{{ 'countdown.minutes' | t }}</span></span>
+              {%- if section.settings.show_seconds -%}
+                <span class="countdown-unit"><span class="countdown-unit__value" data-unit="seconds">{{ seconds }}</span><span class="countdown-unit__label">{{ 'countdown.seconds' | t }}</span></span>
+              {%- endif -%}
+            </div>
+            <p class="countdown-banner__ended" data-ended{% unless show_message %} hidden{% endunless %}>{{ ended_text | escape }}</p>
+            <p class="visually-hidden" data-live aria-live="polite" aria-atomic="true"></p>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+          <a class="countdown-banner__button" data-control="primary" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </countdown-banner>
+{%- endif -%}
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:countdown.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:countdown.timing"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "t:countdown.end_date",
+      "info": "t:countdown.end_date_info",
+      "placeholder": "t:placeholders.countdown_banner_end_date"
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "label": "t:countdown.end_time",
+      "info": "t:countdown.end_time_info",
+      "placeholder": "t:placeholders.countdown_banner_end_time"
+    },
+    {
+      "type": "select",
+      "id": "timezone",
+      "label": "t:countdown.timezone",
+      "info": "t:countdown.timezone_info",
+      "default": "+00:00",
+      "options": [
+        {
+          "value": "-12:00",
+          "label": "t:countdown.tz_m1200"
+        },
+        {
+          "value": "-11:00",
+          "label": "t:countdown.tz_m1100"
+        },
+        {
+          "value": "-10:00",
+          "label": "t:countdown.tz_m1000"
+        },
+        {
+          "value": "-09:30",
+          "label": "t:countdown.tz_m0930"
+        },
+        {
+          "value": "-09:00",
+          "label": "t:countdown.tz_m0900"
+        },
+        {
+          "value": "-08:00",
+          "label": "t:countdown.tz_m0800"
+        },
+        {
+          "value": "-07:00",
+          "label": "t:countdown.tz_m0700"
+        },
+        {
+          "value": "-06:00",
+          "label": "t:countdown.tz_m0600"
+        },
+        {
+          "value": "-05:00",
+          "label": "t:countdown.tz_m0500"
+        },
+        {
+          "value": "-04:00",
+          "label": "t:countdown.tz_m0400"
+        },
+        {
+          "value": "-03:30",
+          "label": "t:countdown.tz_m0330"
+        },
+        {
+          "value": "-03:00",
+          "label": "t:countdown.tz_m0300"
+        },
+        {
+          "value": "-02:00",
+          "label": "t:countdown.tz_m0200"
+        },
+        {
+          "value": "-01:00",
+          "label": "t:countdown.tz_m0100"
+        },
+        {
+          "value": "+00:00",
+          "label": "t:countdown.tz_p0000"
+        },
+        {
+          "value": "+01:00",
+          "label": "t:countdown.tz_p0100"
+        },
+        {
+          "value": "+02:00",
+          "label": "t:countdown.tz_p0200"
+        },
+        {
+          "value": "+03:00",
+          "label": "t:countdown.tz_p0300"
+        },
+        {
+          "value": "+03:30",
+          "label": "t:countdown.tz_p0330"
+        },
+        {
+          "value": "+04:00",
+          "label": "t:countdown.tz_p0400"
+        },
+        {
+          "value": "+04:30",
+          "label": "t:countdown.tz_p0430"
+        },
+        {
+          "value": "+05:00",
+          "label": "t:countdown.tz_p0500"
+        },
+        {
+          "value": "+05:30",
+          "label": "t:countdown.tz_p0530"
+        },
+        {
+          "value": "+05:45",
+          "label": "t:countdown.tz_p0545"
+        },
+        {
+          "value": "+06:00",
+          "label": "t:countdown.tz_p0600"
+        },
+        {
+          "value": "+06:30",
+          "label": "t:countdown.tz_p0630"
+        },
+        {
+          "value": "+07:00",
+          "label": "t:countdown.tz_p0700"
+        },
+        {
+          "value": "+08:00",
+          "label": "t:countdown.tz_p0800"
+        },
+        {
+          "value": "+08:45",
+          "label": "t:countdown.tz_p0845"
+        },
+        {
+          "value": "+09:00",
+          "label": "t:countdown.tz_p0900"
+        },
+        {
+          "value": "+09:30",
+          "label": "t:countdown.tz_p0930"
+        },
+        {
+          "value": "+10:00",
+          "label": "t:countdown.tz_p1000"
+        },
+        {
+          "value": "+10:30",
+          "label": "t:countdown.tz_p1030"
+        },
+        {
+          "value": "+11:00",
+          "label": "t:countdown.tz_p1100"
+        },
+        {
+          "value": "+12:00",
+          "label": "t:countdown.tz_p1200"
+        },
+        {
+          "value": "+12:45",
+          "label": "t:countdown.tz_p1245"
+        },
+        {
+          "value": "+13:00",
+          "label": "t:countdown.tz_p1300"
+        },
+        {
+          "value": "+14:00",
+          "label": "t:countdown.tz_p1400"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_seconds",
+      "label": "t:countdown.show_seconds",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "expiry",
+      "label": "t:countdown.expiry",
+      "default": "hide",
+      "options": [
+        {
+          "value": "hide",
+          "label": "t:countdown.expiry_hide"
+        },
+        {
+          "value": "message",
+          "label": "t:countdown.expiry_message"
+        },
+        {
+          "value": "zeros",
+          "label": "t:countdown.expiry_zeros"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "ended_message",
+      "label": "t:countdown.ended_message",
+      "info": "t:countdown.ended_message_info"
+    },
+    {
+      "type": "header",
+      "content": "t:editor.text.content_47bd29"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17",
+      "default": "Mark the date"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:editor.text.text_71988c"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:editor.text.button_label_57a953"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:editor.text.button_link_168eeb"
+    },
+    {
+      "type": "header",
+      "content": "t:editor.text.layout_a51190"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:editor.text.layout_a51190",
+      "default": "split",
+      "options": [
+        {
+          "value": "bar",
+          "label": "t:countdown.layout_bar"
+        },
+        {
+          "value": "split",
+          "label": "t:countdown.layout_split"
+        },
+        {
+          "value": "full",
+          "label": "t:countdown.layout_full"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:editor.text.image_1aa4cb",
+      "info": "t:countdown.image_info"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:countdown.image_position",
+      "default": "start",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:countdown.position_start"
+        },
+        {
+          "value": "end",
+          "label": "t:countdown.position_end"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:countdown.overlay_opacity",
+      "info": "t:countdown.overlay_opacity_info",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 55
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:scheme.section",
+      "default": "porcelain"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:countdown.name"
+    }
+  ]
+}
+{% endschema %}

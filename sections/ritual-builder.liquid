@@ -1,0 +1,109 @@
+{{ 'ritual-builder.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ritual-builder.js' | asset_url }}" type="module"></script>
+<ritual-builder class="ritual-builder" id="BuildRitual-{{ section.id }}" data-currency="{{ cart.currency.iso_code | default: shop.currency | escape }}" data-updated="{{ 'ritual_builder.updated' | t | escape }}">
+<div class="ritual-builder__questions">
+<p class="ritual-builder__eyebrow">{{ 'ritual_builder.yours' | t }}</p><h2>{{ 'ritual_builder.heading' | t }}</h2><p class="ritual-builder__intro">{{ 'ritual_builder.intro' | t }}</p>
+<div data-builder-questions hidden>
+{% assign question_keys = 'need,feel,level' | split: ',' %}{% for question in question_keys %}
+{% case question %}{% when 'need' %}{% assign answers = 'hydration,glow,calm,firmness' | split: ',' %}{% when 'feel' %}{% assign answers = 'dry,balanced,oily,sensitive' | split: ',' %}{% else %}{% assign answers = 'essential,complete' | split: ',' %}{% endcase %}
+<fieldset><legend><i aria-hidden="true">0{{ forloop.index }}</i>{% assign builder_translation = 'ritual_builder.' | append: question %}{{ builder_translation | t }}</legend><div class="ritual-builder__choices">{% for answer in answers %}<label><input type="radio" name="{{ section.id }}-{{ question }}" value="{{ answer }}" data-builder-answer="{{ question }}" {% if forloop.first %}checked{% endif %}><span>{% assign builder_translation = 'ritual_builder.' | append: answer %}{{ builder_translation | t }}</span></label>{% endfor %}</div></fieldset>{% endfor %}
+</div><p class="ritual-builder__note">{{ 'ritual_builder.note' | t }}</p></div>
+<routine-purchase class="ritual-builder__result" data-cart-url="{{ routes.cart_url }}" data-loading="{{ 'cart_upsell.adding' | t | escape }}" data-uncertain="{{ 'routine_purchase.uncertain' | t | escape }}" data-instruction="{{ 'routine_purchase.instruction' | t | escape }}">
+<ul class="ritual-builder__products" role="list">{% for block in section.blocks %}{% if block.settings.product != blank %}{% render 'ritual-builder-product', product: block.settings.product, block: block, section_id: section.id %}{% endif %}{% endfor %}</ul>
+<div class="ritual-builder__checkout" data-builder-checkout hidden><div class="ritual-builder__total"><span>{{ 'ritual_builder.yours' | t }}</span><strong data-builder-total></strong></div><button type="button" data-control="primary" data-routine-add disabled>{{ 'ritual_builder.add' | t }} <span aria-hidden="true">→</span></button><p data-builder-unavailable hidden>{{ 'ritual_builder.unavailable' | t }}</p><p data-builder-status role="status" aria-live="polite"></p></div>
+<p data-routine-message role="status" aria-live="polite"></p><a data-routine-review href="{{ routes.cart_url }}" hidden>{{ 'cart_upsell.review' | t }}</a>
+</routine-purchase></ritual-builder>
+{% schema %}
+{
+  "name": "t:ritual_builder.label_1",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "max_blocks": 24,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:ritual_builder.label_2"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "t:ritual_builder.label_3",
+      "settings": [
+        {
+          "type": "select",
+          "id": "step",
+          "label": "t:ritual_builder.label_4",
+          "options": [
+            {
+              "value": "1",
+              "label": "t:ritual_builder.label_5"
+            },
+            {
+              "value": "2",
+              "label": "t:ritual_builder.label_6"
+            },
+            {
+              "value": "3",
+              "label": "t:ritual_builder.label_7"
+            }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:ritual_builder.label_8"
+        },
+        {
+          "type": "text",
+          "id": "needs",
+          "label": "t:ritual_builder.label_9",
+          "info": "t:ritual_builder.label_10"
+        },
+        {
+          "type": "text",
+          "id": "feels",
+          "label": "t:ritual_builder.label_11",
+          "info": "t:ritual_builder.label_12"
+        },
+        {
+          "type": "select",
+          "id": "level",
+          "label": "t:ritual_builder.label_13",
+          "options": [
+            {
+              "value": "any",
+              "label": "t:ritual_builder.label_14"
+            },
+            {
+              "value": "essential",
+              "label": "t:ritual_builder.label_15"
+            },
+            {
+              "value": "complete",
+              "label": "t:ritual_builder.label_16"
+            }
+          ],
+          "default": "any"
+        },
+        {
+          "type": "textarea",
+          "id": "note",
+          "label": "t:ritual_builder.label_17"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:ritual_builder.label_18"
+    }
+  ]
+}
+{% endschema %}

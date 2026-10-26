@@ -1,0 +1,209 @@
+{%- capture premium_section_body -%}
+{{ 'beauty.css' | asset_url | stylesheet_tag }}
+{% if section.blocks.size > 0 %}<section class="page-width section-space" aria-labelledby="Evidence-{{ section.id }}">
+  <div class="section-heading"><h2 id="Evidence-{{ section.id }}">{{ section.settings.heading | escape }}</h2><p class="muted">{{ section.settings.context | escape }}</p></div>
+  <div class="evidence-grid">{% for block in section.blocks %}<article class="evidence-card" {{ block.shopify_attributes }}>
+    {% if block.settings.value != blank %}<p class="evidence-value">{{ block.settings.value | escape }}</p>{% endif %}<h3>{{ block.settings.heading | escape }}</h3><div class="rte">{{ block.settings.description }}</div>
+    {% if block.settings.method != blank %}<p class="beauty-disclaimer">{{ block.settings.method | escape }}</p>{% endif %}
+    {% if block.settings.source != blank and block.settings.source_label != blank %}<a data-control="text" class="text-link" href="{{ block.settings.source }}">{{ block.settings.source_label | escape }}</a>{% endif %}
+    {% if request.design_mode and block.settings.method == blank %}<p class="editor-note">{{ 'results_timeline.editor_method' | t }}</p>{% endif %}
+  </article>{% endfor %}</div>
+  {% if section.settings.disclaimer != blank %}<p class="beauty-disclaimer">{{ section.settings.disclaimer | escape }}</p>{% endif %}
+</section>{% elsif request.design_mode %}<aside class="page-width editor-note">{{ 'results_timeline.editor_empty' | t }}</aside>{% endif %}
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.results_and_evidence_e59cb9",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17",
+      "default": "The details behind the care."
+    },
+    {
+      "type": "textarea",
+      "id": "context",
+      "label": "t:editor.text.context_a6e600"
+    },
+    {
+      "type": "textarea",
+      "id": "disclaimer",
+      "label": "t:editor.text.results_disclaimer_7d0581"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "evidence",
+      "name": "t:editor.text.result_trust_or_timeline_485b0d",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "t:editor.text.verified_result_or_time_point_6120b5",
+          "info": "t:editor.text.leave_blank_unless_backed_by_product_specific_evidence_53ea83"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:editor.text.heading_b34f17"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "t:editor.text.description_526e00"
+        },
+        {
+          "type": "textarea",
+          "id": "method",
+          "label": "t:editor.text.method_and_evidence_context_77c704",
+          "info": "t:editor.text.include_test_type_sample_size_duration_and_conditions_as_applicab_87ac96"
+        },
+        {
+          "type": "url",
+          "id": "source",
+          "label": "t:editor.text.evidence_source_be090a"
+        },
+        {
+          "type": "text",
+          "id": "source_label",
+          "label": "t:editor.text.source_link_label_b0ca19"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:editor.text.clinical_results_31cdb0"
+    },
+    {
+      "name": "t:editor.text.trust_statements_9c29fb"
+    }
+  ]
+}
+{% endschema %}

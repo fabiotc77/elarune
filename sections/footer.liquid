@@ -1,0 +1,93 @@
+{{ 'brand.css' | asset_url | stylesheet_tag }}
+{{ 'footer.css' | asset_url | stylesheet_tag }}
+{% assign has_footer_care_links = false %}{% if section.settings.contact_page != blank %}{% assign has_footer_care_links = true %}{% endif %}
+{% for link in section.settings.menu.links %}
+  {% unless link.url == routes.all_products_collection_url or link.url == routes.collections_url or link.url == routes.search_url %}{% assign has_footer_care_links = true %}{% endunless %}
+{% endfor %}
+{% for policy in shop.policies %}{% if policy != blank %}{% assign has_footer_care_links = true %}{% endif %}{% endfor %}
+<footer id="Footer" class="footer footer--atelier" aria-label="{{ 'general.footer' | t | escape }}">
+  <div class="page-width">
+    <div class="footer-top">
+      <div class="footer-identity">
+        <a class="brand{% if section.settings.logo == blank and section.settings.show_signature_logo %} brand--signature{% endif %}" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+          {% if section.settings.logo != blank %}
+            {{ section.settings.logo | image_url: width: 600 | image_tag: widths: '180, 300, 600', sizes: '(min-width: 750px) 260px, 220px', alt: shop.name }}
+          {% elsif section.settings.show_signature_logo %}
+            <img class="brand-monogram" src="{{ 'elarune-monogram.svg' | asset_url }}" width="112" height="136" alt="">
+            <img src="{{ 'elarune-wordmark.svg' | asset_url }}" width="558" height="94" alt="{{ shop.name | escape }}">
+          {% else %}
+            {{ shop.name | escape }}
+          {% endif %}
+        </a>
+        {% if section.settings.text != blank %}<p class="footer-description">{{ section.settings.text | escape }}</p>{% endif %}
+      </div>
+      <div class="footer-navigation">
+        <nav aria-label="{{ 'footer_design.discover' | t }}">
+          <h2 class="footer-heading">{{ 'footer_design.discover' | t }}</h2>
+          <ul class="footer-menu">
+            <li><a href="{{ routes.all_products_collection_url }}"{% if request.path == routes.all_products_collection_url %} aria-current="page"{% endif %}>{{ 'collection_list.shop_all' | t }}</a></li>
+            <li><a href="{{ routes.collections_url }}"{% if request.path == routes.collections_url %} aria-current="page"{% endif %}>{{ 'collection_list.title' | t }}</a></li>
+            <li><a href="{{ routes.search_url }}"{% if request.path == routes.search_url %} aria-current="page"{% endif %}>{{ 'general.search' | t }}</a></li>
+          </ul>
+        </nav>
+        {% if has_footer_care_links %}
+          <nav aria-label="{{ 'general.footer' | t }}">
+            <h2 class="footer-heading">{{ 'footer_design.information' | t }}</h2>
+            <ul class="footer-menu">
+              {% if section.settings.contact_page != blank %}<li><a href="{{ section.settings.contact_page.url }}">{{ section.settings.contact_page.title | escape }}</a></li>{% endif %}
+              {% for link in section.settings.menu.links %}
+                {% unless link.url == routes.all_products_collection_url or link.url == routes.collections_url or link.url == routes.search_url or link.url == section.settings.contact_page.url %}
+                  <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a></li>
+                {% endunless %}
+              {% endfor %}
+              {% for policy in shop.policies %}{% if policy != blank %}<li><a href="{{ policy.url }}"{% if request.path == policy.url %} aria-current="page"{% endif %}>{{ policy.title | escape }}</a></li>{% endif %}{% endfor %}
+            </ul>
+          </nav>
+        {% endif %}
+      </div>
+      {% if localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
+        <div class="footer-localization">{% render 'localization-form', form_id: section.id %}</div>
+      {% endif %}
+    </div>
+    {% render 'social-links', settings: settings %}
+    <div class="footer-bottom">
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}. {{ powered_by_link }} · <a class="footer-credit" href="https://studio.mufatech.com/elarune">{{ 'footer_design.theme_credit' | t }}</a></span>
+      {%- if shop.features.follow_on_shop? -%}
+        <div class="footer-follow-on-shop">
+          {{ shop | login_button: action: 'follow' }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+{% schema %}
+{
+  "name": "t:editor.text.footer_26c87b",
+  "settings": [
+    {"type":"page","id":"contact_page","label":"t:editor.text.contact_page_d9d917"},
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:editor.text.logo_d707dc"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_signature_logo",
+      "label": "t:editor.text.use_elarune_demo_signature_3cf63e",
+      "default": false,
+      "info": "t:editor.text.uses_the_included_vector_signature_when_no_custom_logo_is_selecte_23f61d"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:editor.text.brand_description_a2e35e"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:editor.text.menu_99af66",
+      "default": "footer"
+    }
+  ]
+}
+{% endschema %}

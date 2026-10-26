@@ -1,0 +1,539 @@
+{% render 'section-scheme', section: section %}
+{%- capture premium_section_body -%}
+{{ 'section-image-with-text.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign image = section.settings.image
+  assign image_2 = section.settings.image_2
+
+  case section.settings.image_width
+    when 'third'
+      assign image_sizes = '(min-width: 1440px) 460px, (min-width: 990px) 32vw, (min-width: 750px) 40vw, 100vw'
+      assign second_sizes = '(min-width: 990px) 16vw, (min-width: 750px) 20vw, 44vw'
+    when 'two_thirds'
+      assign image_sizes = '(min-width: 1440px) 900px, (min-width: 990px) 62vw, (min-width: 750px) 58vw, 100vw'
+      assign second_sizes = '(min-width: 990px) 26vw, (min-width: 750px) 24vw, 44vw'
+    else
+      assign image_sizes = '(min-width: 1440px) 680px, (min-width: 990px) 48vw, (min-width: 750px) 50vw, 100vw'
+      assign second_sizes = '(min-width: 990px) 20vw, (min-width: 750px) 21vw, 44vw'
+  endcase
+
+  case section.settings.image_ratio
+    when 'square'
+      assign ratio = '1 / 1'
+    when 'portrait'
+      assign ratio = '4 / 5'
+    when 'landscape'
+      assign ratio = '3 / 2'
+    else
+      assign ratio = '4 / 5'
+      if image != blank
+        assign ratio = image.aspect_ratio
+      endif
+  endcase
+  assign ratio_2 = ratio
+  if section.settings.image_ratio == 'natural' and image_2 != blank
+    assign ratio_2 = image_2.aspect_ratio
+  endif
+
+  assign image_loading = 'lazy'
+  if section.index == 1
+    assign image_loading = 'eager'
+  endif
+
+  assign heading_id = ''
+  assign first_heading = section.blocks | where: 'type', 'heading' | first
+  if first_heading and first_heading.settings.heading != blank
+    assign heading_id = 'ImageWithText-' | append: section.id | append: '-' | append: first_heading.id
+  endif
+-%}
+<section class="image-with-text page-width section-space" data-image-width="{{ section.settings.image_width }}" data-image-position="{{ section.settings.image_position }}" data-align="{{ section.settings.vertical_alignment }}" data-mobile-order="{{ section.settings.mobile_order }}"{% if image_2 != blank %} data-overlap{% endif %}{% if heading_id != '' %} aria-labelledby="{{ heading_id }}"{% endif %}>
+  <div class="image-with-text__media premium-reveal">
+    <div class="image-with-text__frame" style="--iwt-ratio:{{ ratio }}">
+      {%- if image != blank -%}
+        {{ image | image_url: width: 2000 | image_tag: widths: '375, 550, 750, 1000, 1250, 1500, 2000', sizes: image_sizes, loading: image_loading, class: 'image-with-text__image' }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg image-with-text__image' }}
+      {%- endif -%}
+    </div>
+    {%- if image_2 != blank -%}
+      <div class="image-with-text__frame image-with-text__frame--secondary" style="--iwt-ratio:{{ ratio_2 }}">
+        {{ image_2 | image_url: width: 1000 | image_tag: widths: '240, 360, 480, 720, 1000', sizes: second_sizes, loading: 'lazy', class: 'image-with-text__image' }}
+      </div>
+    {%- endif -%}
+  </div>
+  {%- if section.blocks.size > 0 -%}
+    <div class="image-with-text__content premium-reveal">
+      {%- assign skip_until = -1 -%}
+      {%- for block in section.blocks -%}
+        {%- if forloop.index0 <= skip_until -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- assign group_start = forloop.index0 -%}
+        {%- case block.type -%}
+          {%- when 'eyebrow' -%}
+            {%- if block.settings.text != blank -%}
+              <p class="eyebrow image-with-text__eyebrow" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+          {%- when 'heading' -%}
+            {%- if block.settings.heading != blank -%}
+              <h2 id="ImageWithText-{{ section.id }}-{{ block.id }}" class="image-with-text__heading image-with-text__heading--{{ block.settings.heading_size }}" {{ block.shopify_attributes }}>{{ block.settings.heading }}</h2>
+            {%- endif -%}
+          {%- when 'text' -%}
+            {%- if block.settings.text != blank -%}
+              <div class="rte image-with-text__text" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            {%- endif -%}
+          {%- when 'button' -%}
+            {%- comment -%} Consecutive buttons share one wrapping row. {%- endcomment -%}
+            <div class="image-with-text__actions">
+              {%- for item in section.blocks offset: group_start -%}
+                {%- if item.type != 'button' -%}
+                  {%- break -%}
+                {%- endif -%}
+                {%- assign skip_until = group_start | plus: forloop.index0 -%}
+                {%- if item.settings.label != blank -%}
+                  <a data-control="{{ item.settings.style }}"{% if item.settings.style == 'text' %} class="text-link"{% endif %}{% if item.settings.link != blank %} href="{{ item.settings.link }}"{% else %} role="link" aria-disabled="true"{% endif %} {{ item.shopify_attributes }}>{{ item.settings.label | escape }}</a>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- when 'detail' -%}
+            {%- comment -%} Consecutive details render as one definition list. {%- endcomment -%}
+            <dl class="image-with-text__details">
+              {%- for item in section.blocks offset: group_start -%}
+                {%- if item.type != 'detail' -%}
+                  {%- break -%}
+                {%- endif -%}
+                {%- assign skip_until = group_start | plus: forloop.index0 -%}
+                {%- if item.settings.label != blank or item.settings.value != blank -%}
+                  <div class="image-with-text__detail" {{ item.shopify_attributes }}>
+                    <dt>{{ item.settings.label | escape }}</dt>
+                    <dd>{{ item.settings.value | escape }}</dd>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </dl>
+          {%- when 'caption' -%}
+            {%- if block.settings.text != blank -%}
+              <p class="image-with-text__caption" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:image_with_text.name",
+  "max_blocks": 12,
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:premium.media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:premium.image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "t:image_with_text.image_2",
+      "info": "t:image_with_text.image_2_info"
+    },
+    {
+      "type": "select",
+      "id": "image_width",
+      "label": "t:image_with_text.image_width",
+      "options": [
+        {
+          "value": "third",
+          "label": "t:image_with_text.width_third"
+        },
+        {
+          "value": "half",
+          "label": "t:image_with_text.width_half"
+        },
+        {
+          "value": "two_thirds",
+          "label": "t:image_with_text.width_two_thirds"
+        }
+      ],
+      "default": "half"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:premium.ratio",
+      "options": [
+        {
+          "value": "natural",
+          "label": "t:image_with_text.natural"
+        },
+        {
+          "value": "square",
+          "label": "t:premium.square"
+        },
+        {
+          "value": "portrait",
+          "label": "t:premium.portrait"
+        },
+        {
+          "value": "landscape",
+          "label": "t:premium.landscape"
+        }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "header",
+      "content": "t:editor.text.layout_a51190"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:image_with_text.image_position",
+      "info": "t:slideshow.position_info",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:slideshow.start"
+        },
+        {
+          "value": "end",
+          "label": "t:slideshow.end"
+        }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "t:image_with_text.content_alignment",
+      "options": [
+        {
+          "value": "top",
+          "label": "t:slideshow.top"
+        },
+        {
+          "value": "middle",
+          "label": "t:slideshow.middle"
+        },
+        {
+          "value": "bottom",
+          "label": "t:slideshow.bottom"
+        }
+      ],
+      "default": "middle"
+    },
+    {
+      "type": "select",
+      "id": "mobile_order",
+      "label": "t:image_with_text.mobile_order",
+      "options": [
+        {
+          "value": "image_first",
+          "label": "t:image_with_text.image_first"
+        },
+        {
+          "value": "text_first",
+          "label": "t:image_with_text.text_first"
+        }
+      ],
+      "default": "image_first"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:scheme.section",
+      "default": "porcelain"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "t:editor.text.eyebrow_d821dd",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:premium.text",
+          "default": "Image with text"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "t:premium.heading",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "t:premium.heading",
+          "default": "Tell your brand story."
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "t:image_with_text.heading_size",
+          "options": [
+            {
+              "value": "small",
+              "label": "t:slideshow.small"
+            },
+            {
+              "value": "medium",
+              "label": "t:slideshow.medium"
+            },
+            {
+              "value": "large",
+              "label": "t:slideshow.large"
+            }
+          ],
+          "default": "medium"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:premium.text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:premium.text",
+          "default": "<p>Pair an image with a few considered words about your products, your process or the people behind them.</p>"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "t:image_with_text.button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:editor.text.button_label_57a953",
+          "default": "Learn more"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:editor.text.button_link_168eeb"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "t:image_with_text.button_style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:image_with_text.style_primary"
+            },
+            {
+              "value": "secondary",
+              "label": "t:image_with_text.style_secondary"
+            },
+            {
+              "value": "text",
+              "label": "t:image_with_text.style_text"
+            }
+          ],
+          "default": "primary"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "name": "t:image_with_text.detail",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:editor.text.label_0e6637",
+          "default": "Texture"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "t:editor.text.value_8e3795",
+          "info": "t:editor.text.use_factual_details_about_your_products_or_brand_721146",
+          "default": "Describe the texture"
+        }
+      ]
+    },
+    {
+      "type": "caption",
+      "name": "t:image_with_text.caption",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:premium.text",
+          "default": "Add a short caption."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:image_with_text.name",
+      "blocks": [
+        {
+          "type": "eyebrow"
+        },
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "detail"
+        },
+        {
+          "type": "detail",
+          "settings": {
+            "label": "Use",
+            "value": "Describe when to use it"
+          }
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

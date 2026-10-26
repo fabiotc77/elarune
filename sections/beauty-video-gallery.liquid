@@ -1,0 +1,286 @@
+{%- capture premium_section_body -%}
+{% liquid
+  assign video_count = 0
+  for block in section.blocks
+    if block.settings.video != blank
+      assign video_count = video_count | plus: 1
+    endif
+  endfor
+  assign gallery_heading = section.settings.heading
+  if gallery_heading == blank
+    assign gallery_heading = 'beauty_video_gallery.heading' | t
+  endif
+%}
+{% if video_count > 0 or request.design_mode %}
+  {{ 'beauty-video-gallery.css' | asset_url | stylesheet_tag }}
+  <section class="beauty-video-gallery page-width section-space" aria-labelledby="VideoGalleryTitle-{{ section.id }}">
+    <div class="section-heading">
+      <div>
+        {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+        <h2 id="VideoGalleryTitle-{{ section.id }}">{{ gallery_heading | escape }}</h2>
+      </div>
+      {% if section.settings.introduction != blank %}<p class="muted">{{ section.settings.introduction | escape }}</p>{% endif %}
+    </div>
+    {% if video_count > 1 %}<p class="beauty-video-gallery__hint muted" id="VideoGalleryHint-{{ section.id }}">{{ 'beauty_video_gallery.scroll_hint' | t }}</p>{% endif %}
+    <div class="beauty-video-gallery__rail"{% if video_count > 1 %} tabindex="0" role="region" aria-labelledby="VideoGalleryTitle-{{ section.id }}" aria-describedby="VideoGalleryHint-{{ section.id }}"{% endif %}>
+      <ul class="beauty-video-gallery__list" role="list">
+        {% for block in section.blocks %}
+          {% if block.settings.video != blank %}
+            {% liquid
+              assign video_title = block.settings.title | default: block.settings.video.alt | default: gallery_heading
+              assign video_title_id = 'GalleryVideoTitle-' | append: section.id | append: '-' | append: block.id
+              assign linked_product = block.settings.product
+            %}
+            <li class="beauty-video-gallery__card" {{ block.shopify_attributes }}>
+              <article aria-labelledby="{{ video_title_id }}">
+                <div class="beauty-video-gallery__media">
+                  {{ block.settings.video | video_tag: image_size: '600x', controls: true, autoplay: false, loop: false, muted: false, playsinline: true, preload: 'none', aria-labelledby: video_title_id }}
+                </div>
+                <div class="beauty-video-gallery__content">
+                  <h3 id="{{ video_title_id }}">{{ video_title | escape }}</h3>
+                  {% if block.settings.quote != blank %}
+                    <figure class="beauty-video-gallery__quote">
+                      <blockquote><p>{{ block.settings.quote | escape | newline_to_br }}</p></blockquote>
+                      {% if block.settings.attribution != blank %}<figcaption>{{ block.settings.attribution | escape }}</figcaption>{% endif %}
+                    </figure>
+                  {% elsif block.settings.attribution != blank %}
+                    <p class="beauty-video-gallery__attribution">{{ block.settings.attribution | escape }}</p>
+                  {% endif %}
+                  {% if block.settings.transcript != blank %}
+                    <details class="beauty-video-gallery__transcript">
+                      <summary data-control="disclosure">{{ 'beauty_video_gallery.transcript' | t }}</summary>
+                      <div>{{ block.settings.transcript | escape | newline_to_br }}</div>
+                    </details>
+                  {% endif %}
+                  {% if linked_product != blank %}
+                    <a data-control="text" class="text-link beauty-video-gallery__product" href="{{ linked_product.url | escape }}">{{ 'beauty_video_gallery.shop_product' | t: product: linked_product.title | escape }}</a>
+                  {% endif %}
+                </div>
+              </article>
+            </li>
+          {% elsif request.design_mode %}
+            <li class="beauty-video-gallery__card beauty-video-gallery__empty" {{ block.shopify_attributes }}><p class="editor-note">{{ 'beauty_video_gallery.empty' | t }}</p></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    {% if request.design_mode and section.blocks.size == 0 %}<p class="editor-note">{{ 'beauty_video_gallery.empty' | t }}</p>{% endif %}
+  </section>
+{% endif %}
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.beauty_video_gallery_58bcec",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:editor.text.share_permitted_customer_videos_or_product_demonstrations_videos_dd2b42"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17"
+    },
+    {
+      "type": "textarea",
+      "id": "introduction",
+      "label": "t:editor.text.introduction_b60535"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "t:editor.text.video_story_51b56f",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "t:editor.text.shopify_hosted_video_000e5d"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:editor.text.video_title_ff9a99",
+          "info": "t:editor.text.describe_this_video_so_visitors_can_distinguish_it_from_the_other_3b0a47"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "t:editor.text.optional_permitted_quote_ef2f76",
+          "info": "t:editor.text.use_the_contributor_s_real_words_with_permission_do_not_add_unsup_aa55a5"
+        },
+        {
+          "type": "text",
+          "id": "attribution",
+          "label": "t:editor.text.contributor_name_or_credit_531c9b",
+          "info": "t:editor.text.use_only_the_name_or_credit_the_contributor_has_agreed_to_publish_5abb4f"
+        },
+        {
+          "type": "textarea",
+          "id": "transcript",
+          "label": "t:editor.text.descriptive_transcript_842013",
+          "info": "t:editor.text.include_speech_relevant_sounds_and_visual_information_also_provid_7c742c"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:editor.text.featured_product_4d8058"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:editor.text.beauty_video_gallery_58bcec",
+      "blocks": [
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

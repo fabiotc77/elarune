@@ -1,0 +1,231 @@
+{{ 'skin-timeline.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'skin-timeline.js' | asset_url }}" type="module"></script>
+<skin-timeline class="skin-timeline" role="region" aria-labelledby="SkinTimeline-{{ section.id }}">
+  <div class="skin-timeline__inner">
+    <header class="skin-timeline__header">
+      <div class="skin-timeline__header-left">
+        {% if section.settings.eyebrow != blank %}<p class="skin-timeline__eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+        <h2 id="SkinTimeline-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      </div>
+      {% if section.settings.intro != blank %}
+        <p class="skin-timeline__intro">{{ section.settings.intro | escape }}</p>
+      {% endif %}
+    </header>
+
+    {% for block in section.blocks %}
+      <article class="skin-timeline__panel" data-timeline-panel data-block-id="{{ block.id }}" data-label="{{ block.settings.day | escape }} — {{ block.settings.heading | escape }}" id="TimelinePanel-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
+        <div class="skin-timeline__media">
+          <div class="skin-timeline__media-frame">
+            {% if block.settings.image != blank %}
+              {%- assign timeline_alt = block.settings.alt | default: block.settings.heading -%}{{ block.settings.image | image_url: width: 1400 | image_tag: widths: '360, 540, 750, 1000, 1400', sizes: '(min-width: 750px) 48vw, 92vw', loading: 'lazy', alt: timeline_alt }}
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+            {% if section.settings.phase_label != blank or section.settings.badge_label != blank %}
+              <div class="skin-timeline__phase-badge">
+                {% if section.settings.phase_label != blank %}<span class="badge-phase">{{ section.settings.phase_label | escape }} {{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>{% endif %}
+                {% if section.settings.badge_label != blank %}<span class="badge-tag">{{ section.settings.badge_label | escape }}</span>{% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="skin-timeline__copy">
+          <div class="skin-timeline__day-badge">
+            <span class="day-number">{{ block.settings.day | escape }}</span>
+            <span class="day-sep">/</span>
+            {% if block.settings.focus_label != blank %}
+              <span class="day-focus">{{ block.settings.focus_label | escape }}</span>
+            {% endif %}
+          </div>
+
+          <h3>{{ block.settings.heading | escape }}</h3>
+
+          {% if block.settings.claim != blank %}
+            <p class="skin-timeline__claim">{{ block.settings.claim | escape | newline_to_br }}</p>
+          {% endif %}
+
+          {%- liquid
+            assign metric_labels = block.settings.metric_labels | default: '' | split: ','
+            assign metric_values = block.settings.metric_values | default: '' | split: ','
+          -%}
+          {% if metric_values.size > 0 %}
+            <div class="skin-timeline__metrics">
+              {% for metric_value in metric_values %}
+                {% assign metric_label = metric_labels[forloop.index0] %}
+                <div class="timeline-metric-card">
+                  <span class="metric-number">{{ metric_value | strip | escape }}</span>
+                  {% if metric_label != blank %}<span class="metric-caption">{{ metric_label | strip | escape }}</span>{% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {% if block.settings.evidence != blank %}
+            <div class="skin-timeline__evidence-box">
+              <span class="evidence-icon">✦</span>
+              <p class="skin-timeline__evidence">{{ block.settings.evidence | escape | newline_to_br }}</p>
+            </div>
+          {% endif %}
+
+          {% if section.settings.illustrative %}
+            <p class="skin-timeline__demo">{{ 'skin_timeline.demo' | t }}</p>
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+
+    <div class="skin-timeline__controls" data-timeline-controls hidden>
+      <div class="skin-timeline__steps">
+        {% for block in section.blocks %}
+          <button class="skin-timeline__step" type="button" data-timeline-step aria-pressed="false" aria-controls="TimelinePanel-{{ section.id }}-{{ block.id }}">
+            <span class="timeline-step-index">0{{ forloop.index }}</span>
+            <div class="timeline-step-text">
+              <span class="timeline-step-day">{{ block.settings.day | escape }}</span>
+              <small class="timeline-step-heading">{{ block.settings.heading | escape }}</small>
+            </div>
+          </button>
+        {% endfor %}
+      </div>
+      <div class="skin-timeline__slider-wrap">
+        <label class="skin-timeline__label" for="TimelineRange-{{ section.id }}">{{ 'skin_timeline.select' | t }}</label>
+        <input class="skin-timeline__range" id="TimelineRange-{{ section.id }}" type="range" min="0" max="{{ section.blocks.size | minus: 1 }}" step="1" value="0">
+      </div>
+      <p class="skin-timeline__status" role="status" aria-live="polite" data-timeline-status></p>
+    </div>
+  </div>
+</skin-timeline>
+{% schema %}
+{
+  "name": "t:skin_timeline.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:skin_timeline.heading",
+      "default": "Skin Timeline"
+    },
+    {
+      "type": "text",
+      "id": "intro",
+      "label": "t:skin_timeline.intro",
+      "default": "A little time. A daily ritual."
+    },
+    {
+      "type": "text",
+      "id": "phase_label",
+      "label": "t:skin_timeline.phase_label"
+    },
+    {
+      "type": "text",
+      "id": "badge_label",
+      "label": "t:skin_timeline.badge_label"
+    },
+    {
+      "type": "checkbox",
+      "id": "illustrative",
+      "label": "t:skin_timeline.illustrative",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "t:skin_timeline.help"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "moment",
+      "name": "t:skin_timeline.moment",
+      "settings": [
+        {
+          "type": "text",
+          "id": "day",
+          "label": "t:skin_timeline.day"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:skin_timeline.focus"
+        },
+        {
+          "type": "textarea",
+          "id": "claim",
+          "label": "t:skin_timeline.claim"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:skin_timeline.image"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "t:skin_timeline.alt"
+        },
+        {
+          "type": "textarea",
+          "id": "evidence",
+          "label": "t:skin_timeline.evidence"
+        },
+        {
+          "type": "text",
+          "id": "focus_label",
+          "label": "t:skin_timeline.focus_label"
+        },
+        {
+          "type": "text",
+          "id": "metric_values",
+          "label": "t:skin_timeline.metric_values",
+          "info": "t:skin_timeline.metric_help"
+        },
+        {
+          "type": "text",
+          "id": "metric_labels",
+          "label": "t:skin_timeline.metric_labels"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:skin_timeline.name",
+      "blocks": [
+        {
+          "type": "moment",
+          "settings": {
+            "day": "Day 1",
+            "heading": "Hydration"
+          }
+        },
+        {
+          "type": "moment",
+          "settings": {
+            "day": "Day 7",
+            "heading": "Texture"
+          }
+        },
+        {
+          "type": "moment",
+          "settings": {
+            "day": "Day 21",
+            "heading": "Radiance"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

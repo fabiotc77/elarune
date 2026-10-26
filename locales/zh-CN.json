@@ -1,0 +1,692 @@
+{
+  "general": {
+    "skip": "跳至内容",
+    "menu": "菜单",
+    "navigation": "主导航",
+    "search": "搜索",
+    "footer": "页脚导航",
+    "view_all": "查看全部",
+    "continue": "继续购物",
+    "pagination": "分页",
+    "previous": "上一页",
+    "next": "下一页",
+    "not_found": "未找到页面",
+    "meta": {
+      "tags": "标记为“{{ tags }}”",
+      "page": "第 {{ page }} 页"
+    }
+  },
+  "cart": {
+    "title": "购物袋",
+    "empty": "购物袋为空。",
+    "remove": "移除",
+    "note": "订单备注",
+    "total": "预计总额",
+    "update": "更新购物袋",
+    "checkout": "结账",
+    "checkout_notice": "税费、折扣和运费将在结账时计算。"
+  },
+  "product": {
+    "variant": "选择选项",
+    "quantity": "数量",
+    "add": "加入购物袋",
+    "sold_out": "售罄",
+    "from": "起价",
+    "regular_price": "原价",
+    "share": "分享",
+    "share_product": "分享此配方",
+    "copy_link": "复制链接",
+    "link_copied": "链接已复制到剪贴板",
+    "close_share": "关闭分享菜单",
+    "share_on": "在 {{ platform }} 上分享",
+    "share_whatsapp": "WhatsApp",
+    "share_facebook": "Facebook",
+    "share_pinterest": "Pinterest",
+    "share_email": "电子邮件"
+  },
+  "collection": {
+    "products": "件商品",
+    "sort": "排序方式",
+    "empty": "未找到商品。"
+  },
+  "search": {
+    "empty": "未找到结果。"
+  },
+  "localization": {
+    "country": "国家 / 地区",
+    "language": "语言",
+    "apply": "应用",
+    "heading": "地区和语言",
+    "notice": "可用语言和价格可能因国家或地区而异。"
+  },
+  "beauty": {
+    "before": "使用前",
+    "after": "使用后",
+    "compare": "对比图片",
+    "morning": "早间",
+    "evening": "晚间",
+    "all": "全部护理步骤",
+    "editor_note": "使用前/使用后：选择同一对象的两张图片，并注明准确的时间和情境。切勿将生成的结果作为临床证据呈现。"
+  },
+  "product_comparison": {
+    "title": "对比日常精选",
+    "view_product": "查看商品",
+    "empty": "请在主题编辑器中选择商品并添加对比详情。",
+    "not_provided": "未提供",
+    "attribute": "商品详情",
+    "available_options": "可选选项",
+    "scroll_hint": "滑动比较",
+    "choose_cream": "选择面霜",
+    "compare_details": "比较规格与详情"
+  },
+  "contact": {
+    "name": "姓名",
+    "email": "电子邮箱",
+    "phone": "电话",
+    "message": "留言",
+    "send": "发送留言",
+    "success": "谢谢，您的留言已发送。",
+    "error_heading": "请检查以下内容：",
+    "atelier": {
+      "eyebrow": "关于美的对话",
+      "invitation": "美好的护理，从对话开始。",
+      "intro": "日常护理、一个小小的好奇，或是订单问题。我们愿意倾听。",
+      "caption": "一份关怀，一点专属心意。",
+      "note": "写给我们的留言",
+      "form_title": "想聊些什么？",
+      "topic": "我想聊聊",
+      "ritual": "我的护理",
+      "order": "我的订单",
+      "other": "其他话题",
+      "ritual_tip": "告诉我们您目前的护理步骤，以及您感兴趣的产品。",
+      "order_tip": "如有订单编号，请一并填写。请勿提供支付信息。",
+      "other_tip": "想法、合作，或只是一声问候。请随意交流。",
+      "required": "* 邮箱和留言为必填项。"
+    }
+  },
+  "beauty_video_gallery": {
+    "heading": "听他们说",
+    "scroll_hint": "滚动浏览视频",
+    "shop_product": "探索 {{ product }}",
+    "transcript": "阅读文字稿",
+    "empty": "请在主题编辑器中添加视频及其详情。"
+  },
+  "results_timeline": {
+    "title": "随时间展开的护理步骤",
+    "evidence": "阅读支持信息",
+    "empty": "请在主题编辑器中添加阶段及支持信息。",
+    "editor_method": "请提供证据和背景：测试类型、样本量、持续时间以及相关来源。信任声明必须有依据。",
+    "editor_empty": "添加已验证的结果、信任声明或时间轴条目。系统不会自动生成任何声明。"
+  },
+  "editorial": {
+    "read_article": "阅读文章",
+    "empty": "暂无文章。",
+    "back_to_blog": "返回{{ blog }}",
+    "tags": "主题",
+    "comments": "评论",
+    "comment_name": "姓名",
+    "comment_email": "电子邮箱",
+    "comment_body": "评论内容",
+    "comment_send": "提交评论",
+    "comment_success": "谢谢，您的评论已提交。",
+    "comment_pending": "谢谢，您的评论已提交，审核通过后将显示。",
+    "comment_error": "请检查以下内容：",
+    "moderation_notice": "评论将在发布前进行审核。"
+  },
+  "gift_card": {
+    "title": "礼品卡",
+    "balance": "可用余额",
+    "initial_value": "初始金额",
+    "code": "礼品卡代码",
+    "instruction": "请在结账时使用此代码。",
+    "disabled": "此礼品卡已停用。",
+    "expired": "此礼品卡已过期。",
+    "empty_balance": "此礼品卡已无剩余余额。",
+    "expires_on": "到期日期：{{ date }}",
+    "expired_on": "已于 {{ date }} 过期",
+    "copy": "复制代码",
+    "copied": "代码已复制",
+    "copy_failed": "请选择代码并手动复制。",
+    "print": "打印礼品卡",
+    "shop": "访问商店",
+    "wallet": "添加到 Apple Wallet",
+    "unavailable": "礼品卡详情暂不可用。",
+    "message": "给您的留言"
+  },
+  "complementary_products": {
+    "title": "完善您的护理步骤",
+    "empty": "选择搭配商品，或在 Shopify Search & Discovery 中配置推荐商品。"
+  },
+  "password_page": {
+    "title": "店铺访问",
+    "introduction": "请输入密码以访问店铺。",
+    "password": "密码",
+    "enter": "进入店铺",
+    "error_heading": "请检查您的密码。",
+    "owner": "店主登录"
+  },
+  "skin_concerns": {
+    "title": "探索适合肌肤的护理",
+    "empty": "为此护理类别选择一个系列。"
+  },
+  "collection_list": {
+    "title": "系列",
+    "empty": "暂无可用系列。",
+    "shop_all": "全部商品",
+    "product_count_one": "{{ count }} 件商品",
+    "product_count_other": "{{ count }} 件商品"
+  },
+  "newsletter": {
+    "heading": "将关怀，送达您身边。",
+    "email": "电子邮箱地址",
+    "subscribe": "订阅",
+    "consent": "订阅以通过电子邮件接收 {{ shop }} 的资讯和优惠。您可以随时取消订阅。",
+    "success": "谢谢。我们已收到您的订阅请求。",
+    "error_heading": "请检查以下内容："
+  },
+  "free_shipping": {
+    "title": "包邮",
+    "remaining": "距离包邮门槛还差 {{ amount }}。",
+    "reached": "购物车金额已达到包邮门槛。",
+    "destination": "配送国家或地区：{{ country }}",
+    "checkout_note": "配送方式和运费以结账时显示为准。",
+    "policy": "配送说明",
+    "setup": "为此国家或地区及币种填写最低订单金额，然后开启显示。购物车中仅有非订阅的实物商品时才会显示。",
+    "duplicate": "此国家或地区及币种有多条配送规则。请只保留一条，以便显示进度。"
+  },
+  "facets": {
+    "title": "筛选",
+    "apply": "应用筛选",
+    "clear": "清除筛选",
+    "remove": "移除{{ value }}",
+    "minimum": "最低价格",
+    "maximum": "最高价格"
+  },
+  "search_page": {
+    "results": "“{{ terms }}”的搜索结果：{{ count }}",
+    "article": "文章",
+    "page": "页面",
+    "filter_note": "产品筛选仅适用于产品搜索结果。",
+    "start": "搜索产品、指南和店铺信息。",
+    "eyebrow": "探索之美",
+    "heading": "发现你的下一段护肤仪式。",
+    "empty_heading": "小小发现，静待与你相遇。",
+    "empty_help": "试试更简短的关键词，或探索下方系列。",
+    "explore": "探索各个系列",
+    "discover": "从这里开始",
+    "placeholder": "产品、成分、护肤仪式…"
+  },
+  "cart_upsell": {
+    "title": "你可能还喜欢",
+    "adding": "正在加入购物车…",
+    "uncertain": "商品可能已经加入购物车。请先查看购物车，再决定是否重试。",
+    "review": "查看购物车",
+    "empty": "请选择推荐商品。购物车中有商品时才会显示推荐，已加入购物车或已售罄的商品不会显示。"
+  },
+  "shade_finder": {
+    "heading": "探索色彩。",
+    "view_all": "查看所有选项",
+    "instruction": "最多选择两种颜色进行比较。",
+    "selected_count": "已选择 {{ count }} / 2",
+    "limit": "请先取消已选颜色，再添加其他颜色。",
+    "no_swatch": "未提供色样",
+    "view_shade": "查看颜色",
+    "view_options": "查看选项",
+    "compare": "比较",
+    "comparison": "并排比较",
+    "clear": "清除选择",
+    "screen_note": "屏幕显示的颜色可能存在差异。请结合商品详情进行选择。",
+    "empty": "请选择已保存色样的商品，或指定其颜色选项的位置。"
+  },
+  "predictive_search": {
+    "title": "搜索建议",
+    "loading": "正在加载建议…",
+    "count": "建议数量：{{ count }}",
+    "clear": "清除",
+    "all": "搜索“{{ terms }}”"
+  },
+  "launch_check": {
+    "title": "设置检查",
+    "review": "待检查项目：{{ count }}",
+    "clear": "此分区未检测到缺失字段。",
+    "scope": "仅检查分区输入。发布前请核查产品声明、配送、翻译和移动端购买流程。",
+    "location": "请在此分区设置中更新这些字段。",
+    "menu": "选择包含链接的菜单。",
+    "image": "选择宣传图片并检查移动端焦点。",
+    "alt": "检查空白的图片替代文本。为传达信息的图片添加描述。",
+    "heading": "添加标题或斜体标题行。",
+    "primary": "填写主按钮文字和链接，或将两者都留空。",
+    "secondary": "填写次要链接文字和目标，或将两者都留空。",
+    "collection": "选择一个产品系列。",
+    "empty_collection": "此产品系列在这里没有可见商品。请检查商品及市场可售状态。",
+    "steps": "添加一个护理步骤。",
+    "step_title": "步骤 {{ number }}：添加标题。",
+    "step_product": "步骤 {{ number }}：如需链接商品，请选择商品。也可使用纯文字步骤。",
+    "step_availability": "步骤 {{ number }}：所选商品在这里不可用。请检查市场和库存。",
+    "step_copy": "步骤 {{ number }}：添加商品的实际使用说明。"
+  },
+  "pickup": {
+    "title": "门店自提",
+    "available": "支持到店自提",
+    "unavailable": "暂不支持自提",
+    "locations": "自提门店",
+    "note": "可用的自提方式将在结账时确认。",
+    "empty": "此款式暂无自提门店，请在 Shopify 中检查自提和库存设置。"
+  },
+  "gift_recipient": {
+    "title": "一份专属心意。",
+    "enable": "将此礼品卡发送给其他人",
+    "email": "收件人邮箱",
+    "name": "收件人姓名",
+    "message": "个性化留言",
+    "send_on": "发送日期",
+    "email_hint": "发送给其他人时必填。",
+    "name_hint": "选填，最多255个字符。",
+    "message_hint": "选填，最多200个字符。",
+    "schedule_note": "选填。请选择90天内的日期，留空则在购买后发送。",
+    "scheduled": "计划发送日期：{{ date }}"
+  },
+  "bundle_components": {
+    "title": "套装内容"
+  },
+  "cart_relationship": {
+    "parent": "关联商品：{{ product }}",
+    "quantity_fixed": "此商品的数量无法单独修改。",
+    "remove_fixed": "此商品无法单独移除。"
+  },
+  "image_zoom": {
+    "open": "放大图片",
+    "title": "产品图片",
+    "close": "关闭",
+    "original": "打开原尺寸图片",
+    "error": "无法加载此图片。请尝试直接打开。"
+  },
+  "purchase_options": {
+    "title": "购买选项",
+    "hint": "选择选项以更新购买方式。所有价格均为单件商品价格。",
+    "one_time": "一次性购买",
+    "choose": "选择购买选项",
+    "unavailable": "此商品款式没有可用的购买计划。",
+    "per_delivery": "每次配送",
+    "checkout": "结账时应付",
+    "after_orders": "{{ count }}次订单后：每件{{ price }}。"
+  },
+  "cart_price": {
+    "original_total": "优惠前商品小计",
+    "total": "商品小计",
+    "unit": "单位价格"
+  },
+  "external_video": {
+    "watch": "观看视频",
+    "close": "关闭视频",
+    "direct": "直接打开视频"
+  },
+  "account_access": {
+    "title": "账户"
+  },
+  "related_products": {
+    "title": "您可能也喜欢",
+    "empty": "选择备用展示商品，或在 Shopify Search & Discovery 中配置相关商品推荐。"
+  },
+  "custom_liquid": {
+    "empty": "在此分区的设置中添加 Liquid 或 HTML。"
+  },
+  "product_model": {
+    "open": "查看3D模型",
+    "close": "关闭3D视图",
+    "loading": "正在加载3D视图…",
+    "error": "无法加载3D视图。请重试或在下方下载模型。",
+    "download": "下载3D模型",
+    "ar": "在您的空间中查看",
+    "hint": "拖动或使用方向键旋转。使用查看器控件缩放。按Escape键关闭。"
+  },
+  "product_options": {
+    "unavailable_choice": "当前组合不可用",
+    "unavailable_combination": "此组合不可用。请选择其他选项。"
+  },
+  "product_purchase_notices": {
+    "taxes_included": "含税。",
+    "duties_included": "含关税。",
+    "shipping_policy": "配送政策"
+  },
+  "cart_design": {
+    "eyebrow": "你的日常护肤仪式",
+    "empty_heading": "这里，为一份呵护留了位置。",
+    "empty_text": "探索产品系列，寻找下一段护肤仪式的心仪之选。",
+    "summary": "订单摘要",
+    "update_hint": "更改数量后，点击“更新购物袋”保存。"
+  },
+  "footer_design": {
+    "discover": "探索",
+    "information": "客户服务",
+    "theme_credit": "主题由 Mufatech 设计"
+  },
+  "routine_chapters": {
+    "steps_one": "{{ count }} 个步骤",
+    "steps_other": "{{ count }} 个步骤",
+    "guide_label": "你的护肤仪式，一目了然",
+    "morning_heading": "按自己的节奏，开启清新的一天。",
+    "morning_text": "从第一步到最后一层护理，探索晨间精选。打开产品页面，了解产品质地和可选规格。",
+    "evening_heading": "为晚间护肤仪式留一点时间。",
+    "evening_text": "探索晚间精选，以及每款产品在其中的位置。打开产品页面，查看详情和使用方法。",
+    "all_heading": "日常护理，在此一同呈现。",
+    "all_text": "在同一处探索所有精选步骤。对比一天中所用的产品，选择适合自己护肤仪式的精选组合。",
+    "overview": "本组精选的护理步骤"
+  },
+  "routine_purchase": {
+    "title": "选购你的护理流程",
+    "instruction": "请选择商品和规格。我们会将每种所选规格的商品各一件加入购物袋。",
+    "include": "加入我的护理流程",
+    "add_selected": "将所选商品加入购物袋",
+    "uncertain": "部分商品可能已在购物袋中。再次添加前，请先检查购物袋。",
+    "empty": "请在模板编辑器中选择此护理流程的商品。"
+  },
+  "cart_purchase": {
+    "shipping_calculated": "运费将在结账时计算。"
+  },
+  "cart_feedback": {
+    "updating": "正在更新购物袋…",
+    "updated": "购物袋已更新。",
+    "uncertain": "无法确认此更改。请先检查购物袋，再重试。",
+    "review": "检查购物袋"
+  },
+  "sensory": {
+    "quick_view": "近距离探索",
+    "added": "已加入购物袋。",
+    "cream": "涂抹面霜",
+    "spray": "喷洒水雾",
+    "replay": "再次体验质地",
+    "texture_position": "探索质地"
+  },
+  "premium": {
+    "new": "新品",
+    "previous": "上一项",
+    "next": "下一项",
+    "pause": "暂停",
+    "play": "播放",
+    "loading": "加载中…",
+    "unavailable": "预览不可用。请通过下方链接打开完整页面。",
+    "rating": "评分",
+    "increase": "增加数量",
+    "decrease": "减少数量",
+    "details": "商品详情"
+  },
+  "stories": {
+    "title": "你的仪式，你的心声。",
+    "share": "分享你的体验",
+    "experience": "你的体验",
+    "send": "发送反馈",
+    "rating": "5星中的{{ value }}星",
+    "demo_label": "示例评价 · 演示内容"
+  },
+  "editorial_gallery": {
+    "title": "视觉精选"
+  },
+  "vanity": {
+    "choose": "选择",
+    "change": "更换",
+    "remove": "移除",
+    "hint": "轻触产品，打造自己的护理流程。",
+    "yours": "你的护理流程",
+    "empty": "选择放在桌上的产品。每一步均可自由选择。",
+    "total": "商品总额",
+    "close": "关闭",
+    "select": "放到我的桌上",
+    "setup": "在主题编辑器中为步骤添加商品。",
+    "product_page": "请在商品页面查看购买选项。"
+  },
+  "ritual_builder": {
+    "heading": "Build Your Ritual",
+    "intro": "Three steps. Made for your skin.",
+    "need": "What does your skin need?",
+    "feel": "How does your skin feel?",
+    "level": "Your routine?",
+    "hydration": "Hydration",
+    "glow": "Glow",
+    "calm": "Calm",
+    "firmness": "Firmness",
+    "dry": "Dry",
+    "balanced": "Balanced",
+    "oily": "Oily",
+    "sensitive": "Sensitive",
+    "essential": "Essential",
+    "complete": "Complete",
+    "cleanse": "Cleanse",
+    "treat": "Treat",
+    "finish": "Finish",
+    "yours": "Your ritual",
+    "add": "Add complete ritual",
+    "note": "Explore a three-step edit based on your preferences. Review each product to find your fit.",
+    "unavailable": "A complete ritual is not available for this selection. Explore the products individually.",
+    "updated": "Your ritual has been updated."
+  },
+  "ingredient_spotlight": {
+    "demo": "Illustrative formula · Demo content"
+  },
+  "skin_timeline": {
+    "select": "Move through the timeline",
+    "demo": "Illustrative timeline · Images and days do not represent product results."
+  },
+  "social_media": {
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "pinterest": "Pinterest",
+    "youtube": "YouTube",
+    "tiktok": "TikTok",
+    "whatsapp": "WhatsApp",
+    "x": "X",
+    "threads": "Threads",
+    "snapchat": "Snapchat",
+    "linkedin": "LinkedIn",
+    "follow": "关注我们"
+  },
+  "inventory": {
+    "in_stock": "有货",
+    "low_stock": "库存有限 · 仅剩 {{ count }} 件",
+    "very_low_stock": "即将售罄 · 仅剩 {{ count }} 件",
+    "sold_out": "已售罄 · 暂时无法购买",
+    "batch_passport": "批次 {{ batch }}",
+    "authenticity": "批次信息",
+    "notify_me": "到货时通知我",
+    "notify_eyebrow": "到货通知列表",
+    "notify_title": "补货后通知我",
+    "notify_subtext": "填写邮箱，{{ product }} 补货时第一时间通知你。",
+    "notify_email_label": "电子邮箱",
+    "notify_email_placeholder": "请输入您的电子邮箱",
+    "notify_submit": "加入候补名册",
+    "notify_reassurance": "你的邮箱将随此请求发送给店铺。",
+    "volume_ml": "ml",
+    "volume_floz": "fl. oz.",
+    "volume_toggle": "切换容量单位",
+    "notify_success_title": "请求已发送",
+    "notify_success_subtext": "谢谢，店铺已收到你的请求。"
+  },
+  "Share": "分享",
+  "volume_pricing": {
+    "title": "多买多省",
+    "select_tier": "选择数量",
+    "single_pack": "单件",
+    "double_pack": "双瓶组",
+    "trio_pack": "三瓶护肤套装",
+    "standard_pack": "标准",
+    "popular": "最受欢迎",
+    "best_value": "超值特惠",
+    "save_pct": "立省 {{ percent }}%",
+    "each": "瓶",
+    "per_unit": "每瓶"
+  },
+  "customer": {
+    "login": {
+      "title": "登录",
+      "email": "电子邮件",
+      "password": "密码",
+      "submit": "登录",
+      "forgot": "忘记密码？",
+      "no_account": "还没有账户？",
+      "disabled": "此商店未启用客户账户。"
+    },
+    "recover_password": {
+      "title": "重置密码",
+      "subtext": "我们将向您发送一封用于重置密码的电子邮件。",
+      "success": "我们已向您发送了一封包含更新密码链接的电子邮件。",
+      "submit": "发送链接",
+      "cancel": "返回登录"
+    },
+    "register": {
+      "title": "创建账户",
+      "first_name": "名字",
+      "last_name": "姓氏",
+      "submit": "创建账户",
+      "has_account": "已有账户？"
+    },
+    "activate_account": {
+      "title": "激活账户",
+      "subtext": "创建密码以激活您的账户。",
+      "password": "密码",
+      "password_confirm": "确认密码",
+      "submit": "激活账户",
+      "decline": "拒绝邀请"
+    },
+    "reset_password": {
+      "title": "设置新密码",
+      "subtext": "请为您的账户输入新密码。",
+      "password": "新密码",
+      "password_confirm": "确认密码",
+      "submit": "保存密码"
+    },
+    "account": {
+      "title": "账户",
+      "welcome": "欢迎回来，{{ name }}。",
+      "log_out": "退出登录",
+      "default_address": "默认地址",
+      "view_addresses": "查看地址（{{ count }}）"
+    },
+    "orders": {
+      "title": "订单历史",
+      "none": "您还没有下过订单。",
+      "order_number": "订单",
+      "date": "日期",
+      "payment_status": "付款",
+      "fulfillment_status": "发货",
+      "total": "总计"
+    },
+    "order": {
+      "title": "订单 {{ name }}",
+      "date": "下单于 {{ date }}",
+      "return": "返回账户",
+      "cancelled": "订单已于 {{ date }} 取消",
+      "product": "商品",
+      "sku": "SKU",
+      "price": "价格",
+      "quantity": "数量",
+      "total": "总计",
+      "subtotal": "小计",
+      "shipping": "运费",
+      "tax": "税费",
+      "fulfilled_at": "{{ date }} 已发货",
+      "billing_address": "账单地址",
+      "shipping_address": "收货地址",
+      "payment_status": "付款状态",
+      "fulfillment_status": "发货状态"
+    },
+    "addresses": {
+      "title": "地址",
+      "none": "尚未保存地址。",
+      "add_new": "添加新地址",
+      "add": "添加地址",
+      "update": "更新地址",
+      "edit": "编辑",
+      "delete": "删除",
+      "default": "默认",
+      "set_default": "设为默认地址",
+      "company": "公司",
+      "address1": "地址",
+      "address2": "公寓、楼层等",
+      "city": "城市",
+      "zip": "邮政编码",
+      "country": "国家/地区",
+      "province": "省/州",
+      "phone": "电话"
+    }
+  },
+  "editorial_hero": {
+    "acquire": "购买 {{ product }} — {{ price }}"
+  },
+  "faq": {
+    "editor_note": "添加答案以发布此问题。"
+  },
+  "product_card": {
+    "sale": "促销",
+    "save_amount": "省 {{ amount }}"
+  },
+  "multicolumn": {
+    "list_label": "内容列"
+  },
+  "collapsible": {
+    "editor_note": "添加内容或选择页面以发布此行。"
+  },
+  "consent": {
+    "region": "Cookie 选项",
+    "heading": "您的 Cookie 选项",
+    "message": "我们使用 Cookie 及类似技术来运营本店，并在征得您同意后用于分析和营销。",
+    "accept": "全部接受",
+    "decline": "全部拒绝",
+    "manage": "管理偏好设置",
+    "save": "保存偏好设置",
+    "preferences_title": "Cookie 类别",
+    "necessary": "必要",
+    "necessary_description": "商店正常运行所必需，例如购物车和结账。始终启用。",
+    "analytics": "分析",
+    "analytics_description": "帮助我们了解商店的使用情况，以便加以改进。",
+    "marketing": "营销",
+    "marketing_description": "用于展示相关优惠并衡量广告效果。",
+    "preferences": "偏好",
+    "preferences_description": "记住语言和地区等选择。",
+    "privacy_policy": "隐私政策",
+    "saved": "您的 Cookie 选项已保存。",
+    "error": "无法保存您的选择，请重试。"
+  },
+  "collection_paging": {
+    "load_more": "加载更多",
+    "loaded": "已加载更多商品：{{ count }}",
+    "showing": "显示 {{ shown }} / {{ total }}"
+  },
+  "slideshow": {
+    "label": "幻灯片",
+    "slide_label": "第 {{ index }} 张，共 {{ count }} 张",
+    "go_to": "显示第 {{ index }} 张幻灯片"
+  },
+  "video_section": {
+    "play": "播放视频",
+    "pause": "暂停视频",
+    "load_video": "播放视频：{{ title }}",
+    "fallback_title": "视频",
+    "editor_empty": "添加 Shopify 托管的视频或 YouTube、Vimeo 网址以显示此分区。"
+  },
+  "logo_list": {
+    "list_label": "徽标",
+    "play": "继续滚动徽标",
+    "pause": "暂停滚动徽标",
+    "editor_empty": "添加徽标区块以显示此分区。",
+    "editor_no_quote": "添加引言以在引言标签页中显示此徽标。"
+  },
+  "countdown": {
+    "days": "天",
+    "hours": "小时",
+    "minutes": "分钟",
+    "seconds": "秒",
+    "timer_label": "剩余时间",
+    "ends_on_html": "结束时间：{{ date }}",
+    "ended": "倒计时已结束。",
+    "editor_missing": "请输入结束日期以显示此倒计时。在此之前，访客看不到任何内容。",
+    "editor_invalid": "请检查结束日期和时间，使用 YYYY-MM-DD 和 HH:MM 格式。",
+    "editor_hidden": "倒计时已结束。此分区已对访客隐藏。"
+  },
+  "neutral": {
+    "back_in_stock_request": "到货通知请求：{{ product }}（{{ variant }}）",
+    "volume_pricing": {
+      "pack_of": "{{ quantity }} 件装",
+      "discount_at_checkout": "结账时立减 {{ percent }}%"
+    }
+  }
+}

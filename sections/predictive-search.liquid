@@ -1,0 +1,77 @@
+{%- if predictive_search.performed -%}
+  {%- liquid
+    assign resources = predictive_search.resources
+    assign result_count = resources.products.size | plus: resources.collections.size | plus: resources.queries.size | plus: resources.articles.size | plus: resources.pages.size
+    assign resource_groups = 'queries,products,collections,articles,pages' | split: ','
+  -%}
+  <div data-predictive-results data-announcement="{% if result_count > 0 %}{{ 'predictive_search.count' | t: count: result_count | escape }}{% else %}{{ 'search.empty' | t | escape }}{% endif %}">
+    {% if result_count == 0 %}
+      <div class="predictive-search__empty-box">
+        <p class="predictive-search__empty">{{ 'search.empty' | t }}</p>
+        <div class="predictive-search__suggestions">
+          <p class="predictive-search__suggestions-label">{{ 'general.continue' | t }}</p>
+          <div class="predictive-search__pills">
+            <a class="predictive-search__pill" href="{{ routes.all_products_collection_url }}">{{ 'general.view_all' | t }} ↗</a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    <div role="listbox" aria-label="{{ 'predictive_search.title' | t | escape }}">
+      {%- for group in resource_groups -%}
+        {%- if resources[group].size > 0 -%}
+          {%- capture group_label -%}
+            {%- case group -%}
+              {%- when 'queries' -%}{{ 'general.search' | t }}
+              {%- when 'products' -%}{{ 'collection.products' | t }}
+              {%- when 'collections' -%}{{ 'collection_list.title' | t }}
+              {%- when 'articles' -%}{{ 'search_page.article' | t }}
+              {%- when 'pages' -%}{{ 'search_page.page' | t }}
+            {%- endcase -%}
+          {%- endcapture -%}
+          <div class="predictive-search__group" role="group" aria-label="{{ group_label | escape }}">
+            <p class="predictive-search__heading" aria-hidden="true">{{ group_label }}</p>
+            {%- for result in resources[group] -%}
+              <a class="predictive-search__option" role="option" aria-selected="false" tabindex="-1" href="{{ result.url | escape }}">
+                {%- if group == 'products' -%}
+                  {%- assign result_image = result.featured_media.preview_image | default: result.featured_image -%}
+                  {%- if result_image != blank -%}{{ result_image | image_url: width: 168 | image_tag: loading: 'lazy', widths: '56, 112, 168', sizes: '56px', alt: '' }}{%- endif -%}
+                {%- endif -%}
+                <div class="predictive-search__option-content">
+                  <span class="predictive-search__title">{{ result.title | default: result.text | escape }}</span>
+                  {%- if group == 'products' -%}
+                    {% liquid
+                      assign suggestion_price = result
+                      assign suggestion_available = result.available
+                      assign suggestion_compare = true
+                      if result.selected_variant != blank
+                        assign suggestion_price = result.selected_variant
+                        assign suggestion_available = result.selected_variant.available
+                      elsif result.has_only_default_variant or result.variants.size == 1
+                        assign suggestion_price = result.selected_or_first_available_variant | default: result
+                      endif
+                      if suggestion_price == result
+                        if result.price_varies or result.compare_at_price_varies
+                          assign suggestion_compare = false
+                        endif
+                      endif
+                    %}
+                    {% render 'price', target: suggestion_price, show_from: true, show_compare: suggestion_compare %}
+                    {% unless suggestion_available %}<span class="predictive-search__sold-out">{{ 'product.sold_out' | t }}</span>{% endunless %}
+                  {%- endif -%}
+                </div>
+                <span class="predictive-search__arrow" aria-hidden="true">↗</span>
+              </a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+      <button data-control="primary" type="submit" class="predictive-search__option predictive-search__all" role="option" aria-selected="false" tabindex="-1">{{ 'predictive_search.all' | t: terms: predictive_search.terms | escape }} <span aria-hidden="true">↗</span></button>
+    </div>
+  </div>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.predictive_search_41d04d",
+  "settings": []
+}
+{% endschema %}

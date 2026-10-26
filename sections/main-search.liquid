@@ -1,0 +1,283 @@
+{%- capture premium_section_body -%}
+{{ 'search-page.css' | asset_url | stylesheet_tag }}
+{% if section.settings.show_predictive_search %}
+  {{ 'predictive-search.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+{% endif %}
+{%- liquid
+  assign current_sort = search.sort_by | default: search.default_sort_by
+  assign encoded_query = search.terms | url_encode
+  assign encoded_sort = current_sort | url_encode
+  assign search_types = search.types | join: ','
+  assign encoded_types = search_types | url_encode
+  assign clear_url = routes.search_url | append: '?q=' | append: encoded_query | append: '&sort_by=' | append: encoded_sort
+  if search_types != blank
+    assign clear_url = clear_url | append: '&type=' | append: encoded_types
+  endif
+  assign filter_id = 'SearchFilters-' | append: section.id
+  assign discovery_mode = false
+  if search.performed == false or search.results_count == 0
+    assign discovery_mode = true
+  endif
+-%}
+<section class="search-page page-width{% if discovery_mode %} search-page--discovery{% endif %}" aria-labelledby="SearchTitle-{{ section.id }}">
+  <div class="search-page__stage{% if discovery_mode and section.settings.show_discovery_media and section.settings.discovery_image != blank %} search-page__stage--with-media{% endif %}">
+  <div class="search-page__copy">
+  <p class="eyebrow">{{ 'search_page.eyebrow' | t }}</p>
+  <h1 id="SearchTitle-{{ section.id }}">{% if search.performed and search.results_count == 0 %}{{ 'search_page.empty_heading' | t }}{% elsif discovery_mode %}{{ 'search_page.heading' | t }}{% else %}{{ 'general.search' | t }}{% endif %}</h1>
+  {% unless search.performed %}<p id="SearchHelp-{{ section.id }}" class="search-page__start muted">{{ 'search_page.start' | t }}</p>{% endunless %}
+  {% if search.performed and search.results_count == 0 %}<p class="search-page__empty-notice">{{ 'search.empty' | t }}</p><p class="search-page__start muted">{{ 'search_page.empty_help' | t }}</p>{% endif %}
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-page__form">
+    {% if section.settings.show_predictive_search %}<elarune-predictive-search data-url="{{ routes.predictive_search_url }}" data-types="{{ search_types | escape }}" data-loading="{{ 'predictive_search.loading' | t | escape }}">{% endif %}
+    <label for="Search-{{ section.id }}" class="search-page__label">{{ 'general.search' | t }}</label>
+    <div class="search-page__query">
+      <div class="predictive-search__field">
+      <input data-control="field" id="Search-{{ section.id }}" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search_page.placeholder' | t | escape }}" required{% unless search.performed %} aria-describedby="SearchHelp-{{ section.id }}"{% endunless %}>
+      {% if section.settings.show_predictive_search %}<button data-control="text" type="button" class="predictive-search__clear" data-predictive-clear hidden>{{ 'predictive_search.clear' | t }}</button>{% endif %}
+      </div>
+      {%- if search_types != blank -%}<input type="hidden" name="type" value="{{ search_types | escape }}">{%- endif -%}
+      <button data-control="primary" class="button" type="submit">{{ 'general.search' | t }}</button>
+    </div>
+    {% if section.settings.show_predictive_search %}
+      <div class="predictive-search__panel" data-predictive-panel hidden></div>
+      <span class="visually-hidden" role="status" aria-live="polite" aria-atomic="true" data-predictive-status></span>
+    </elarune-predictive-search>
+    {% endif %}
+    {%- if search.performed -%}
+      {%- if search.sort_options != blank -%}
+        <div class="search-page__sort">
+          <label for="SearchSort-{{ section.id }}">{{ 'collection.sort' | t }}</label>
+          <select data-control="field" id="SearchSort-{{ section.id }}" name="sort_by">
+            {%- for option in search.sort_options -%}<option value="{{ option.value | escape }}"{% if option.value == current_sort %} selected{% endif %}>{{ option.name | escape }}</option>{%- endfor -%}
+          </select>
+          <button data-control="secondary" class="button button--secondary" type="submit">{{ 'localization.apply' | t }}</button>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.show_filters and search.filters != blank -%}
+        <p class="search-page__filter-note muted">{{ 'search_page.filter_note' | t }}</p>
+        {% render 'storefront-filters', filters: search.filters, filter_id: filter_id, clear_url: clear_url %}
+      {%- elsif search.filters != blank -%}
+        {% comment %}Preserve incoming filters when their controls are hidden and sorting or the query changes.{% endcomment %}
+        {%- for filter in search.filters -%}
+          {%- for value in filter.active_values -%}<input type="hidden" name="{{ value.param_name | default: filter.param_name | escape }}" value="{{ value.value | escape }}">{%- endfor -%}
+          {%- if filter.type == 'price_range' -%}
+            {%- if filter.min_value.value != nil -%}<input type="hidden" name="{{ filter.min_value.param_name | escape }}" value="{{ filter.min_value.value | divided_by: 100.0 }}">{%- endif -%}
+            {%- if filter.max_value.value != nil -%}<input type="hidden" name="{{ filter.max_value.param_name | escape }}" value="{{ filter.max_value.value | divided_by: 100.0 }}">{%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endif -%}
+  </form>
+  {% if discovery_mode %}<a data-control="text" class="text-link search-page__explore" href="{{ routes.collections_url }}">{{ 'search_page.explore' | t }} <span aria-hidden="true">↗</span></a>{% endif %}
+  </div>
+  {% if discovery_mode and section.settings.show_discovery_media and section.settings.discovery_image != blank %}
+    <div class="search-page__art" aria-hidden="true">
+      {{ section.settings.discovery_image | image_url: width: 1200 | image_tag: widths: '400, 600, 800, 1200', sizes: '(min-width: 1024px) 45vw, (min-width: 750px) 50vw, 100vw', loading: 'eager', alt: '' }}
+      <span class="search-page__art-rule"></span>
+    </div>
+  {% endif %}
+  </div>
+  {%- if search.performed -%}
+    <h2 class="search-page__result-count">{{ 'search_page.results' | t: terms: search.terms, count: search.results_count | escape }}</h2>
+    {%- paginate search.results by 24 -%}
+      <div class="product-grid search-page__results">
+        {%- for result in search.results -%}
+          {%- case result.object_type -%}
+            {%- when 'product' -%}
+              {% render 'product-card', card_product: result %}
+            {%- when 'article', 'page' -%}
+              <article class="search-page__content-card">
+                <a href="{{ result.url }}">
+                  {%- if result.object_type == 'article' and result.image != blank -%}
+                    <div class="search-page__image">{{ result.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 1024px) 30vw, (min-width: 750px) 45vw, 100vw', alt: '' }}</div>
+                  {%- endif -%}
+                  <p class="eyebrow">{% if result.object_type == 'article' %}{{ 'search_page.article' | t }}{% else %}{{ 'search_page.page' | t }}{% endif %}</p>
+                  <h3>{{ result.title | escape }}</h3>
+                  <p>{{ result.excerpt_or_content | default: result.content | strip_html | truncatewords: 28 | escape_once }}</p>
+                </a>
+              </article>
+          {%- endcase -%}
+        {%- else -%}<div class="search-page__empty"><a data-control="secondary" class="button button--secondary" href="{{ routes.all_products_collection_url }}">{{ 'general.continue' | t }}</a></div>{%- endfor -%}
+      </div>
+      {% render 'pagination', paginate: paginate %}
+    {%- endpaginate -%}
+  {%- endif -%}
+  {% if discovery_mode and section.settings.discovery_collections != blank %}
+    <nav class="search-page__discovery" aria-labelledby="SearchDiscover-{{ section.id }}">
+      <div class="search-page__discovery-heading"><h2 id="SearchDiscover-{{ section.id }}">{{ 'search_page.discover' | t }}</h2><a data-control="text" class="text-link" href="{{ routes.all_products_collection_url }}">{{ 'collection_list.shop_all' | t }} <span aria-hidden="true">↗</span></a></div>
+      <div class="search-page__collections">{% for discovery_collection in section.settings.discovery_collections %}
+        <a href="{{ discovery_collection.url | escape }}" class="search-page__collection">
+          {% assign discovery_image = discovery_collection.image | default: discovery_collection.products.first.featured_image %}
+          {% if discovery_image != blank %}<span class="search-page__collection-image">{{ discovery_image | image_url: width: 240 | image_tag: widths: '80, 160, 240', sizes: '80px', loading: 'lazy', alt: '' }}</span>{% endif %}
+          <span>{{ discovery_collection.title | escape }}</span><span aria-hidden="true">↗</span>
+        </a>
+      {% endfor %}</div>
+    </nav>
+  {% endif %}
+</section>
+
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:editor.text.search_49c266",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "t:editor.text.show_product_filters_410f7a",
+      "default": true,
+      "info": "t:editor.text.configure_filters_in_shopify_search_discovery_shopify_may_omit_fi_f3faef"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_predictive_search",
+      "label": "t:editor.text.show_search_suggestions_e5d273",
+      "default": true,
+      "info": "t:editor.text.availability_depends_on_shopify_s_supported_predictive_search_lan_84f857"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_discovery_media",
+      "label": "t:editor.text.show_discovery_artwork_9b72c5",
+      "default": true,
+      "info": "t:editor.text.appears_before_searching_and_when_no_results_are_found_f6191b"
+    },
+    {
+      "type": "image_picker",
+      "id": "discovery_image",
+      "label": "t:editor.text.discovery_image_fd0681",
+      "info": "t:neutral.search.discovery_image_info"
+    },
+    {
+      "type": "collection_list",
+      "id": "discovery_collections",
+      "label": "t:editor.text.collections_to_explore_784b3b",
+      "limit": 4,
+      "info": "t:editor.text.a_curated_starting_point_before_searching_and_when_no_results_are_afb9c6"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ]
+}
+{% endschema %}

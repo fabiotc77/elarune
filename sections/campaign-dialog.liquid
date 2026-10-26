@@ -1,0 +1,130 @@
+{% liquid
+  assign show_campaign = section.settings.enabled
+  if section.settings.home_only and request.page_type != 'index'
+    assign show_campaign = false
+  endif
+  if request.design_mode
+    assign show_campaign = section.settings.enabled
+  endif
+%}
+{% if show_campaign and section.settings.heading != blank %}
+{{ 'campaign-dialog.css' | asset_url | stylesheet_tag }}
+<campaign-dialog id="Campaign-{{ section.id }}" data-campaign="{{ section.settings.campaign_id | escape }}" data-delay="{{ section.settings.delay }}" data-frequency="{{ section.settings.frequency }}" data-design-mode="{{ request.design_mode }}">
+  <dialog class="campaign-dialog" style="--campaign-focus:{{ section.settings.image_position | default: 50 }}%" aria-labelledby="CampaignTitle-{{ section.id }}" {% if section.settings.text != blank %}aria-describedby="CampaignText-{{ section.id }}"{% endif %}>
+    <button data-control="icon" class="campaign-dialog__close" type="button" data-campaign-close aria-label="{{ 'image_zoom.close' | t }}">×</button>
+    <div class="campaign-dialog__layout">
+      {% if section.settings.image != blank %}<div class="campaign-dialog__media">{{ section.settings.image | image_url: width: 900 | image_tag: widths: '300, 600, 900', sizes: '(min-width: 601px) 360px, 80vw', loading: 'lazy', alt: '' }}</div>{% endif %}
+      <div class="campaign-dialog__copy">
+        {% if section.settings.eyebrow != blank %}<p class="campaign-dialog__eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+        <h2 id="CampaignTitle-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+        {% if section.settings.text != blank %}<p id="CampaignText-{{ section.id }}">{{ section.settings.text | escape }}</p>{% endif %}
+        {% if section.settings.link != blank and section.settings.label != blank %}<a data-control="primary" class="campaign-dialog__cta" data-campaign-link href="{{ section.settings.link }}">{{ section.settings.label | escape }}<span aria-hidden="true">↗</span></a>{% endif %}
+      </div>
+    </div>
+  </dialog>
+</campaign-dialog>
+<script src="{{ 'campaign-dialog.js' | asset_url }}" type="module"></script>
+{% endif %}
+{% schema %}
+{
+  "name": "t:campaign.name",
+  "limit": 1,
+  "enabled_on": {
+    "groups": [
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "t:campaign.enabled",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "home_only",
+      "label": "t:campaign.home",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "delay",
+      "label": "t:campaign.delay",
+      "min": 5,
+      "max": 60,
+      "step": 5,
+      "default": 25,
+      "unit": "s"
+    },
+    {
+      "type": "select",
+      "id": "frequency",
+      "label": "t:campaign.frequency",
+      "default": "session",
+      "options": [
+        {
+          "value": "session",
+          "label": "t:campaign.session"
+        },
+        {
+          "value": "week",
+          "label": "t:campaign.week"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "campaign_id",
+      "label": "t:campaign.identifier",
+      "default": "welcome",
+      "info": "t:campaign.help"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:campaign.eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:campaign.heading"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:campaign.text"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:campaign.image"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "t:campaign.label"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:campaign.link"
+    },
+    {
+      "type": "range",
+      "id": "image_position",
+      "label": "t:campaign.position",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:campaign.name"
+    }
+  ]
+}
+{% endschema %}

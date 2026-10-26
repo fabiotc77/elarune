@@ -1,0 +1,486 @@
+{% render 'section-scheme', section: section %}
+{%- capture premium_section_body -%}
+{%- if section.blocks.size > 0 -%}
+  {%- liquid
+    assign mc_cols = section.settings.columns_desktop | default: 3
+    assign mc_cols_tablet = mc_cols
+    if mc_cols > 3
+      assign mc_cols_tablet = 3
+    endif
+    assign mc_cols_mobile = section.settings.columns_mobile | plus: 0
+    if mc_cols_mobile < 1
+      assign mc_cols_mobile = 1
+    endif
+    assign mc_swipe = false
+    if section.settings.mobile_layout == 'swipe' and section.blocks.size > mc_cols_mobile
+      assign mc_swipe = true
+    endif
+    if section.settings.image_ratio == 'circle'
+      assign mc_sizes = '(min-width: 750px) 240px, 180px'
+    else
+      if mc_swipe and mc_cols_mobile == 2
+        assign mc_mobile_size = '42vw'
+      elsif mc_swipe
+        assign mc_mobile_size = '80vw'
+      elsif mc_cols_mobile == 2
+        assign mc_mobile_size = '50vw'
+      else
+        assign mc_mobile_size = '100vw'
+      endif
+      assign mc_sizes = '(min-width: 1440px) calc(1360px / ' | append: mc_cols | append: '), (min-width: 990px) calc((100vw - 128px) / ' | append: mc_cols | append: '), (min-width: 750px) calc((100vw - 80px) / ' | append: mc_cols_tablet | append: '), ' | append: mc_mobile_size
+    endif
+    assign mc_list_label = section.settings.heading | strip_html | strip
+    if mc_list_label == blank
+      assign mc_list_label = 'multicolumn.list_label' | t
+    endif
+  -%}
+  {{ 'section-multicolumn.css' | asset_url | stylesheet_tag }}
+  <section class="page-width section-space multicolumn" data-align="{{ section.settings.text_alignment }}" data-ratio="{{ section.settings.image_ratio }}" data-divider="{{ section.settings.divider }}" data-mobile="{% if mc_swipe %}swipe{% else %}grid{% endif %}" data-cols-mobile="{{ mc_cols_mobile }}" style="--mc-cols:{{ mc_cols }};--mc-cols-tablet:{{ mc_cols_tablet }};--mc-cols-mobile:{{ mc_cols_mobile }}"{% if section.settings.heading != blank %} aria-labelledby="MulticolumnHeading-{{ section.id }}"{% endif %}>
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.intro != blank -%}
+      <div class="multicolumn-header premium-reveal">
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow multicolumn-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 id="MulticolumnHeading-{{ section.id }}" class="multicolumn-heading">{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.intro != blank -%}<div class="rte multicolumn-intro">{{ section.settings.intro }}</div>{%- endif -%}
+      </div>
+    {%- endif -%}
+    <ul class="multicolumn-list" role="list"{% if mc_swipe %} tabindex="0" aria-label="{{ mc_list_label | escape }}"{% endif %}>
+      {%- for block in section.blocks -%}
+        <li class="multicolumn-item premium-reveal" {{ block.shopify_attributes }}>
+          {%- case block.settings.media -%}
+            {%- when 'image' -%}
+              <div class="multicolumn-media">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 1400 | image_tag: widths: '240, 360, 480, 640, 800, 1000, 1400', sizes: mc_sizes, loading: 'lazy', class: 'multicolumn-image', alt: block.settings.image.alt }}
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag: 'multicolumn-placeholder' }}
+                {%- endif -%}
+              </div>
+            {%- when 'icon' -%}
+              <div class="multicolumn-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                  {%- case block.settings.icon -%}
+                    {%- when 'drop' -%}<path d="M12 3.5c3.4 4.3 6 7.7 6 10.9a6 6 0 0 1-12 0c0-3.2 2.6-6.6 6-10.9z"/><path d="M9 15a3 3 0 0 0 3 3"/>
+                    {%- when 'leaf' -%}<path d="M5 19c0-8 5-13.5 14-14-.3 9-5.8 14-14 14z"/><path d="M5 19l8-8"/>
+                    {%- when 'sun' -%}<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/>
+                    {%- when 'moon' -%}<path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z"/>
+                    {%- when 'sparkle' -%}<path d="M12 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"/><path d="M18.5 16v4M16.5 18h4"/>
+                    {%- when 'recycle' -%}<path d="M7.5 9.5L10 5.2a2.3 2.3 0 0 1 4 0l1.6 2.8"/><path d="M13.6 8.2l2 .1.9-1.9"/><path d="M18.6 11.5l2.1 3.6a2.3 2.3 0 0 1-2 3.4H15"/><path d="M16.6 20.2L15 18.5l1.4-1.7"/><path d="M9 18.5H5.3a2.3 2.3 0 0 1-2-3.4l1.7-3"/><path d="M3.9 13.5l1.1-1.4 2.1.4"/>
+                    {%- when 'truck' -%}<path d="M2.5 6.5h11v9h-11z"/><path d="M13.5 9.5h4l3 3.2v2.8h-7"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>
+                    {%- when 'gift' -%}<path d="M3.5 9.5h17v3.5h-17zM5 13h14v7.5H5zM12 9.5v11"/><path d="M12 9.5c-2.5 0-4.5-1-4.5-2.7S9.8 4 12 9.5c2.2-5.5 4.5-4.4 4.5-2.7S14.5 9.5 12 9.5z"/>
+                    {%- when 'heart' -%}<path d="M12 20s-7.5-4.6-7.5-10.1A4.2 4.2 0 0 1 12 7.2a4.2 4.2 0 0 1 7.5 2.7C19.5 15.4 12 20 12 20z"/>
+                    {%- when 'shield' -%}<path d="M12 3l7 2.8v5.6c0 4.3-2.9 8-7 9.6-4.1-1.6-7-5.3-7-9.6V5.8z"/><path d="M9 12l2.2 2.2L15.2 10"/>
+                  {%- endcase -%}
+                </svg>
+              </div>
+          {%- endcase -%}
+          {%- if section.settings.show_numbers or block.settings.title != blank or block.settings.text != blank -%}
+            <div class="multicolumn-body">
+              {%- if section.settings.show_numbers -%}<span class="multicolumn-number" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>{%- endif -%}
+              {%- if block.settings.title != blank -%}<h3 class="multicolumn-title">{{ block.settings.title | escape }}</h3>{%- endif -%}
+              {%- if block.settings.text != blank -%}<div class="rte multicolumn-text">{{ block.settings.text }}</div>{%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if block.settings.link_label != blank and block.settings.link != blank -%}
+            <a data-control="text" class="multicolumn-link" href="{{ block.settings.link }}">{{ block.settings.link_label | escape }}<span class="multicolumn-arrow" aria-hidden="true">&rarr;</span></a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </section>
+{%- endif -%}
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:multicolumn.name",
+  "tag": "section",
+  "max_blocks": 12,
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:editor.text.eyebrow_d821dd"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:editor.text.heading_b34f17",
+      "info": "t:rich_text.heading_info",
+      "default": "Considered <em>details</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "t:editor.text.introduction_b60535"
+    },
+    {
+      "type": "header",
+      "content": "t:editor.text.layout_a51190"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "t:multicolumn.columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "t:multicolumn.columns_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:multicolumn.one_column"
+        },
+        {
+          "value": "2",
+          "label": "t:multicolumn.two_columns"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "t:multicolumn.mobile_layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "t:premium.grid"
+        },
+        {
+          "value": "swipe",
+          "label": "t:multicolumn.layout_swipe"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "t:multicolumn.text_alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:rich_text.align_start"
+        },
+        {
+          "value": "center",
+          "label": "t:premium.center"
+        }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:premium.ratio",
+      "options": [
+        {
+          "value": "square",
+          "label": "t:premium.square"
+        },
+        {
+          "value": "portrait",
+          "label": "t:premium.portrait"
+        },
+        {
+          "value": "landscape",
+          "label": "t:premium.landscape"
+        },
+        {
+          "value": "circle",
+          "label": "t:multicolumn.circle"
+        }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "select",
+      "id": "divider",
+      "label": "t:rich_text.block_divider",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "hairline",
+          "label": "t:multicolumn.hairline"
+        }
+      ],
+      "default": "hairline"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_numbers",
+      "label": "t:multicolumn.show_numbers",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:scheme.section",
+      "default": "porcelain"
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "t:multicolumn.block_column",
+      "settings": [
+        {
+          "type": "select",
+          "id": "media",
+          "label": "t:premium.media",
+          "options": [
+            {
+              "value": "image",
+              "label": "t:editor.text.image_1aa4cb"
+            },
+            {
+              "value": "icon",
+              "label": "t:multicolumn.icon"
+            },
+            {
+              "value": "none",
+              "label": "t:premium.none"
+            }
+          ],
+          "default": "icon"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:editor.text.image_1aa4cb"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:multicolumn.icon",
+          "options": [
+            {
+              "value": "drop",
+              "label": "t:multicolumn.icon_drop"
+            },
+            {
+              "value": "leaf",
+              "label": "t:multicolumn.icon_leaf"
+            },
+            {
+              "value": "sun",
+              "label": "t:multicolumn.icon_sun"
+            },
+            {
+              "value": "moon",
+              "label": "t:multicolumn.icon_moon"
+            },
+            {
+              "value": "sparkle",
+              "label": "t:multicolumn.icon_sparkle"
+            },
+            {
+              "value": "recycle",
+              "label": "t:multicolumn.icon_recycle"
+            },
+            {
+              "value": "truck",
+              "label": "t:multicolumn.icon_truck"
+            },
+            {
+              "value": "gift",
+              "label": "t:multicolumn.icon_gift"
+            },
+            {
+              "value": "heart",
+              "label": "t:multicolumn.icon_heart"
+            },
+            {
+              "value": "shield",
+              "label": "t:multicolumn.icon_shield"
+            }
+          ],
+          "default": "leaf"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:editor.text.title_7e8cd2",
+          "default": "Column heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:editor.text.text_71988c",
+          "default": "<p>Share details about your products, ingredients or process.</p>"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "t:editor.text.link_label_acaa9e"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:editor.text.link_a6a32d"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:multicolumn.name",
+      "blocks": [
+        {
+          "type": "column",
+          "settings": {
+            "icon": "leaf"
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "icon": "drop"
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "icon": "sparkle"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

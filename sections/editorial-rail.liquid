@@ -1,0 +1,269 @@
+{%- capture premium_section_body -%}
+{{ 'premium-editorial.css' | asset_url | stylesheet_tag }}
+{%- comment -%}Product-driven rail: stay out of the page until a card has something to show.{%- endcomment -%}
+{% assign rail_cards = 0 %}
+{% for block in section.blocks %}{% if block.settings.product != blank or block.settings.collection != blank or block.settings.image != blank or block.settings.heading != blank or block.settings.text != blank %}{% assign rail_cards = rail_cards | plus: 1 %}{% endif %}{% endfor %}
+{% if rail_cards > 0 %}
+<section class="page-width section-space editorial-rail"><div class="section-heading"><div><p class="eyebrow">{{ section.settings.eyebrow | escape }}</p><h2>{{ section.settings.heading | escape }}</h2></div><p>{{ section.settings.text | escape }}</p></div>
+<premium-rail data-kind="{{ section.settings.kind }}" data-ratio="{{ section.settings.ratio }}" data-autoplay="{{ section.settings.autoplay }}" data-marquee="{{ section.settings.marquee }}">
+ <div class="premium-rail-track" tabindex="0" role="region" aria-label="{{ section.settings.heading | default: shop.name | escape }}">
+ {% for block in section.blocks %}{% if block.settings.product != blank or block.settings.collection != blank or block.settings.image != blank or block.settings.heading != blank or block.settings.text != blank %}<article class="premium-rail-card" {{ block.shopify_attributes }}>{% if block.settings.product != blank %}{% render 'product-card', card_product: block.settings.product %}{% elsif block.settings.collection != blank %}{% assign collection = block.settings.collection %}<a href="{{ collection.url }}">{% if collection.featured_image != blank %}{{ collection.featured_image | image_url: width: 900 | image_tag: widths: '300, 600, 900', sizes: '(min-width:750px) 30vw, 78vw', loading: 'lazy' }}{% endif %}<h3>{{ block.settings.heading | default: collection.title | escape }}</h3></a>{% else %}{% if block.settings.link != blank %}<a href="{{ block.settings.link }}">{% endif %}{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1000 | image_tag: widths: '300, 600, 1000', sizes: '(min-width:750px) 35vw, 80vw', loading: 'lazy' }}{% endif %}{% if block.settings.heading != blank %}<h3>{{ block.settings.heading | escape }}</h3>{% endif %}{% if block.settings.text != blank %}<p>{{ block.settings.text | escape }}</p>{% endif %}{% if block.settings.link != blank %}</a>{% endif %}{% endif %}</article>{% endif %}{% endfor %}
+ </div><div class="premium-rail-controls" hidden><button data-control="icon" type="button" data-previous aria-label="{{ 'premium.previous' | t }}">←</button><button data-control="icon" type="button" data-play aria-label="{{ 'premium.pause' | t }}" data-pause-label="{{ 'premium.pause' | t }}" data-play-label="{{ 'premium.play' | t }}">Ⅱ</button><button data-control="icon" type="button" data-next aria-label="{{ 'premium.next' | t }}">→</button></div>
+</premium-rail></section><script src="{{ 'premium-rails.js' | asset_url }}" type="module"></script>
+{% endif %}
+
+{%- endcapture -%}
+{%- assign premium_section_content = premium_section_body | strip -%}
+{%- if premium_section_content != blank -%}
+<premium-section data-motion="{{ section.settings.experience_motion | default: 'inherit' }}" data-intensity="{{ section.settings.experience_intensity | default: 'restrained' }}" data-parallax="{{ section.settings.experience_parallax }}" data-width="{{ section.settings.experience_width | default: 'inherit' }}" data-spacing="{{ section.settings.experience_spacing }}" style="--experience-space-top:{{ section.settings.experience_top | default: 64 }}px;--experience-space-bottom:{{ section.settings.experience_bottom | default: 64 }}px">
+{{ premium_section_body }}
+</premium-section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:premium.rail",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:premium.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:premium.heading"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:premium.text"
+    },
+    {
+      "type": "select",
+      "id": "kind",
+      "label": "t:premium.rail_type",
+      "options": [
+        {
+          "value": "products",
+          "label": "t:premium.products"
+        },
+        {
+          "value": "collections",
+          "label": "t:premium.collections"
+        },
+        {
+          "value": "images",
+          "label": "t:premium.images"
+        },
+        {
+          "value": "quotes",
+          "label": "t:premium.quotes"
+        },
+        {
+          "value": "logos",
+          "label": "t:premium.logos"
+        }
+      ],
+      "default": "images"
+    },
+    {
+      "type": "select",
+      "id": "ratio",
+      "label": "t:premium.ratio",
+      "options": [
+        {
+          "value": "portrait",
+          "label": "t:premium.portrait"
+        },
+        {
+          "value": "square",
+          "label": "t:premium.square"
+        },
+        {
+          "value": "landscape",
+          "label": "t:premium.landscape"
+        }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:premium.autoplay",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:premium.experience"
+    },
+    {
+      "type": "select",
+      "id": "experience_motion",
+      "label": "t:premium.motion",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "none",
+          "label": "t:premium.none"
+        },
+        {
+          "value": "fade",
+          "label": "t:premium.fade"
+        },
+        {
+          "value": "rise",
+          "label": "t:premium.rise"
+        },
+        {
+          "value": "scale",
+          "label": "t:premium.scale"
+        },
+        {
+          "value": "mask",
+          "label": "t:premium.mask"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "experience_intensity",
+      "label": "t:premium.intensity",
+      "options": [
+        {
+          "value": "restrained",
+          "label": "t:premium.restrained"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        },
+        {
+          "value": "expressive",
+          "label": "t:premium.expressive"
+        }
+      ],
+      "default": "restrained"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_parallax",
+      "label": "t:premium.parallax",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "experience_width",
+      "label": "t:premium.width",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "t:premium.inherit"
+        },
+        {
+          "value": "contained",
+          "label": "t:premium.contained"
+        },
+        {
+          "value": "wide",
+          "label": "t:premium.wide"
+        },
+        {
+          "value": "full",
+          "label": "t:premium.full"
+        },
+        {
+          "value": "editorial",
+          "label": "t:premium.editorial"
+        }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "checkbox",
+      "id": "experience_spacing",
+      "label": "t:premium.spacing",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "experience_top",
+      "label": "t:premium.top",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "experience_bottom",
+      "label": "t:premium.bottom",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "checkbox",
+      "id": "marquee",
+      "label": "t:premium.marquee",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "t:premium.media",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:premium.product"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:premium.collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:premium.image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:premium.heading"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "t:premium.text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:premium.link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:premium.rail"
+    }
+  ]
+}
+{% endschema %}
