@@ -56,6 +56,13 @@
   assign tier2_discounted_price = tier2_total_price | times: tier2_factor | divided_by: 100.0 | round
   assign tier3_discounted_price = tier3_total_price | times: tier3_factor | divided_by: 100.0 | round
 
+  comment
+    Calculate per-item prices from the same configurable discount percentages.
+    Shopify prices are stored in cents, so round each per-item amount to the nearest cent for display.
+  endcomment
+  assign tier2_discounted_unit_price = base_price | times: tier2_factor | divided_by: 100.0 | round
+  assign tier3_discounted_unit_price = base_price | times: tier3_factor | divided_by: 100.0 | round
+
   assign rule_min = variant.quantity_rule.min | default: 1
   assign rule_increment = variant.quantity_rule.increment | default: 1
   assign rule_max = variant.quantity_rule.max
@@ -119,7 +126,7 @@
         </span>
         <span class="volume-tier-card__pricing">
           {% if tier2_discount > 0 %}<span class="volume-tier-card__price">{{ tier2_discounted_price | money }}</span><span class="volume-tier-card__compare-price"><s>{{ tier2_total_price | money }}</s></span>{% else %}<span class="volume-tier-card__price">{{ tier2_total_price | money }}</span>{% endif %}
-          <span class="volume-tier-card__per-unit">{{ base_price | money }}/{{ 'volume_pricing.each' | t }}</span>
+          <span class="volume-tier-card__per-unit">{% if tier2_discount > 0 %}{{ tier2_discounted_unit_price | money }}{% else %}{{ base_price | money }}{% endif %}/{{ 'volume_pricing.each' | t }}</span>
         </span>
       </label>
     {% endif %}
@@ -141,7 +148,7 @@
         </span>
         <span class="volume-tier-card__pricing">
           {% if tier3_discount > 0 %}<span class="volume-tier-card__price">{{ tier3_discounted_price | money }}</span><span class="volume-tier-card__compare-price"><s>{{ tier3_total_price | money }}</s></span>{% else %}<span class="volume-tier-card__price">{{ tier3_total_price | money }}</span>{% endif %}
-          <span class="volume-tier-card__per-unit">{{ base_price | money }}/{{ 'volume_pricing.each' | t }}</span>
+          <span class="volume-tier-card__per-unit">{% if tier3_discount > 0 %}{{ tier3_discounted_unit_price | money }}{% else %}{{ base_price | money }}{% endif %}/{{ 'volume_pricing.each' | t }}</span>
         </span>
       </label>
     {% endif %}
