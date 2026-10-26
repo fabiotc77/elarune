@@ -1,0 +1,50 @@
+<!doctype html>
+{%- liquid
+  assign direction = 'ltr'
+  assign language_code = request.locale.iso_code | split: '-' | first
+  if language_code == 'ar' or language_code == 'he' or language_code == 'fa' or language_code == 'ur'
+    assign direction = 'rtl'
+  endif
+-%}
+<html data-control-language="elarune" data-motion-enabled="{{ settings.experience_motion_enabled }}" data-motion-style="{{ settings.experience_motion_style | default: 'rise' }}" data-page-transition="{{ settings.experience_page_transition }}" lang="{{ request.locale.iso_code }}" dir="{{ direction }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {%- for scheme in settings.color_schemes -%}<meta name="theme-color" content="{{ scheme.settings.background }}">{%- break -%}{%- endfor %}
+    <link rel="canonical" href="{{ canonical_url }}">
+    {% if settings.favicon != blank %}
+      <link rel="icon" href="{{ settings.favicon | image_url: width: 32 }}" type="image/png">
+      <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180 }}">
+    {% else %}
+      <link rel="icon" href="{{ 'favicon.svg' | asset_url }}" type="image/svg+xml">
+      <link rel="icon" href="{{ 'elarune-favicon-32.png' | asset_url }}" type="image/png" sizes="32x32">
+      <link rel="apple-touch-icon" href="{{ 'elarune-favicon-180.png' | asset_url }}">
+    {% endif %}
+    <title>
+      {{- page_title -}}
+      {%- if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+    {% render 'social-metadata' %}
+    {% render 'premium-imports' %}
+    {{ content_for_header }}
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {% render 'brand-settings' %}
+    {% if settings.experience_page_transition %}<style>@view-transition{navigation:auto}::view-transition-old(root){animation:premium-page-out 100ms ease-out}::view-transition-new(root){animation:premium-page-in 160ms ease-out}@keyframes premium-page-out{to{opacity:0}}@keyframes premium-page-in{from{opacity:.7}}</style>{% endif %}
+    {{ 'premium-experience.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'premium-motion.js' | asset_url }}" type="module"></script>
+    <script src="{{ 'theme.js' | asset_url }}" type="module"></script>
+    {{ 'control-language.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body>
+    <a class="skip-link" href="#MainContent">{{ 'general.skip' | t }}</a>
+    {% sections 'header-group' %}
+    <main id="MainContent" tabindex="-1">{{ content_for_layout }}</main>
+    {% sections 'footer-group' %}
+    {% render 'premium-overlays' %}
+  </body>
+</html>

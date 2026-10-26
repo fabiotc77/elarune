@@ -1,0 +1,1021 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "The daily edit",
+        "heading": "The art of everyday care.",
+        "heading_accent": "Softly considered.",
+        "heading_tag": "h1",
+        "text": "Considered essentials for your daily routine. Three simple steps to cleanse, treat and finish, with a little time set aside for yourself.",
+        "button_label": "Shop the collection",
+        "secondary_label": "",
+        "secondary_link": "",
+        "caption": "The everyday edit",
+        "note": "Cleanse · Treat · Finish",
+        "link": "shopify://collections/all",
+        "experience_motion": "rise",
+        "experience_intensity": "restrained",
+        "passport_label": "Your routine",
+        "actives_label": "The moment",
+        "texture_label": "Texture"
+      },
+      "blocks": {
+        "chapter_cleanse": {
+          "type": "chapter",
+          "settings": {
+            "label": "Cleanse",
+            "eyebrow": "The daily edit / Step 01",
+            "phase": "01 / Cleanse",
+            "actives": "Morning or evening",
+            "texture": "Gel, milk or balm"
+          }
+        },
+        "chapter_treat": {
+          "type": "chapter",
+          "settings": {
+            "label": "Treat",
+            "eyebrow": "The daily edit / Step 02",
+            "phase": "02 / Treat",
+            "actives": "After cleansing",
+            "texture": "A light, fluid layer"
+          }
+        },
+        "chapter_finish": {
+          "type": "chapter",
+          "settings": {
+            "label": "Finish",
+            "eyebrow": "The daily edit / Step 03",
+            "phase": "03 / Finish",
+            "actives": "The final layer",
+            "texture": "A soft cream"
+          }
+        }
+      },
+      "block_order": [
+        "chapter_cleanse",
+        "chapter_treat",
+        "chapter_finish"
+      ]
+    },
+    "routine": {
+      "type": "routine-chapters",
+      "settings": {
+        "default_routine": "morning",
+        "experience_motion": "rise",
+        "experience_intensity": "restrained"
+      },
+      "blocks": {
+        "cleanse": {
+          "type": "step",
+          "settings": {
+            "heading": "A fresh beginning",
+            "text": "Begin the day with a cleanse, the first step of your routine.",
+            "product": "",
+            "period": "morning"
+          }
+        },
+        "nourish": {
+          "type": "step",
+          "settings": {
+            "heading": "A moment to layer",
+            "text": "Layer a serum next, the quiet middle of the morning.",
+            "product": "",
+            "period": "morning"
+          }
+        },
+        "moisturize": {
+          "type": "step",
+          "settings": {
+            "heading": "The finishing touch",
+            "text": "Finish with a cream to complete the morning routine.",
+            "product": "",
+            "period": "morning"
+          }
+        },
+        "evening_cleanse": {
+          "type": "step",
+          "settings": {
+            "heading": "A slower beginning",
+            "text": "Close the day with an unhurried cleansing moment.",
+            "product": "",
+            "period": "evening"
+          }
+        },
+        "evening_layer": {
+          "type": "step",
+          "settings": {
+            "heading": "An evening layer",
+            "text": "Take a moment to layer your evening serum.",
+            "product": "",
+            "period": "evening"
+          }
+        },
+        "evening_finish": {
+          "type": "step",
+          "settings": {
+            "heading": "The evening finish",
+            "text": "End with a cream, the last step of the evening.",
+            "product": "",
+            "period": "evening"
+          }
+        }
+      },
+      "block_order": [
+        "cleanse",
+        "nourish",
+        "moisturize",
+        "evening_cleanse",
+        "evening_layer",
+        "evening_finish"
+      ],
+      "disabled": true
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "THE EVERYDAY EDIT",
+        "heading": "Good things, in small rituals.",
+        "products": [],
+        "limit": 3,
+        "columns": 3,
+        "experience_motion": "rise",
+        "experience_intensity": "restrained"
+      }
+    },
+    "story": {
+      "type": "brand-story",
+      "settings": {
+        "image": "",
+        "eyebrow": "THE PHILOSOPHY",
+        "heading": "Considered essentials, thoughtfully layered.",
+        "text": "<p>A few well-chosen steps, applied with intention, can turn an everyday routine into a moment of your own. Share the story behind your brand here: what you make, and why you make it.</p>",
+        "background": "#2a101b",
+        "text_color": "#FAF8F5",
+        "link": "shopify://collections/all",
+        "link_label": "Explore the collection",
+        "experience_motion": "rise",
+        "experience_intensity": "restrained"
+      },
+      "blocks": {
+        "approach": {
+          "type": "detail",
+          "settings": {
+            "label": "Layered sequence",
+            "value": "Three steps, applied from the lightest texture to the richest."
+          }
+        },
+        "experience": {
+          "type": "detail",
+          "settings": {
+            "label": "Texture",
+            "value": "A fluid gel, a light serum and a soft cream, each chosen to sit comfortably on the last."
+          }
+        },
+        "rhythm": {
+          "type": "detail",
+          "settings": {
+            "label": "Rhythm",
+            "value": "One routine for the morning and one for the evening, built from the same few essentials."
+          }
+        }
+      },
+      "block_order": [
+        "approach",
+        "experience",
+        "rhythm"
+      ]
+    },
+    "sensory_opening": {
+      "type": "sensory-hero",
+      "settings": {
+        "eyebrow": "THE DAILY RITUAL",
+        "heading": "Beauty,",
+        "heading_accent": "in your own rhythm.",
+        "text": "A simple three-step ritual. Cleanse, treat and finish — with a little time for yourself.",
+        "image": "",
+        "button_label": "Discover the ritual",
+        "link": "shopify://collections/all",
+        "caption": "",
+        "note": "",
+        "product": "",
+        "experience_motion": "rise",
+        "experience_intensity": "restrained",
+        "experience_parallax": false,
+        "editorial_composition": true,
+        "campaign_image": "",
+        "ritual_constellation": true
+      },
+      "blocks": {
+        "cleanse": {
+          "type": "chapter",
+          "settings": {
+            "product": "",
+            "label": "Cleanse",
+            "heading": "Beauty,",
+            "heading_accent": "in your own rhythm.",
+            "text": "Meet the cleanser: the first step in a simple daily routine.",
+            "campaign_image": ""
+          }
+        },
+        "layer": {
+          "type": "chapter",
+          "settings": {
+            "product": "",
+            "label": "Treat",
+            "heading": "Beauty,",
+            "heading_accent": "in your own rhythm.",
+            "text": "Meet the serum: the middle step in your daily routine.",
+            "campaign_image": ""
+          }
+        },
+        "finish": {
+          "type": "chapter",
+          "settings": {
+            "product": "",
+            "label": "Finish",
+            "heading": "Beauty,",
+            "heading_accent": "in your own rhythm.",
+            "text": "Meet the cream: the finishing step in a simple three-step routine.",
+            "campaign_image": ""
+          }
+        }
+      },
+      "block_order": [
+        "cleanse",
+        "layer",
+        "finish"
+      ],
+      "disabled": true
+    },
+    "sensory_selection": {
+      "type": "sensory-collection",
+      "settings": {
+        "eyebrow": "THE EVERYDAY COLLECTION",
+        "heading": "The Ritual Shelf",
+        "heading_accent": "",
+        "text": "Find your place in the ritual. Three considered steps, one shelf.",
+        "button_label": "Explore the collection",
+        "link": "shopify://collections/all",
+        "experience_motion": "rise",
+        "experience_intensity": "restrained",
+        "editorial_composition": true,
+        "experience_parallax": false,
+        "ritual_shelf": true
+      },
+      "blocks": {
+        "cleanse": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "heading": "A fresh beginning",
+            "text": "Cleanse",
+            "ritual_step": "01",
+            "texture_swatch": "",
+            "texture_label": "Milk cleanser texture",
+            "skin_concern": ""
+          }
+        },
+        "serum": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "heading": "A moment to layer",
+            "text": "Treat",
+            "ritual_step": "02",
+            "texture_swatch": "",
+            "texture_label": "Golden serum droplet",
+            "skin_concern": ""
+          }
+        },
+        "cream": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "heading": "The final touch",
+            "text": "Finish",
+            "ritual_step": "03",
+            "texture_swatch": "",
+            "texture_label": "A thin cream layer on skin",
+            "skin_concern": ""
+          }
+        }
+      },
+      "block_order": [
+        "cleanse",
+        "serum",
+        "cream"
+      ],
+      "disabled": true
+    },
+    "sensory_texture": {
+      "type": "sensory-atelier",
+      "settings": {
+        "eyebrow": "THE TEXTURE STUDY / 02",
+        "heading": "Beauty you",
+        "heading_accent": "can almost feel.",
+        "text": "A closer look at cream and mist. Explore the textures and gestures of everyday skincare.",
+        "image": "",
+        "button_label": "Meet the collection",
+        "link": "shopify://collections/all",
+        "caption": "CREAM / MIST",
+        "note": "Choose cream or mist, then drag across the image. You can also use the slider.",
+        "experience_motion": "fade",
+        "experience_intensity": "restrained",
+        "editorial_composition": true
+      },
+      "disabled": true
+    },
+    "sensory_daily": {
+      "type": "sensory-ritual",
+      "settings": {
+        "eyebrow": "YOUR DAILY CHAPTERS / 04",
+        "heading": "A moment",
+        "heading_accent": "of your own.",
+        "text": "A fresh beginning or a slower evening. Explore the products in each three-step routine.",
+        "experience_motion": "rise",
+        "experience_intensity": "restrained",
+        "editorial_composition": true
+      },
+      "blocks": {
+        "cleanse": {
+          "type": "product",
+          "settings": {
+            "heading": "A fresh beginning",
+            "text": "Begin the day with a cleanse, the first step of your routine.",
+            "product": "",
+            "period": "morning"
+          }
+        },
+        "nourish": {
+          "type": "product",
+          "settings": {
+            "heading": "A moment to layer",
+            "text": "Layer a serum next, the quiet middle of the morning.",
+            "product": "",
+            "period": "morning"
+          }
+        },
+        "moisturize": {
+          "type": "product",
+          "settings": {
+            "heading": "The finishing touch",
+            "text": "Finish with a cream to complete the morning routine.",
+            "product": "",
+            "period": "morning"
+          }
+        },
+        "evening_cleanse": {
+          "type": "product",
+          "settings": {
+            "heading": "A slower beginning",
+            "text": "Close the day with an unhurried cleansing moment.",
+            "product": "",
+            "period": "evening"
+          }
+        },
+        "evening_layer": {
+          "type": "product",
+          "settings": {
+            "heading": "An evening layer",
+            "text": "Take a moment to layer your evening serum.",
+            "product": "",
+            "period": "evening"
+          }
+        },
+        "evening_finish": {
+          "type": "product",
+          "settings": {
+            "heading": "The evening finish",
+            "text": "End with a cream, the last step of the evening.",
+            "product": "",
+            "period": "evening"
+          }
+        }
+      },
+      "block_order": [
+        "cleanse",
+        "nourish",
+        "moisturize",
+        "evening_cleanse",
+        "evening_layer",
+        "evening_finish"
+      ],
+      "disabled": true
+    },
+    "shoppable_edit": {
+      "type": "shoppable-editorial",
+      "settings": {
+        "eyebrow": "SHOP THE DAILY ROUTINE / 03",
+        "heading": "Better together.",
+        "text": "Cleanser, serum and cream. Meet each step of the daily routine, together in one place.",
+        "image": "",
+        "experience_width": "full",
+        "experience_motion": "fade",
+        "editorial_composition": true
+      },
+      "blocks": {
+        "cleanser": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "x": 33,
+            "y": 48,
+            "mobile_x": 33,
+            "mobile_y": 48
+          }
+        },
+        "serum": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "x": 50,
+            "y": 62,
+            "mobile_x": 50,
+            "mobile_y": 62
+          }
+        },
+        "cream": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "x": 73,
+            "y": 70,
+            "mobile_x": 73,
+            "mobile_y": 70
+          }
+        }
+      },
+      "block_order": [
+        "cleanser",
+        "serum",
+        "cream"
+      ],
+      "disabled": true
+    },
+    "cream_comparison": {
+      "type": "product-comparison",
+      "settings": {
+        "editorial_composition": true,
+        "eyebrow": "FIND YOUR FORMULA / 02",
+        "heading": "A finish that fits you.",
+        "introduction": "Start with the texture or moment you prefer. Compare the formats, then choose your size.",
+        "product_1": "",
+        "product_2": "",
+        "product_3": "",
+        "show_native_options": true,
+        "experience_width": "full",
+        "experience_motion": "rise",
+        "product_1_label": "Daily cream",
+        "product_2_label": "Night cream",
+        "product_3_label": "Gel cream",
+        "product_1_story": "The classic cream chapter of your everyday routine. A considered finishing layer.",
+        "product_2_story": "Make space for your evening ritual. A night-cream format for the last chapter of your day.",
+        "product_3_story": "Prefer a lighter texture? Explore the gel-cream format."
+      },
+      "blocks": {
+        "format": {
+          "type": "detail",
+          "settings": {
+            "title": "The texture",
+            "value_1": "Classic cream",
+            "value_2": "Night cream",
+            "value_3": "Lighter gel-cream format"
+          }
+        },
+        "packaging": {
+          "type": "detail",
+          "settings": {
+            "title": "Your ritual",
+            "value_1": "Everyday finishing step",
+            "value_2": "Evening finishing step",
+            "value_3": "An alternative cream texture"
+          }
+        },
+        "sizing": {
+          "type": "detail",
+          "settings": {
+            "title": "Make it yours",
+            "value_1": "Choose the size that suits your shelf",
+            "value_2": "Choose the size that suits your shelf",
+            "value_3": "Choose the size that suits your shelf"
+          }
+        }
+      },
+      "block_order": [
+        "format",
+        "packaging",
+        "sizing"
+      ],
+      "disabled": true
+    },
+    "customer_stories": {
+      "type": "customer-stories",
+      "settings": {
+        "eyebrow": "CUSTOMER STORIES",
+        "heading": "In their own words.",
+        "introduction": "",
+        "show_form": true,
+        "form_heading": "Share your ritual.",
+        "form_text": "Which product did you try, and how does it fit into your day?",
+        "experience_motion": "rise",
+        "demo_content": false
+      },
+      "blocks": {
+        "sample_cleanse": {
+          "type": "quote",
+          "settings": {
+            "quote": "Share a short quote from a customer review you have permission to use.",
+            "author": "Customer name",
+            "context": "",
+            "rating": 0,
+            "product": ""
+          }
+        },
+        "sample_serum": {
+          "type": "quote",
+          "settings": {
+            "quote": "Share a short quote from a customer review you have permission to use.",
+            "author": "Customer name",
+            "context": "",
+            "rating": 0,
+            "product": ""
+          }
+        },
+        "sample_cream": {
+          "type": "quote",
+          "settings": {
+            "quote": "Share a short quote from a customer review you have permission to use.",
+            "author": "Customer name",
+            "context": "",
+            "rating": 0,
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "sample_cleanse",
+        "sample_serum",
+        "sample_cream"
+      ]
+    },
+    "beauty_vanity": {
+      "type": "beauty-vanity",
+      "settings": {
+        "eyebrow": "THE BEAUTY VANITY",
+        "heading": "Your table. Your ritual.",
+        "text": "A cleanser, a few drops, a finishing touch. Tap a product and make this little moment yours.",
+        "step_1": "Cleanse",
+        "step_2": "Layer",
+        "step_3": "Finish",
+        "blend": true
+      },
+      "blocks": {
+        "vanity-0": {
+          "type": "product",
+          "settings": {
+            "step": "1",
+            "product": "",
+            "image": "",
+            "note": "A gel-textured first step."
+          }
+        },
+        "vanity-1": {
+          "type": "product",
+          "settings": {
+            "step": "1",
+            "product": "",
+            "note": "A milk-textured alternative for your first step."
+          }
+        },
+        "vanity-2": {
+          "type": "product",
+          "settings": {
+            "step": "2",
+            "product": "",
+            "image": "",
+            "note": "A dropper format for your serum layer."
+          }
+        },
+        "vanity-3": {
+          "type": "product",
+          "settings": {
+            "step": "2",
+            "product": "",
+            "note": "A silky-textured alternative for your serum step."
+          }
+        },
+        "vanity-4": {
+          "type": "product",
+          "settings": {
+            "step": "3",
+            "product": "",
+            "image": "",
+            "note": "A cream format for your finishing touch."
+          }
+        },
+        "vanity-5": {
+          "type": "product",
+          "settings": {
+            "step": "3",
+            "product": "",
+            "note": "A gel-cream alternative for your final step."
+          }
+        }
+      },
+      "block_order": [
+        "vanity-0",
+        "vanity-1",
+        "vanity-2",
+        "vanity-3",
+        "vanity-4",
+        "vanity-5"
+      ],
+      "disabled": true
+    },
+    "ritual_builder": {
+      "type": "ritual-builder",
+      "settings": {},
+      "blocks": {
+        "cleanse_default": {
+          "type": "product",
+          "settings": {
+            "step": "1",
+            "product": "",
+            "needs": "",
+            "feels": "",
+            "level": "any"
+          }
+        },
+        "cleanse_soft": {
+          "type": "product",
+          "settings": {
+            "step": "1",
+            "product": "",
+            "needs": "",
+            "feels": "dry,sensitive",
+            "level": "any"
+          }
+        },
+        "treat_default": {
+          "type": "product",
+          "settings": {
+            "step": "2",
+            "product": "",
+            "needs": "",
+            "feels": "",
+            "level": "any"
+          }
+        },
+        "treat_calm": {
+          "type": "product",
+          "settings": {
+            "step": "2",
+            "product": "",
+            "needs": "calm,firmness",
+            "feels": "",
+            "level": "any"
+          }
+        },
+        "finish_default": {
+          "type": "product",
+          "settings": {
+            "step": "3",
+            "product": "",
+            "needs": "",
+            "feels": "",
+            "level": "any"
+          }
+        },
+        "finish_light": {
+          "type": "product",
+          "settings": {
+            "step": "3",
+            "product": "",
+            "needs": "",
+            "feels": "oily",
+            "level": "any"
+          }
+        },
+        "finish_complete": {
+          "type": "product",
+          "settings": {
+            "step": "3",
+            "product": "",
+            "needs": "",
+            "feels": "",
+            "level": "complete"
+          }
+        }
+      },
+      "block_order": [
+        "cleanse_default",
+        "cleanse_soft",
+        "treat_default",
+        "treat_calm",
+        "finish_default",
+        "finish_light",
+        "finish_complete"
+      ],
+      "disabled": true
+    },
+    "texture_lab": {
+      "type": "texture-lab",
+      "settings": {
+        "eyebrow": "TEXTURE STUDY",
+        "heading": "Feel it before you try it."
+      },
+      "blocks": {
+        "melt": {
+          "type": "texture",
+          "settings": {
+            "heading": "Melt",
+            "text": "A soft gel texture",
+            "product": "",
+            "alt": "Ivory cleanser texture folded in a soft ribbon on warm stone.",
+            "motion": "melt",
+            "image": ""
+          }
+        },
+        "drop": {
+          "type": "texture",
+          "settings": {
+            "heading": "Drop",
+            "text": "A light serum drop",
+            "product": "",
+            "alt": "Golden serum droplet meeting a glass surface.",
+            "motion": "drop",
+            "image": ""
+          }
+        },
+        "veil": {
+          "type": "texture",
+          "settings": {
+            "heading": "Veil",
+            "text": "A smooth cream layer",
+            "product": "",
+            "alt": "A thin ivory cream layer spread across skin.",
+            "motion": "veil",
+            "image": ""
+          }
+        }
+      },
+      "block_order": [
+        "melt",
+        "drop",
+        "veil"
+      ]
+    },
+    "ingredient_spotlight": {
+      "type": "ingredient-spotlight",
+      "settings": {
+        "eyebrow": "Ingredient spotlight",
+        "heading": "A considered formula.",
+        "concentration": "",
+        "illustrative": true,
+        "image": "",
+        "image_alt": "Botanical ingredients beside a sculptural glass vessel.",
+        "subtitle": "Introduce the ingredients at the heart of your formula: what they are, where they come from and why you chose them.",
+        "specimen_code": "",
+        "specimen_note": "",
+        "dossier_label": "The composition",
+        "dossier_meta": "Full ingredient list on each product page",
+        "synergy_label": "Supporting ingredients"
+      },
+      "blocks": {
+        "benefit_0": {
+          "type": "benefit",
+          "settings": {
+            "text": "Chosen with intention",
+            "potency": "Key ingredient",
+            "description": "Describe a key ingredient and the role it plays in the formula.",
+            "meter_label": "",
+            "meter_value": ""
+          }
+        },
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "text": "The texture",
+            "potency": "Sensory",
+            "description": "Describe how the formula feels as you apply it, in your own words.",
+            "meter_label": "",
+            "meter_value": ""
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "text": "Read before you apply",
+            "potency": "Guidance",
+            "description": "Point shoppers to the full ingredient list and the directions for use on each product page.",
+            "meter_label": "",
+            "meter_value": ""
+          }
+        },
+        "partner_0": {
+          "type": "partner",
+          "settings": {
+            "text": "Ingredient one",
+            "role": "Add its role in the formula"
+          }
+        },
+        "partner_1": {
+          "type": "partner",
+          "settings": {
+            "text": "Ingredient two",
+            "role": "Add its role in the formula"
+          }
+        },
+        "partner_2": {
+          "type": "partner",
+          "settings": {
+            "text": "Ingredient three",
+            "role": "Add its role in the formula"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_0",
+        "benefit_1",
+        "benefit_2",
+        "partner_0",
+        "partner_1",
+        "partner_2"
+      ]
+    },
+    "skin_timeline": {
+      "type": "skin-timeline",
+      "settings": {
+        "heading": "A routine, week by week.",
+        "intro": "Every routine settles into its own rhythm. Here is one way the first weeks with a new ritual might unfold.",
+        "illustrative": true,
+        "eyebrow": "The first weeks",
+        "phase_label": "Week",
+        "badge_label": "The ritual"
+      },
+      "blocks": {
+        "day_1": {
+          "type": "moment",
+          "settings": {
+            "day": "Day 1",
+            "heading": "A first moment",
+            "claim": "Take a moment for the first application. Notice the texture, the gesture and the pause it brings to your day.",
+            "alt": "Macro study of an emulsion breaking on warm skin.",
+            "evidence": "",
+            "focus_label": "The first evening",
+            "metric_values": "",
+            "metric_labels": ""
+          }
+        },
+        "day_7": {
+          "type": "moment",
+          "settings": {
+            "day": "Day 7",
+            "heading": "Finding a rhythm",
+            "claim": "A week in, the steps begin to feel familiar: morning and evening, in the order that suits you.",
+            "alt": "A cream veil absorbing into the skin surface.",
+            "evidence": "",
+            "focus_label": "The first week",
+            "metric_values": "",
+            "metric_labels": ""
+          }
+        },
+        "day_21": {
+          "type": "moment",
+          "settings": {
+            "day": "Day 21",
+            "heading": "A ritual of your own",
+            "claim": "By the third week the routine is simply part of the day, a small moment you return to.",
+            "alt": "Skin in warm, raking natural light.",
+            "evidence": "Read the full ingredient list and patch test a new product before adding it to your routine.",
+            "focus_label": "The third week",
+            "metric_values": "",
+            "metric_labels": ""
+          }
+        }
+      },
+      "block_order": [
+        "day_1",
+        "day_7",
+        "day_21"
+      ]
+    },
+    "ritual_editorial": {
+      "type": "ritual-editorial",
+      "settings": {
+        "heading": "Your skin doesn’t need more.",
+        "second_line": "It needs the right rhythm.",
+        "image": "",
+        "alt": "Morning light across a stone bathroom vanity and towel, with a woman touching her cheek in the mirror.",
+        "mobile_position": 70
+      },
+      "disabled": true
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "heading": "A little more clarity."
+      },
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "Are these products suitable for sensitive skin?",
+            "answer": "<p>Every skin is different. Read the full ingredient list on each product page and patch test a new product before adding it to your routine.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "How do I layer the three steps?",
+            "answer": "<p>Start with the lightest texture and finish with the richest: cleanse, apply serum, then finish with cream. Give each layer a moment to settle before the next.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "How should I store my products?",
+            "answer": "<p>Keep each product closed, away from direct sunlight and heat, and use it within the period shown on the pack.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "Can the serum and cream be used together, day and night?",
+            "answer": "<p>Layer them from the lightest texture to the richest, and check each product page for its own directions for morning and evening use.</p>"
+          }
+        },
+        "q5": {
+          "type": "question",
+          "settings": {
+            "question": "How do I recycle the packaging?",
+            "answer": "<p>Check the recycling marks on each component and follow your local recycling guidance. Separate pumps and pipettes from glass where you can.</p>"
+          }
+        },
+        "q6": {
+          "type": "question",
+          "settings": {
+            "question": "Where can I find shipping and returns information?",
+            "answer": "<p>Delivery options, rates and our returns policy are shown at checkout and linked in the store footer.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "THE NEWSLETTER",
+        "heading": "Notes on everyday care.",
+        "text": "<p>Sign up for new arrivals, seasonal edits and thoughtful notes on building your routine.</p>",
+        "details": "<p>No spam. Unsubscribe at any time.</p>",
+        "background_color": "#1c0b15",
+        "text_color": "#FAF8F5",
+        "image": "",
+        "experience_motion": "rise",
+        "experience_intensity": "restrained"
+      }
+    },
+    "before_after": {
+      "type": "before-after",
+      "settings": {
+        "heading": "A closer look.",
+        "context": "",
+        "disclaimer": "",
+        "experience_motion": "rise",
+        "experience_intensity": "restrained"
+      },
+      "disabled": true
+    }
+  },
+  "order": [
+    "hero",
+    "featured",
+    "story",
+    "ingredient_spotlight",
+    "texture_lab",
+    "skin_timeline",
+    "customer_stories",
+    "faq",
+    "newsletter",
+    "before_after",
+    "routine",
+    "sensory_opening",
+    "sensory_selection",
+    "sensory_texture",
+    "sensory_daily",
+    "shoppable_edit",
+    "cream_comparison",
+    "beauty_vanity",
+    "ritual_builder",
+    "ritual_editorial"
+  ]
+}

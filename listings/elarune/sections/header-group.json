@@ -1,0 +1,80 @@
+{
+  "type": "header",
+  "name": "Header",
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "show_signature_logo": false,
+        "experience_menu_hover": true,
+        "signature_note": "Beauty, in your own rhythm.",
+        "announcement": "THE ART OF EVERYDAY CARE",
+        "experience_header_overlay": true
+      },
+      "blocks": {
+        "cleanse": {
+          "type": "promotion",
+          "settings": {
+            "menu_title": "Shop",
+            "collection": "",
+            "product": "",
+            "heading": "Cleansers",
+            "link": "shopify://collections/all",
+            "image": ""
+          }
+        },
+        "layer": {
+          "type": "promotion",
+          "settings": {
+            "menu_title": "Shop",
+            "collection": "",
+            "product": "",
+            "heading": "Serums & oils",
+            "link": "shopify://collections/all",
+            "image": ""
+          }
+        },
+        "finish": {
+          "type": "promotion",
+          "settings": {
+            "menu_title": "Shop",
+            "collection": "",
+            "product": "",
+            "heading": "Moisturizers",
+            "link": "shopify://collections/all",
+            "image": ""
+          }
+        },
+        "ritual": {
+          "type": "promotion",
+          "settings": {
+            "menu_title": "Shop",
+            "image": "",
+            "heading": "The daily routine",
+            "link": ""
+          }
+        },
+        "evening": {
+          "type": "promotion",
+          "settings": {
+            "menu_title": "Shop",
+            "product": "",
+            "heading": "Night care",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "cleanse",
+        "layer",
+        "finish",
+        "ritual",
+        "evening"
+      ]
+    }
+  },
+  "order": [
+    "header"
+  ]
+}

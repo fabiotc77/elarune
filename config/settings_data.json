@@ -1,0 +1,148 @@
+{
+  "current": {
+    "color_hover": "#282422",
+    "color_on_hover": "#FFFFFF",
+    "use_custom_fonts": false,
+    "show_setup_guidance": true,
+    "experience_motion_enabled": true,
+    "experience_motion_style": "rise",
+    "experience_page_transition": false,
+    "experience_card_rollover": true,
+    "experience_card_zoom": true,
+    "experience_quick_view": true,
+    "experience_card_badges": true,
+    "experience_cart_drawer": true,
+    "experience_search_drawer": true,
+    "color_schemes": {
+      "porcelain": {
+        "settings": {
+          "background": "#FAF8F5",
+          "background_gradient": "",
+          "text": "#282422",
+          "muted": "#68605B",
+          "accent": "#54232D",
+          "on_accent": "#FFFFFF",
+          "line": "#D8D1CB"
+        }
+      },
+      "linen": {
+        "settings": {
+          "background": "#F1EAE2",
+          "background_gradient": "",
+          "text": "#282422",
+          "muted": "#625953",
+          "accent": "#54232D",
+          "on_accent": "#FFFFFF",
+          "line": "#D5CAC0"
+        }
+      },
+      "rosewood": {
+        "settings": {
+          "background": "#54232D",
+          "background_gradient": "",
+          "text": "#FAF4EF",
+          "muted": "#E2CFCB",
+          "accent": "#FAF4EF",
+          "on_accent": "#54232D",
+          "line": "#7A4B53"
+        }
+      },
+      "velvet-noir": {
+        "settings": {
+          "background": "#141212",
+          "background_gradient": "",
+          "text": "#F5F2EB",
+          "muted": "#A39B95",
+          "accent": "#C5A880",
+          "on_accent": "#141212",
+          "line": "#3A3431"
+        }
+      },
+      "botanical": {
+        "settings": {
+          "background": "#F4F6F2",
+          "background_gradient": "",
+          "text": "#1A2620",
+          "muted": "#57665C",
+          "accent": "#26543C",
+          "on_accent": "#FFFFFF",
+          "line": "#CFD7CE"
+        }
+      }
+    }
+  },
+  "presets": {
+    "Elarune": {
+      "color_hover": "#282422",
+      "color_on_hover": "#FFFFFF",
+      "use_custom_fonts": false,
+      "show_setup_guidance": true,
+      "experience_motion_enabled": true,
+      "experience_motion_style": "rise",
+      "experience_page_transition": false,
+      "experience_card_rollover": true,
+      "experience_card_zoom": true,
+      "experience_quick_view": true,
+      "experience_card_badges": true,
+      "experience_cart_drawer": true,
+      "experience_search_drawer": true,
+      "color_schemes": {
+        "porcelain": {
+          "settings": {
+            "background": "#FAF8F5",
+            "background_gradient": "",
+            "text": "#282422",
+            "muted": "#68605B",
+            "accent": "#54232D",
+            "on_accent": "#FFFFFF",
+            "line": "#D8D1CB"
+          }
+        },
+        "linen": {
+          "settings": {
+            "background": "#F1EAE2",
+            "background_gradient": "",
+            "text": "#282422",
+            "muted": "#625953",
+            "accent": "#54232D",
+            "on_accent": "#FFFFFF",
+            "line": "#D5CAC0"
+          }
+        },
+        "rosewood": {
+          "settings": {
+            "background": "#54232D",
+            "background_gradient": "",
+            "text": "#FAF4EF",
+            "muted": "#E2CFCB",
+            "accent": "#FAF4EF",
+            "on_accent": "#54232D",
+            "line": "#7A4B53"
+          }
+        },
+        "velvet-noir": {
+          "settings": {
+            "background": "#141212",
+            "background_gradient": "",
+            "text": "#F5F2EB",
+            "muted": "#A39B95",
+            "accent": "#C5A880",
+            "on_accent": "#141212",
+            "line": "#3A3431"
+          }
+        },
+        "botanical": {
+          "settings": {
+            "background": "#F4F6F2",
+            "background_gradient": "",
+            "text": "#1A2620",
+            "muted": "#57665C",
+            "accent": "#26543C",
+            "on_accent": "#FFFFFF",
+            "line": "#CFD7CE"
+          }
+        }
+      }
+    }
+  }
+}
