@@ -1,0 +1,25 @@
+{% assign component_count = 0 %}
+{% capture component_rows %}
+  {% for component in line_item.item_components %}
+    {% assign component_title = component.title | default: component.product.title %}
+    {% if component_title == blank %}{% continue %}{% endif %}
+    {% assign component_count = component_count | plus: 1 %}
+    <li class="bundle-components__item">
+      <div class="bundle-components__description">
+        {% if component.url != blank %}<a class="bundle-components__link" href="{{ component.url | escape }}"><bdi>{{ component_title | escape }}</bdi></a>{% else %}<p class="bundle-components__name"><bdi>{{ component_title | escape }}</bdi></p>{% endif %}
+        {% if component.title == blank and component.variant.title != blank %}{% unless component.product.has_only_default_variant %}<p class="bundle-components__variant"><bdi>{{ component.variant.title | escape }}</bdi></p>{% endunless %}{% endif %}
+        {% for property in component.properties %}
+          {% assign property_first = property.first | slice: 0 %}
+          {% if property.last != blank and property_first != '_' %}<dl class="bundle-components__property"><dt><bdi>{{ property.first | escape }}</bdi></dt><dd><bdi>{{ property.last | escape }}</bdi></dd></dl>{% endif %}
+        {% endfor %}
+      </div>
+      {% if component.quantity != blank %}<dl class="bundle-components__quantity"><dt>{{ 'product.quantity' | t }}</dt><dd><bdi>{{ component.quantity }}</bdi></dd></dl>{% endif %}
+    </li>
+  {% endfor %}
+{% endcapture %}
+{% if component_count > 0 %}
+  <div class="bundle-components">
+    <p class="bundle-components__heading">{{ 'bundle_components.title' | t }}</p>
+    <ul class="bundle-components__list" role="list" aria-label="{{ 'bundle_components.title' | t | escape }}">{{ component_rows }}</ul>
+  </div>
+{% endif %}

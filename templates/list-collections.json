@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "collections_per_page": 12,
+        "show_description": true,
+        "introduction": "<p>Find the care that fits your day. Explore everyday essentials, from your first cleanse to the finishing touches.</p>",
+        "show_product_count": true,
+        "show_shop_all": true
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

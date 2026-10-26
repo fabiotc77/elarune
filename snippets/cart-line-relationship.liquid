@@ -1,0 +1,5 @@
+{% assign parent_item = item.parent_relationship.parent %}
+{% assign parent_title = parent_item.title | default: parent_item.product.title %}
+{% if parent_item != blank and parent_title != blank %}
+  <p class="cart-line-relationship">{{ 'cart_relationship.parent' | t: product: parent_title | escape }}</p>
+{% endif %}

@@ -1,0 +1,119 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "story": {
+      "type": "image-with-text",
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Our story"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Made with <em>care</em>, from the start.",
+            "heading_size": "large"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Share how your brand began, what you make and why it matters to you. Customers like to know the people and the thinking behind the products they bring into their daily routine.</p>"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "label": "Shop the collection",
+            "link": "shopify://collections/all",
+            "style": "secondary"
+          }
+        }
+      },
+      "block_order": ["eyebrow", "heading", "text", "button"],
+      "settings": {
+        "image_width": "half",
+        "image_ratio": "portrait",
+        "image_position": "start",
+        "color_scheme": "porcelain"
+      }
+    },
+    "values": {
+      "type": "rich-text",
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "What guides us"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Fewer, <em>better</em> essentials.",
+            "size": "large"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Describe the principles that shape your products: how you decide what to make, how you work with suppliers and how you want customers to feel when they use them.</p>",
+            "size": "medium"
+          }
+        }
+      },
+      "block_order": ["eyebrow", "heading", "text"],
+      "settings": {
+        "content_alignment": "center",
+        "mobile_alignment": "center",
+        "content_width": "medium",
+        "color_scheme": "linen"
+      }
+    },
+    "principles": {
+      "type": "multicolumn",
+      "blocks": {
+        "ingredients": {
+          "type": "column",
+          "settings": {
+            "media": "icon",
+            "icon": "leaf",
+            "title": "Considered ingredients",
+            "text": "<p>Explain how you choose what goes into each product.</p>"
+          }
+        },
+        "textures": {
+          "type": "column",
+          "settings": {
+            "media": "icon",
+            "icon": "drop",
+            "title": "Textures for every day",
+            "text": "<p>Describe how your products feel and where they fit in a routine.</p>"
+          }
+        },
+        "packaging": {
+          "type": "column",
+          "settings": {
+            "media": "icon",
+            "icon": "gift",
+            "title": "Thoughtful packaging",
+            "text": "<p>Share what your packaging is made from and how to dispose of it.</p>"
+          }
+        }
+      },
+      "block_order": ["ingredients", "textures", "packaging"],
+      "settings": {
+        "heading": "How we <em>work</em>",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "color_scheme": "porcelain"
+      }
+    }
+  },
+  "order": ["main", "story", "values", "principles"]
+}

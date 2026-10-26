@@ -1,0 +1,6 @@
+{% assign measurement = unit_measurement | default: target.unit_price_measurement %}
+<div class="price">
+  {% if show_compare != false and target.compare_at_price > target.price %}<s><span class="visually-hidden">{{ 'product.regular_price' | t }} </span>{{ target.compare_at_price | money }}</s>{% endif %}
+  <span>{% if show_from and target.price_varies %}{{ 'product.from' | t }} {% endif %}{{ target.price | money }}</span>
+  {% if measurement and target.unit_price != nil %}<small>{{ target.unit_price | money }} / {% if measurement.reference_value != 1 %}{{ measurement.reference_value }}{% endif %}{{ measurement.reference_unit }}</small>{% endif %}
+</div>

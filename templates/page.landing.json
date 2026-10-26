@@ -1,0 +1,315 @@
+{
+  "sections": {
+    "hero": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "New season",
+            "heading": "A slower, <em>softer</em> routine.",
+            "text": "<p>Introduce your latest collection with one clear message.</p>",
+            "button_label": "Shop now",
+            "button_link": "shopify://collections/all",
+            "text_horizontal": "start",
+            "text_vertical": "bottom",
+            "text_style": "none"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "",
+            "heading": "Considered essentials",
+            "text": "<p>Pair each slide with a lifestyle or product image.</p>",
+            "button_label": "Discover",
+            "button_link": "shopify://collections/all",
+            "text_horizontal": "center",
+            "text_vertical": "middle",
+            "text_style": "panel"
+          }
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2"
+      ],
+      "settings": {
+        "height": "large",
+        "transition": "fade",
+        "autoplay": false,
+        "show_arrows": true,
+        "show_dots": true,
+        "color_scheme": "rosewood"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "intro": {
+      "type": "rich-text",
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "The edit"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Everything you need, <em>nothing</em> you don’t.",
+            "size": "large"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Use this page for a launch, a seasonal edit or a gift guide. Rearrange the sections, change color schemes and add your own images in the theme editor.</p>",
+            "size": "medium"
+          }
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {
+            "primary_label": "Shop the edit",
+            "primary_link": "shopify://collections/all",
+            "secondary_label": "",
+            "secondary_style": "text"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text",
+        "buttons"
+      ],
+      "settings": {
+        "content_alignment": "center",
+        "mobile_alignment": "center",
+        "content_width": "medium",
+        "color_scheme": "porcelain"
+      }
+    },
+    "feature": {
+      "type": "image-with-text",
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "In focus"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Spotlight one product.",
+            "heading_size": "medium"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Tell customers what makes this product part of their routine, in a few considered words.</p>"
+          }
+        },
+        "texture": {
+          "type": "detail",
+          "settings": {
+            "label": "Texture",
+            "value": "Describe the texture"
+          }
+        },
+        "use": {
+          "type": "detail",
+          "settings": {
+            "label": "Use",
+            "value": "Describe when to use it"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "label": "View product",
+            "link": "shopify://collections/all",
+            "style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "text",
+        "texture",
+        "use",
+        "button"
+      ],
+      "settings": {
+        "image_width": "half",
+        "image_ratio": "portrait",
+        "image_position": "end",
+        "color_scheme": "linen"
+      }
+    },
+    "benefits": {
+      "type": "multicolumn",
+      "blocks": {
+        "one": {
+          "type": "column",
+          "settings": {
+            "media": "icon",
+            "icon": "sparkle",
+            "title": "Column heading",
+            "text": "<p>Share a detail about your products or your service.</p>"
+          }
+        },
+        "two": {
+          "type": "column",
+          "settings": {
+            "media": "icon",
+            "icon": "truck",
+            "title": "Column heading",
+            "text": "<p>Share a detail about delivery, packaging or gifting.</p>"
+          }
+        },
+        "three": {
+          "type": "column",
+          "settings": {
+            "media": "icon",
+            "icon": "heart",
+            "title": "Column heading",
+            "text": "<p>Share a detail about how you support customers.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "one",
+        "two",
+        "three"
+      ],
+      "settings": {
+        "heading": "Why customers <em>choose</em> us",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "color_scheme": "porcelain"
+      }
+    },
+    "questions": {
+      "type": "collapsible-content",
+      "blocks": {
+        "one": {
+          "type": "row",
+          "settings": {
+            "heading": "How do I choose the right product?",
+            "content": "<p>Describe how customers can find the products that suit them.</p>"
+          }
+        },
+        "two": {
+          "type": "row",
+          "settings": {
+            "heading": "Where can I find shipping information?",
+            "content": "<p>Delivery options and costs are shown at checkout. Add your own shipping details here.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "one",
+        "two"
+      ],
+      "settings": {
+        "heading": "Questions, <em>answered</em>",
+        "layout": "stacked",
+        "open_behavior": "single",
+        "icon_style": "plus",
+        "faq_schema": false,
+        "color_scheme": "porcelain"
+      }
+    },
+    "countdown": {
+      "type": "countdown-banner",
+      "settings": {
+        "end_date": "",
+        "end_time": "",
+        "timezone": "+00:00",
+        "show_seconds": true,
+        "expiry": "hide",
+        "eyebrow": "Limited time",
+        "heading": "Mark the date",
+        "text": "<p>Set the real end date of your launch or offer. The banner hides itself once it ends.</p>",
+        "button_label": "Shop now",
+        "button_link": "shopify://collections/all",
+        "layout": "bar",
+        "color_scheme": "rosewood"
+      }
+    },
+    "film": {
+      "type": "video",
+      "settings": {
+        "source": "shopify",
+        "layout": "contained",
+        "ratio_desktop": "16/9",
+        "ratio_mobile": "4/5",
+        "eyebrow": "Behind the product",
+        "heading": "A closer look",
+        "text": "<p>Show how your products are made, used or packed.</p>",
+        "color_scheme": "porcelain"
+      }
+    },
+    "logos": {
+      "type": "logo-list",
+      "blocks": {
+        "a": {
+          "type": "logo",
+          "settings": {
+            "name": "Your partner"
+          }
+        },
+        "b": {
+          "type": "logo",
+          "settings": {
+            "name": "Your partner"
+          }
+        },
+        "c": {
+          "type": "logo",
+          "settings": {
+            "name": "Your partner"
+          }
+        },
+        "d": {
+          "type": "logo",
+          "settings": {
+            "name": "Your partner"
+          }
+        }
+      },
+      "block_order": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "settings": {
+        "heading": "Partners and mentions",
+        "layout": "grid",
+        "logos_desktop": 4,
+        "logos_mobile": "2",
+        "grayscale": true,
+        "color_scheme": "linen"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "main",
+    "intro",
+    "countdown",
+    "feature",
+    "film",
+    "benefits",
+    "logos",
+    "questions"
+  ]
+}

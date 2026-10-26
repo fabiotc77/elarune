@@ -1,0 +1,50 @@
+{% doc %}
+  On-demand native Shopify 3D model, with a direct source link without JavaScript.
+  @param {model} media - Current model media.
+  @param {product} product - Current product for its title.
+  @param {string} section_id - Gallery owner.
+  @param {boolean} has_priority_media - Whether earlier media has loading priority.
+{% enddoc %}
+{% liquid
+  assign model_source = media.sources | where: 'format', 'glb' | first
+  assign model_title = media.alt | default: product.title
+  assign model_id = 'ProductModel-' | append: section_id | append: '-' | append: media.id
+  assign hint_id = model_id | append: '-hint'
+  assign poster_loading = 'eager'
+  if has_priority_media
+    assign poster_loading = 'lazy'
+  endif
+%}
+{% if model_source.url != blank %}
+  <elarune-product-model>
+    <figure class="product-model">
+      <div class="product-model__toolbar">
+        <button data-control="text" type="button" class="text-link product-model__close" data-model-close hidden>{{ 'product_model.close' | t }}</button>
+        <span role="status" data-model-status hidden>{{ 'product_model.loading' | t }}</span>
+      </div>
+      <div class="product-model__stage">
+        <a class="product-model__open" href="{{ model_source.url | escape }}" aria-describedby="{{ model_id }}-title" data-model-open>
+          {% if media.preview_image != blank %}
+            {{ media.preview_image | image_url: width: 1000 | image_tag: widths: '400, 700, 1000', sizes: '(min-width: 750px) 50vw, 100vw', loading: poster_loading, alt: '' }}
+          {% endif %}
+          <span class="product-model__action">{{ 'product_model.open' | t }}</span>
+        </a>
+        <div id="{{ model_id }}-player" class="product-model__player" data-model-player hidden></div>
+      </div>
+      <figcaption id="{{ model_id }}-title">{{ model_title | escape }}</figcaption>
+      <p class="product-model__hint" id="{{ model_id }}-hint" data-model-hint hidden>{{ 'product_model.hint' | t }}</p>
+      <p role="status" data-model-error hidden>{{ 'product_model.error' | t }}</p>
+      <a data-control="text" class="text-link" href="{{ model_source.url | escape }}">{{ 'product_model.download' | t }}</a>
+      <template data-model-template>
+        {{ media | model_viewer_tag: image_size: '1000x', reveal: 'auto', loading: 'eager', interaction-prompt: 'none', camera-controls: true, autoplay: false, alt: model_title, aria-describedby: hint_id }}
+        <button data-control="secondary" type="button" class="button button--secondary product-model__ar" data-shopify-xr data-shopify-model3d-id="{{ media.id }}" data-shopify-title="{{ product.title | escape }}" data-shopify-xr-hidden>{{ 'product_model.ar' | t }}</button>
+      </template>
+      <template data-model-json>{{ media | json | escape }}</template>
+    </figure>
+  </elarune-product-model>
+{% elsif media.preview_image != blank %}
+  <figure class="product-model">
+    {{ media.preview_image | image_url: width: 1000 | image_tag: widths: '400, 700, 1000', sizes: '(min-width: 750px) 50vw, 100vw', loading: poster_loading, alt: model_title }}
+    <figcaption>{{ model_title | escape }}</figcaption>
+  </figure>
+{% endif %}

@@ -1,0 +1,88 @@
+{% comment %}
+  Section-local setup guidance. Inputs: source_section, kind.
+  No admin access, page scanning, readiness score or customer-facing output.
+{% endcomment %}
+{%- if request.design_mode and settings.show_setup_guidance != false -%}
+  {%- assign review_count = 0 -%}
+  {%- capture reviews -%}
+    {%- case kind -%}
+      {%- when 'header' -%}
+        {%- if source_section.settings.menu.links.size == 0 or source_section.settings.menu == blank -%}
+          {%- assign review_count = review_count | plus: 1 -%}
+          <li>{{ 'launch_check.menu' | t }}</li>
+        {%- endif -%}
+      {%- when 'hero' -%}
+        {%- if source_section.settings.image == blank -%}
+          {%- assign review_count = review_count | plus: 1 -%}
+          <li>{{ 'launch_check.image' | t }}</li>
+        {%- elsif source_section.settings.image.alt == blank -%}
+          {%- assign review_count = review_count | plus: 1 -%}
+          <li>{{ 'launch_check.alt' | t }}</li>
+        {%- endif -%}
+        {%- if source_section.settings.heading == blank and source_section.settings.heading_accent == blank -%}
+          {%- assign review_count = review_count | plus: 1 -%}
+          <li>{{ 'launch_check.heading' | t }}</li>
+        {%- endif -%}
+        {%- unless source_section.settings.link == blank and source_section.settings.button_label == blank -%}
+        {%- if source_section.settings.link == blank or source_section.settings.button_label == blank -%}
+          {%- assign review_count = review_count | plus: 1 -%}
+          <li>{{ 'launch_check.primary' | t }}</li>
+        {%- endif -%}
+        {%- endunless -%}
+        {%- unless source_section.settings.secondary_link == blank and source_section.settings.secondary_label == blank -%}
+        {%- if source_section.settings.secondary_link == blank or source_section.settings.secondary_label == blank -%}
+          {%- assign review_count = review_count | plus: 1 -%}
+          <li>{{ 'launch_check.secondary' | t }}</li>
+        {%- endif -%}
+        {%- endunless -%}
+      {%- when 'featured' -%}
+        {%- if source_section.settings.collection == blank -%}
+          {%- assign review_count = review_count | plus: 1 -%}
+          <li>{{ 'launch_check.collection' | t }}</li>
+        {%- elsif source_section.settings.collection.products_count == 0 -%}
+          {%- assign review_count = review_count | plus: 1 -%}
+          <li>{{ 'launch_check.empty_collection' | t }}</li>
+        {%- endif -%}
+      {%- when 'routine' -%}
+        {%- if source_section.blocks.size == 0 -%}
+          {%- assign review_count = review_count | plus: 1 -%}
+          <li>{{ 'launch_check.steps' | t }}</li>
+        {%- endif -%}
+        {%- for step in source_section.blocks -%}
+          {%- if step.settings.heading == blank -%}
+            {%- assign review_count = review_count | plus: 1 -%}
+            <li>{{ 'launch_check.step_title' | t: number: forloop.index }}</li>
+          {%- endif -%}
+          {%- if step.settings.product == blank -%}
+            {%- assign review_count = review_count | plus: 1 -%}
+            <li>{{ 'launch_check.step_product' | t: number: forloop.index }}</li>
+          {%- elsif step.settings.product.available == false -%}
+            {%- assign review_count = review_count | plus: 1 -%}
+            <li>{{ 'launch_check.step_availability' | t: number: forloop.index }}</li>
+          {%- endif -%}
+          {%- if step.settings.product != blank and step.settings.text == blank -%}
+            {%- assign review_count = review_count | plus: 1 -%}
+            <li>{{ 'launch_check.step_copy' | t: number: forloop.index }}</li>
+          {%- endif -%}
+        {%- endfor -%}
+    {%- endcase -%}
+  {%- endcapture -%}
+  {{ 'launch-check.css' | asset_url | stylesheet_tag }}
+  <aside class="launch-check" aria-labelledby="LaunchCheck-{{ source_section.id }}">
+    <details>
+      <summary data-control="disclosure" id="LaunchCheck-{{ source_section.id }}">
+        <span>{{ 'launch_check.title' | t }}</span>
+        <span class="launch-check__status">{{ 'launch_check.review' | t: count: review_count }}</span>
+      </summary>
+      <div class="launch-check__body">
+        {%- if review_count > 0 -%}
+          <p>{{ 'launch_check.location' | t }}</p>
+          <ul>{{ reviews }}</ul>
+        {%- else -%}
+          <p>{{ 'launch_check.clear' | t }}</p>
+        {%- endif -%}
+        <p class="launch-check__scope">{{ 'launch_check.scope' | t }}</p>
+      </div>
+    </details>
+  </aside>
+{%- endif -%}

@@ -1,0 +1,109 @@
+{% comment %}Render after theme.css so merchant tokens win the cascade.{% endcomment %}
+{%- liquid
+  assign heading_font = settings.type_heading_font
+  assign body_font = settings.type_body_font
+  assign emitted_font_urls = ''
+  assign font_roles = 'heading,body' | split: ','
+  assign font_styles = 'base,bold,italic,bold_italic' | split: ','
+
+  comment
+    The first color scheme is the page scheme (header, footer, templates without their own scheme).
+  endcomment
+  for scheme in settings.color_schemes
+    assign base_colors = scheme.settings
+    break
+  endfor
+
+  assign section_scale = 1
+  case settings.section_rhythm
+    when 'compact'
+      assign section_scale = 0.72
+    when 'airy'
+      assign section_scale = 1.28
+  endcase
+
+  assign card_ratio = '4 / 5'
+  case settings.card_image_ratio
+    when 'square'
+      assign card_ratio = '1 / 1'
+    when 'landscape'
+      assign card_ratio = '4 / 3'
+    when 'tall'
+      assign card_ratio = '2 / 3'
+  endcase
+-%}
+{% style %}
+  {% if settings.use_custom_fonts %}
+    {% for role in font_roles %}
+      {% liquid
+        assign selected_font = body_font
+        if role == 'heading'
+          assign selected_font = heading_font
+        endif
+      %}
+      {% if selected_font != blank and selected_font.system? == false %}
+        {% for font_style in font_styles %}
+          {% liquid
+            assign face = selected_font
+            case font_style
+              when 'bold'
+                assign face = selected_font | font_modify: 'weight', 'bold'
+              when 'italic'
+                assign face = selected_font | font_modify: 'style', 'italic'
+              when 'bold_italic'
+                assign face = selected_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic'
+            endcase
+          %}
+          {% if face != blank %}
+            {% assign face_url = face | font_url | prepend: '|' | append: '|' %}
+            {% unless emitted_font_urls contains face_url %}
+              {{ face | font_face: font_display: 'swap' }}
+              {% assign emitted_font_urls = emitted_font_urls | append: face_url %}
+            {% endunless %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  :root {
+    --color-bg: {{ base_colors.background | default: '#FAF8F5' }};
+    --color-ink: {{ base_colors.text | default: '#282422' }};
+    --color-accent: {{ base_colors.accent | default: '#54232D' }};
+    --color-on-accent: {{ base_colors.on_accent | default: '#FFFFFF' }};
+    --color-muted: {{ base_colors.muted | default: '#68605B' }};
+    --color-line: {{ base_colors.line | default: '#D8D1CB' }};
+    --color-hover: {{ settings.color_hover | default: '#282422' }};
+    --color-on-hover: {{ settings.color_on_hover | default: '#FFFFFF' }};
+    --page-width: {{ settings.page_width | default: 1440 }}px;
+    --section-scale: {{ section_scale }};
+    --card-ratio: {{ card_ratio }};
+    --card-fit: {{ settings.card_image_fit | default: 'cover' }};
+    --font-body-weight: 400;
+    --font-body-style: normal;
+    --font-heading-weight: 400;
+    --font-heading-style: normal;
+    {% if settings.use_custom_fonts %}
+      {% if heading_font.family != blank %}
+        --font-heading: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+        --font-heading-weight: {{ heading_font.weight }};
+        --font-heading-style: {{ heading_font.style }};
+      {% endif %}
+      {% if body_font.family != blank %}
+        --font-body: {{ body_font.family }}, {{ body_font.fallback_families }};
+        --font-body-weight: {{ body_font.weight }};
+        --font-body-style: {{ body_font.style }};
+      {% endif %}
+    {% endif %}
+  }
+  html[data-control-language] {
+    --control-radius: {{ settings.button_radius | default: 5 }}px;
+    --control-field-radius: {{ settings.button_radius | default: 5 | at_most: 12 }}px;
+  }
+  {% if base_colors.background_gradient != blank %}
+    body { background: {{ base_colors.background_gradient }}; }
+  {% endif %}
+  {% if settings.button_case == 'uppercase' %}
+    html[data-control-language] :is([data-control=primary],[data-control=secondary]) { text-transform: uppercase; letter-spacing: .08em; font-size: 14px; }
+  {% endif %}
+{% endstyle %}
+{{ 'brand-settings.css' | asset_url | stylesheet_tag }}

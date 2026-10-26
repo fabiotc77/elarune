@@ -1,0 +1,96 @@
+{% comment %}
+  Render inside a native GET form. Inputs: filters, filter_id, clear_url.
+  The caller owns q/type/sort_by inputs and the form action. Shopify owns values,
+  counts, removal URLs and money amounts; this snippet never filters in JavaScript.
+{% endcomment %}
+{%- if filters != blank -%}
+  {{ 'storefront-filters.css' | asset_url | stylesheet_tag }}
+  {%- assign has_active_filters = false -%}
+  <premium-filters><button data-control="primary" class="button premium-filter-trigger" type="button" hidden>{{ 'facets.title' | t }} <span aria-hidden="true">＋</span></button><dialog class="premium-panel premium-filter-panel" aria-label="{{ 'facets.title' | t }}"><button data-control="icon" type="button" class="premium-panel-close" data-filter-close aria-label="{{ 'image_zoom.close' | t }}">×</button><div data-filter-content></div></dialog><div class="storefront-filters" aria-labelledby="{{ filter_id }}-title">
+    <h2 id="{{ filter_id }}-title" class="visually-hidden">{{ 'facets.title' | t }}</h2>
+    <div class="storefront-filters__groups">
+      {%- for filter in filters -%}
+        {%- liquid
+          assign group_id = filter_id | append: '-' | append: forloop.index
+          assign group_active = false
+          if filter.active_values.size > 0
+            assign group_active = true
+          endif
+          if filter.type == 'price_range'
+            if filter.min_value.value != nil or filter.max_value.value != nil
+              assign group_active = true
+            endif
+          endif
+          if group_active
+            assign has_active_filters = true
+          endif
+        -%}
+        <details class="storefront-filters__group"{% if group_active %} open{% endif %}>
+          <summary data-control="disclosure">{{ filter.label | escape }}{% if filter.active_values.size > 0 %} <span>({{ filter.active_values.size }})</span>{% endif %}</summary>
+          <div class="storefront-filters__body">
+            {%- case filter.type -%}
+              {%- when 'list', 'boolean' -%}
+                <ul class="storefront-filters__values">
+                  {%- for value in filter.values -%}
+                    <li><label for="{{ group_id }}-{{ forloop.index }}">
+                      <input data-control="check" id="{{ group_id }}-{{ forloop.index }}" type="checkbox" name="{{ value.param_name | default: filter.param_name | escape }}" value="{{ value.value | escape }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>
+                      {%- liquid
+                        assign value_image = ''
+                        assign value_color = ''
+                        if filter.presentation == 'image'
+                          assign value_image = value.image
+                        elsif filter.presentation == 'swatch'
+                          assign value_image = value.swatch.image
+                          assign value_color = value.swatch.color
+                        endif
+                      -%}
+                      {%- if value_image != blank or value_color != blank -%}
+                        <span class="storefront-filters__visual{% if filter.presentation == 'swatch' %} storefront-filters__visual--swatch{% endif %}" aria-hidden="true"{% if value_image == blank %} style="background-color: {{ value_color | escape }}"{% endif %}>
+                          {% if value_image != blank %}{{ value_image | image_url: width: 120 | image_tag: loading: 'lazy', widths: '40, 80, 120', sizes: '40px', alt: '' }}{% endif %}
+                        </span>
+                      {%- endif -%}
+                      <span>{{ value.label | escape }} <span class="storefront-filters__count">({{ value.count }})</span></span>
+                    </label></li>
+                  {%- endfor -%}
+                </ul>
+              {%- when 'price_range' -%}
+                <div class="storefront-filters__price">
+                  <div>
+                    <label for="{{ group_id }}-min">{{ 'facets.minimum' | t }} ({{ cart.currency.iso_code | escape }})</label>
+                    <input data-control="field" id="{{ group_id }}-min" name="{{ filter.min_value.param_name | escape }}" type="number" inputmode="decimal" min="0" step="any" max="{{ filter.range_max | divided_by: 100.0 }}" placeholder="0"{% if filter.min_value.value != nil %} value="{{ filter.min_value.value | divided_by: 100.0 }}"{% endif %}>
+                  </div>
+                  <div>
+                    <label for="{{ group_id }}-max">{{ 'facets.maximum' | t }} ({{ cart.currency.iso_code | escape }})</label>
+                    <input data-control="field" id="{{ group_id }}-max" name="{{ filter.max_value.param_name | escape }}" type="number" inputmode="decimal" min="0" step="any" max="{{ filter.range_max | divided_by: 100.0 }}" placeholder="{{ filter.range_max | divided_by: 100.0 }}"{% if filter.max_value.value != nil %} value="{{ filter.max_value.value | divided_by: 100.0 }}"{% endif %}>
+                  </div>
+                </div>
+            {%- endcase -%}
+          </div>
+        </details>
+      {%- endfor -%}
+    </div>
+    <div class="storefront-filters__actions">
+      <button data-control="secondary" type="submit" class="button button--secondary">{{ 'facets.apply' | t }}</button>
+      {%- if has_active_filters and clear_url != blank -%}<a data-control="text" class="text-link" href="{{ clear_url | escape }}">{{ 'facets.clear' | t }}</a>{%- endif -%}
+    </div>
+    {%- if has_active_filters -%}
+      <ul class="storefront-filters__active">
+        {%- for filter in filters -%}
+          {%- if filter.type == 'price_range' -%}
+            {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+              {%- assign minimum = filter.min_value.value | default: 0 -%}
+              {%- assign maximum = filter.max_value.value | default: filter.range_max -%}
+              {%- capture active_label -%}{{ filter.label }}: {{ minimum | money }} – {{ maximum | money }}{%- endcapture -%}
+              <li><a href="{{ filter.url_to_remove | escape }}" aria-label="{{ 'facets.remove' | t: value: active_label | escape }}">{{ active_label | escape }} <span aria-hidden="true">×</span></a></li>
+            {%- endif -%}
+          {%- else -%}
+            {%- for value in filter.active_values -%}
+              {%- capture active_label -%}{{ filter.label }}: {{ value.label }}{%- endcapture -%}
+              <li><a href="{{ value.url_to_remove | escape }}" aria-label="{{ 'facets.remove' | t: value: active_label | escape }}">{{ active_label | escape }} <span aria-hidden="true">×</span></a></li>
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div></premium-filters>
+{%- endif -%}

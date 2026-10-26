@@ -1,0 +1,16 @@
+{% if item != blank %}
+{% assign campaign_priority = priority | default: 'auto' %}
+{% if editorial %}<div class="sensory-orbit{% if campaign != blank %} sensory-orbit--campaign{% if campaign.aspect_ratio < 1 %} sensory-orbit--portrait{% endif %}{% endif %}">{% else %}<a class="sensory-orbit" href="{{ item.url }}">{% endif %}
+ <div class="sensory-orbit-media">{% if editorial %}<a class="sensory-campaign-media-link" href="{{ item.url }}" tabindex="-1" aria-hidden="true">{% endif %}
+ {% if editorial and campaign != blank %}
+  <picture>{% if mobile_campaign != blank %}<source media="(max-width:749px)" srcset="{{ mobile_campaign | image_url: width: 900 }}">{% endif %}{{ campaign | image_url: width: 2000 | image_tag: widths: '600, 900, 1400, 2000', sizes: '100vw', loading: 'eager', fetchpriority: campaign_priority, alt: item.title }}</picture>
+ {% elsif item.featured_image != blank %}
+  {{ item.featured_image | image_url: width: 900 | image_tag: widths: '300, 500, 900', sizes: '(min-width: 750px) 38vw, 80vw', loading: 'eager', alt: item.title }}
+ {% else %}{{ 'product-1' | placeholder_svg_tag }}{% endif %}
+ {% if editorial %}</a>{% endif %}</div>
+ {% if editorial %}<a class="sensory-campaign-details" href="{{ item.url }}">{% endif %}
+ {% if constellation and item.featured_image != blank %}<span class="sensory-campaign-thumbnail">{{ item.featured_image | image_url: width: 180 | image_tag: loading: 'eager', alt: '' }}</span>{% endif %}
+ <div class="sensory-orbit-caption"><span>{{ item.title | escape }}</span>{% render 'price', target: item, show_from: true %}</div>
+ <span class="sensory-discovery-shop">{{ 'product_comparison.view_product' | t }} <span aria-hidden="true">↗</span></span>
+ {% if editorial %}</a></div>{% else %}</a>{% endif %}
+{% endif %}

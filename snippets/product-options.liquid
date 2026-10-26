@@ -1,0 +1,91 @@
+{% liquid
+  assign modern_options = true
+  if product.options_with_values == blank
+    assign modern_options = false
+  endif
+  for option in product.options_with_values
+    for option_value in option.values
+      if option_value.id == blank
+        assign modern_options = false
+      endif
+    endfor
+  endfor
+%}
+{% unless product.has_only_default_variant %}
+  {% if modern_options %}
+    {{ 'product-options.css' | asset_url | stylesheet_tag }}
+    <div class="product-options" id="ProductOptions-{{ section_id }}">
+      {% for option in product.options_with_values %}
+        <fieldset class="product-options__group">
+          {% assign option_name_lower = option.name | downcase %}
+          <legend>{{ option.name | escape }}{% if option.selected_value != blank %}<span class="product-options__selected">{{ option.selected_value | escape }}</span>{% endif %}</legend>
+          <ul class="product-options__values" role="list">
+            {% for option_value in option.values %}
+              {% liquid
+                assign option_ids = ''
+                for other_option in product.options_with_values
+                  assign next_id = ''
+                  if other_option.position == option.position
+                    assign next_id = option_value.id
+                  else
+                    for other_value in other_option.values
+                      if other_value.selected
+                        assign next_id = other_value.id
+                        break
+                      endif
+                    endfor
+                    if next_id == blank
+                      assign next_id = other_option.values.first.id
+                    endif
+                  endif
+                  unless forloop.first
+                    assign option_ids = option_ids | append: ','
+                  endunless
+                  assign option_ids = option_ids | append: next_id
+                endfor
+                assign option_product_url = option_value.product_url | default: product.url
+                assign option_url = option_product_url | append: '?option_values=' | append: option_ids
+                if allocation != nil and option_value.variant != nil
+                  for next_allocation in option_value.variant.selling_plan_allocations
+                    if next_allocation.selling_plan.id == allocation.selling_plan.id
+                      assign option_url = option_url | append: '&selling_plan=' | append: next_allocation.selling_plan.id
+                      break
+                    endif
+                  endfor
+                endif
+                assign option_url = option_url | append: '#ProductOptions-' | append: section_id
+                assign choice_unavailable = false
+                if option_value.available == false
+                  assign choice_unavailable = true
+                endif
+                if option_value.variant == nil or option_value.variant.available == false
+                  assign choice_unavailable = true
+                endif
+              %}
+              <li>
+                <a data-control="choice" class="product-options__value{% if option_value.selected %} is-selected{% endif %}{% if choice_unavailable %} is-unavailable{% endif %}" href="{{ option_url | escape }}"{% if option_value.selected %} aria-current="true"{% endif %}>
+                  {% if option_value.swatch.image %}
+                    <span class="product-options__swatch" aria-hidden="true">{{ option_value.swatch.image | image_url: width: 80 | image_tag: widths: '40, 80', sizes: '32px', loading: 'lazy', alt: '' }}</span>
+                  {% elsif option_value.swatch.color %}
+                    <span class="product-options__swatch" style="background-color: {{ option_value.swatch.color | escape }}" aria-hidden="true"></span>
+                  {% endif %}
+                  <span>{{ option_value.name | default: option_value | escape }}{% if choice_unavailable %}<span class="product-options__availability">{{ 'product_options.unavailable_choice' | t }}</span>{% endif %}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </fieldset>
+      {% endfor %}
+      {% if variant == nil %}<p class="product-options__notice">{{ 'product_options.unavailable_combination' | t }}</p>{% endif %}
+    </div>
+  {% else %}
+    <form action="{{ product.url | escape }}" method="get" class="product-form">
+      <label for="Variant-{{ section_id }}">{{ 'product.variant' | t }}
+        <select data-control="field" id="Variant-{{ section_id }}" name="variant">
+          {% for candidate in product.variants %}<option value="{{ candidate.id }}"{% if candidate.id == variant.id %} selected{% endif %}>{{ candidate.title | escape }} — {{ candidate.price | money | strip_html }}{% unless candidate.available %} — {{ 'product.sold_out' | t }}{% endunless %}</option>{% endfor %}
+        </select>
+      </label>
+      <button data-control="secondary" class="button button--secondary" type="submit">{{ 'localization.apply' | t }}</button>
+    </form>
+  {% endif %}
+{% endunless %}

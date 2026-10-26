@@ -1,0 +1,9 @@
+<p class="cart-line-price">
+  <span class="cart-line-price__totals">
+    {% if item.original_line_price > item.final_line_price %}<s><span class="visually-hidden">{{ 'cart_price.original_total' | t }} </span><bdi>{{ item.original_line_price | money }}</bdi></s>{% endif %}
+    <span><span class="visually-hidden">{{ 'cart_price.total' | t }} </span><bdi>{{ item.final_line_price | money }}</bdi></span>
+  </span>
+  {% if item.unit_price_measurement != blank and item.unit_price != nil %}
+    <small class="cart-line-price__unit"><span>{{ 'cart_price.unit' | t }}</span> <bdi>{{ item.unit_price | unit_price_with_measurement: item.unit_price_measurement }}</bdi></small>
+  {% endif %}
+</p>

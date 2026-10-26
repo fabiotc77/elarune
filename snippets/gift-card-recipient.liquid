@@ -1,0 +1,66 @@
+{% if product.gift_card? %}
+  {% liquid
+    assign recipient_enabled = false
+    if form.email != blank or form.name != blank or form.message != blank or form.send_on != blank
+      assign recipient_enabled = true
+    endif
+    if form.errors contains 'email' or form.errors contains 'name' or form.errors contains 'message' or form.errors contains 'send_on'
+      assign recipient_enabled = true
+    endif
+    assign recipient_fields = 'email,name,message,send_on' | split: ','
+  %}
+  {{ 'gift-card-recipient.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'gift-card-recipient.js' | asset_url }}" type="module"></script>
+  <elarune-gift-recipient class="gift-recipient">
+    <fieldset class="gift-recipient__fieldset">
+      <legend>{{ 'gift_recipient.title' | t }}</legend>
+      <label class="gift-recipient__toggle" for="RecipientEnabled-{{ section_id }}">
+        <input data-control="check" id="RecipientEnabled-{{ section_id }}" type="checkbox" name="properties[__shopify_send_gift_card_to_recipient]" value="true" data-recipient-toggle{% if recipient_enabled %} checked{% endif %}>
+        <span>{{ 'gift_recipient.enable' | t }}</span>
+      </label>
+      <div class="gift-recipient__fields" data-recipient-fields>
+        {% for recipient_field in recipient_fields %}
+          {% liquid
+            assign field_label = ''
+            assign field_name = ''
+            assign field_value = ''
+            case recipient_field
+              when 'email'
+                assign field_label = 'gift_recipient.email' | t
+                assign field_name = 'Recipient email'
+                assign field_value = form.email
+              when 'name'
+                assign field_label = 'gift_recipient.name' | t
+                assign field_name = 'Recipient name'
+                assign field_value = form.name
+              when 'message'
+                assign field_label = 'gift_recipient.message' | t
+                assign field_name = 'Message'
+                assign field_value = form.message
+              when 'send_on'
+                assign field_label = 'gift_recipient.send_on' | t
+                assign field_name = 'Send on'
+                assign field_value = form.send_on
+            endcase
+          %}
+          <div class="gift-recipient__field">
+            <label for="Recipient-{{ section_id }}-{{ recipient_field }}">{{ field_label | escape }}</label>
+            {% capture recipient_attributes %}
+              id="Recipient-{{ section_id }}-{{ recipient_field }}" name="properties[{{ field_name }}]" data-recipient-input="{{ recipient_field }}"
+              {% if form.errors contains recipient_field %}aria-invalid="true"{% endif %}
+              aria-describedby="RecipientHint-{{ section_id }}-{{ recipient_field }}{% if form.errors contains recipient_field %} RecipientError-{{ section_id }}-{{ recipient_field }}{% endif %}"
+            {% endcapture %}
+            {% if recipient_field == 'message' %}
+              <textarea data-control="field" {{ recipient_attributes }} rows="4" maxlength="200">{{ field_value | escape }}</textarea>
+            {% else %}
+              <input data-control="field" {{ recipient_attributes }} type="{% if recipient_field == 'email' %}email{% elsif recipient_field == 'send_on' %}date{% else %}text{% endif %}" value="{{ field_value | escape }}"{% if recipient_field == 'name' %} maxlength="255"{% elsif recipient_field == 'email' %} autocapitalize="off" autocorrect="off" spellcheck="false"{% endif %} autocomplete="off">
+            {% endif %}
+            <p class="gift-recipient__hint" id="RecipientHint-{{ section_id }}-{{ recipient_field }}">{% case recipient_field %}{% when 'email' %}{{ 'gift_recipient.email_hint' | t }}{% when 'name' %}{{ 'gift_recipient.name_hint' | t }}{% when 'message' %}{{ 'gift_recipient.message_hint' | t }}{% when 'send_on' %}{{ 'gift_recipient.schedule_note' | t }}{% endcase %}</p>
+            {% if form.errors contains recipient_field %}<p class="gift-recipient__error" id="RecipientError-{{ section_id }}-{{ recipient_field }}">{{ form.errors.messages[recipient_field] | escape }}</p>{% endif %}
+          </div>
+        {% endfor %}
+        <input type="hidden" name="properties[__shopify_offset]" data-recipient-offset disabled>
+      </div>
+    </fieldset>
+  </elarune-gift-recipient>
+{% endif %}

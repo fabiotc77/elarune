@@ -1,0 +1,11 @@
+{%- capture social_links -%}
+  {%- assign networks = 'instagram,tiktok,facebook,pinterest,youtube,whatsapp,x,threads,snapchat,linkedin' | split: ',' -%}
+  {%- for network in networks -%}
+    {%- assign setting_key = 'social_' | append: network -%}
+    {%- assign label_key = 'social_media.' | append: network -%}
+    {%- if settings[setting_key] != blank -%}
+      <li><a href="{{ settings[setting_key] | escape }}" aria-label="{{ label_key | t | escape }}" target="_blank" rel="noopener noreferrer"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">{% case network %}{% when 'instagram' %}<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".75" fill="currentColor"/>{% when 'facebook' %}<path d="M14 21v-8h3l.5-4H14V7c0-1 .5-2 2-2h2V2h-3c-4 0-5 3-5 5v2H7v4h3v8"/>{% when 'pinterest' %}<path d="m9 21 3-12m-1 7c7 3 11-10 3-12C4 1 1 15 7 17m5-8c3-3 6 4 2 6-3 2-5-2-3-5"/>{% when 'youtube' %}<rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 6 3-6 3Z"/>{% when 'tiktok' %}<path d="M14 3v12a4 4 0 1 1-4-4m4-8c0 4 3 6 6 6V6c-2 0-3-1-3-3Z"/>{% when 'whatsapp' %}<path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.7A8.5 8.5 0 1 1 20.5 11.5Z"/><path d="m8 7 2 3-1 1c1 2 2 3 4 4l1-1 3 1c-1 4-6 1-8-1S5 8 8 7Z"/>{% when 'x' %}<path d="m4 3 16 18h-4L4 3h4l12 18M20 3 4 21"/>{% when 'threads' %}<path d="M19 7c-1-3-4-4-7-4-6 0-8 4-8 9s2 9 8 9c5 0 8-3 8-6s-3-5-7-5c-6 0-6 7-1 7 5 0 5-11 0-11-2 0-3 1-4 2"/>{% when 'snapchat' %}<path d="M7 9V7a5 5 0 0 1 10 0v2l2-1 1 2-3 2c0 3 2 4 4 5l-3 1-1 2-3-1-2 1-2-1-3 1-1-2-3-1c2-1 4-2 4-5l-3-2 1-2Z"/>{% when 'linkedin' %}<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 10v7m4 0v-7m0 3c0-4 6-4 6 0v4"/><circle cx="7" cy="7" r=".8" fill="currentColor"/>{% endcase %}</svg><span>{{ label_key | t | escape }}</span></a></li>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{% if social_links != blank %}<nav class="footer-social-area" aria-label="{{ 'social_media.follow' | t | escape }}"><h2 class="footer-heading">{{ 'social_media.follow' | t }}</h2><ul class="footer-social" role="list">{{ social_links }}</ul></nav>{% endif %}

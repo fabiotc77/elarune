@@ -1,0 +1,32 @@
+{% if localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
+  {{ 'localization-form.css' | asset_url | stylesheet_tag }}
+  {% form 'localization', id: form_id, class: 'localization-form' %}
+    {{ form.errors | default_errors }}
+    <fieldset class="localization-form__group"{% if localization.available_countries.size > 1 %} aria-describedby="LocalizationNote-{{ form_id }}"{% endif %}>
+      <legend>{{ 'localization.heading' | t }}</legend>
+      {% if localization.country != blank %}
+        <p class="localization-form__current"><span>{{ localization.country.name | escape }}</span>{% if localization.country.currency.iso_code != blank %}<bdi class="localization-form__currency">{{ localization.country.currency.iso_code | escape }}{% if localization.country.currency.symbol != blank %} {{ localization.country.currency.symbol | escape }}{% endif %}</bdi>{% endif %}</p>
+      {% endif %}
+      <div class="localization-form__controls">
+        {% if localization.available_countries.size > 1 %}
+          <div class="localization-form__field">
+            <label for="Country-{{ form_id }}">{{ 'localization.country' | t }}</label>
+            <select data-control="field" id="Country-{{ form_id }}" name="country_code">
+              {% for country in localization.available_countries %}<option value="{{ country.iso_code | escape }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>{{ country.name | escape }}{% if country.currency.iso_code != blank %} ({{ country.currency.iso_code | escape }}{% if country.currency.symbol != blank %} {{ country.currency.symbol | escape }}{% endif %}){% endif %}</option>{% endfor %}
+            </select>
+          </div>
+        {% endif %}
+        {% if localization.available_languages.size > 1 %}
+          <div class="localization-form__field">
+            <label for="Language-{{ form_id }}">{{ 'localization.language' | t }}</label>
+            <select data-control="field" id="Language-{{ form_id }}" name="language_code">
+              {% for language in localization.available_languages %}<option value="{{ language.iso_code | escape }}" lang="{{ language.iso_code | escape }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>{{ language.endonym_name | escape }}</option>{% endfor %}
+            </select>
+          </div>
+        {% endif %}
+      </div>
+      {% if localization.available_countries.size > 1 %}<p class="localization-form__note" id="LocalizationNote-{{ form_id }}">{{ 'localization.notice' | t }}</p>{% endif %}
+      <button data-control="secondary" class="button button--secondary" type="submit">{{ 'localization.apply' | t }}</button>
+    </fieldset>
+  {% endform %}
+{% endif %}

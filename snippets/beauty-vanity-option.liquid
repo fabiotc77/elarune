@@ -1,0 +1,49 @@
+{% liquid
+  assign can_purchase = true
+  assign variant_count = product.variants_count | default: product.variants.size
+  if product.available == false or variant_count > 50 or variant_count == 0 or product.gift_card? or product.requires_selling_plan or product.selling_plan_groups.size > 0
+    assign can_purchase = false
+  endif
+  for variant in product.variants
+    assign rule_min = variant.quantity_rule.min | default: 1
+    assign rule_step = variant.quantity_rule.increment | default: 1
+    if rule_min != 1 or rule_step != 1 or variant.requires_selling_plan or variant.requires_components
+      assign can_purchase = false
+    endif
+    if variant.quantity_rule.max != blank and variant.quantity_rule.max < 1
+      assign can_purchase = false
+    endif
+  endfor
+  assign form_id = 'VanityForm-' | append: section_id | append: '-' | append: block.id
+  assign item_image = block.settings.image | default: product.featured_image
+%}
+<li class="vanity__option routine-purchase__item" data-vanity-choice data-step="{{ block.settings.step }}" data-title="{{ product.title | escape }}" data-product-id="{{ product.id }}" data-note="{{ block.settings.note | escape }}" {{ block.shopify_attributes }}>
+  {% if item_image %}{{ item_image | image_url: width: 800 | image_tag: class: 'vanity__option-image', loading: 'lazy', widths: '240, 400, 600, 800', sizes: '(min-width: 990px) 28vw, 44vw', data-vanity-image: '' }}{% endif %}
+  <div>
+    <h4>{{ product.title | escape }}</h4>
+    {% if block.settings.note != blank %}<p>{{ block.settings.note | escape }}</p>{% endif %}
+    <a href="{{ product.url | escape }}">{{ 'product_comparison.view_product' | t }}</a>
+    {% if can_purchase %}
+      <label data-routine-enhanced hidden><input type="checkbox" data-routine-include aria-label="{{ product.title | default: '' | escape }}"> {{ 'routine_purchase.include' | t }}</label>
+      {% form 'product', product, id: form_id, data-routine-form: '' %}
+        {{ form.errors | default_errors }}
+        <input type="hidden" name="quantity" value="1">
+        {% if product.has_only_default_variant %}
+          {% assign variant = product.variants.first %}
+          <input type="hidden" name="id" value="{{ variant.id }}" data-price="{{ variant.price }}" data-title="{{ product.title | escape }}" data-money="{{ variant.price | money_with_currency | escape }}">
+          <p>{{ variant.price | money_with_currency }}{% if variant.unit_price_measurement and variant.unit_price != nil %}<br><small>{{ variant.unit_price | money_with_currency }} / {% if variant.unit_price_measurement.reference_value != 1 %}{{ variant.unit_price_measurement.reference_value }}{% endif %}{{ variant.unit_price_measurement.reference_unit | escape }}</small>{% endif %}</p>
+        {% else %}
+          <label for="{{ form_id }}-variant">{{ 'product.variant' | t }}</label>
+          <select data-control="field" id="{{ form_id }}-variant" name="id" required>
+            <option value="" selected disabled>{{ 'product.variant' | t }}</option>
+            {% for variant in product.variants %}
+              <option value="{{ variant.id }}" data-price="{{ variant.price }}" data-title="{{ variant.title | escape }}" data-money="{{ variant.price | money_with_currency | escape }}" {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }} — {{ variant.price | money_with_currency | escape }}{% if variant.unit_price_measurement and variant.unit_price != nil %} ({{ variant.unit_price | money_with_currency | escape }} / {% if variant.unit_price_measurement.reference_value != 1 %}{{ variant.unit_price_measurement.reference_value }}{% endif %}{{ variant.unit_price_measurement.reference_unit | escape }}){% endif %}{% unless variant.available %} — {{ 'product.sold_out' | t }}{% endunless %}</option>
+            {% endfor %}
+          </select>
+        {% endif %}
+        <button class="vanity__select" type="button" data-vanity-select data-vanity-enhanced hidden>{{ 'vanity.select' | t }}</button>
+        <button class="vanity__select" type="submit" name="add" data-routine-native>{{ 'product.add' | t }}</button>
+      {% endform %}
+    {% else %}<p>{{ 'vanity.product_page' | t }}</p>{% endif %}
+  </div>
+</li>

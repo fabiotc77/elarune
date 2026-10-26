@@ -1,0 +1,64 @@
+{% liquid
+  assign card_heading_tag = 'h3'
+  if heading_level == 2
+    assign card_heading_tag = 'h2'
+  endif
+  assign card_image = card_product.featured_media.preview_image | default: card_product.featured_image
+  assign card_price_target = card_product
+  assign card_available = card_product.available
+  if card_product.selected_variant != blank
+    assign card_price_target = card_product.selected_variant
+    assign card_available = card_product.selected_variant.available
+  elsif card_product.has_only_default_variant or card_product.variants.size == 1
+    assign card_price_target = card_product.selected_or_first_available_variant | default: card_product
+  endif
+  assign card_show_compare = true
+  if card_price_target == card_product
+    if card_product.price_varies or card_product.compare_at_price_varies
+      assign card_show_compare = false
+    endif
+  endif
+%}
+<article class="product-card" data-rollover="{{ settings.experience_card_rollover }}" data-zoom="{{ settings.experience_card_zoom }}" data-card-style="{{ settings.card_style | default: 'framed' }}">
+  <a href="{{ card_product.url | escape }}" class="product-card-link">
+    <div class="product-card-media">
+      {% if card_image != blank %}{{ card_image | image_url: width: 1000 | image_tag: widths: '240, 360, 540, 720, 1000', sizes: '(min-width: 1440px) 440px, (min-width: 1024px) 32vw, (min-width: 750px) 45vw, 48vw', loading: 'lazy' }}{% else %}{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
+      {% if settings.experience_card_rollover and card_product.images.size > 1 %}{{ card_product.images[1] | image_url: width: 1000 | image_tag: widths: '240, 360, 540, 720, 1000', sizes: '(min-width: 750px) 32vw, 48vw', loading: 'lazy', class: 'product-card-secondary', alt: '' }}{% endif %}
+      {% if settings.experience_card_badges %}
+        {%- capture card_badges -%}
+          {%- if card_show_compare and card_price_target.compare_at_price > card_price_target.price -%}
+            {%- case settings.card_sale_badge -%}
+              {%- when 'amount' -%}
+                {%- assign saving_amount = card_price_target.compare_at_price | minus: card_price_target.price | money -%}
+                <span>{{ 'product_card.save_amount' | t: amount: saving_amount }}</span>
+              {%- when 'text' -%}
+                <span>{{ 'product_card.sale' | t }}</span>
+              {%- else -%}
+                {%- assign saving = card_price_target.compare_at_price | minus: card_price_target.price | times: 100.0 | divided_by: card_price_target.compare_at_price | round -%}
+                <span>−{{ saving }}%</span>
+            {%- endcase -%}
+          {%- endif -%}
+          {%- if card_product.metafields.custom.is_new.value == true -%}<span>{{ 'premium.new' | t }}</span>{%- endif -%}
+        {%- endcapture -%}
+        {% if card_badges != blank %}<div class="product-card-badges">{{ card_badges }}</div>{% endif %}
+      {% endif %}
+      {% if settings.card_show_texture_phase != false and card_product.metafields.custom.texture_phase != blank %}<span class="product-card-sensory-phase"><span class="phase-pulsar" aria-hidden="true"></span>{{ card_product.metafields.custom.texture_phase.value | escape }}</span>{% endif %}
+      {% if settings.card_sold_out_badge != false %}{% unless card_available %}<span class="product-card-status">{{ 'product.sold_out' | t }}</span>{% endunless %}{% endif %}
+    </div>
+    <div class="product-card-details">
+      {% if settings.card_show_type != false and card_product.type != blank %}<p class="product-card-type">{{ card_product.type | escape }}</p>{% endif %}
+      <div class="product-card-caption"><{{ card_heading_tag }}>{{ card_product.title | escape }}</{{ card_heading_tag }}></div>
+      {% unless card_product.has_only_default_variant %}
+        {% if card_product.options_with_values.size == 1 %}
+          {% assign card_option = card_product.options_with_values.first %}
+          <p class="product-card-options"><span>{{ card_option.name | escape }}</span> · {% for value in card_option.values limit: 3 %}{{ value.name | default: value | escape }}{% unless forloop.last %} / {% endunless %}{% endfor %}{% if card_option.values.size > 3 %}…{% endif %}</p>
+        {% endif %}
+      {% endunless %}
+      {% render 'price', target: card_price_target, show_from: true, show_compare: card_show_compare %}
+      <span class="product-card-action">{{ 'product_comparison.view_product' | t }}<span class="product-card-open" aria-hidden="true">↗</span></span>
+    </div>
+  </a>
+{% if settings.card_show_swatches != false %}{% for option in card_product.options_with_values %}{% assign has_swatches = false %}{% for value in option.values %}{% if value.swatch != blank %}{% assign has_swatches = true %}{% endif %}{% endfor %}{% if has_swatches %}<div class="product-card-swatches" aria-label="{{ option.name | escape }}">{% for value in option.values limit: 8 %}{% if value.swatch != blank %}{% capture option_ids %}{% for candidate in card_product.options_with_values %}{% if candidate.position == option.position %}{{ value.id }}{% else %}{{ candidate.values.first.id }}{% endif %}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}<a href="{{ card_product.url }}?option_values={{ option_ids | strip | url_encode }}" aria-label="{{ value.name | escape }}"><i style="{% if value.swatch.color != blank %}--swatch-color:{{ value.swatch.color }};{% endif %}{% if value.swatch.image != blank %}--swatch-image:url('{{ value.swatch.image | image_url: width: 60 }}');{% endif %}" aria-hidden="true"></i></a>{% endif %}{% endfor %}</div>{% break %}{% endif %}{% endfor %}{% endif %}
+{% if settings.card_show_rating != false %}{% assign rating = card_product.metafields.reviews.rating.value %}{% if rating != blank %}<p class="product-card-rating"><span aria-hidden="true">★ </span>{{ 'premium.rating' | t }} {{ rating.rating }} / {{ rating.scale_max }}{% if card_product.metafields.reviews.rating_count.value != blank %} ({{ card_product.metafields.reviews.rating_count.value }}){% endif %}</p>{% endif %}{% endif %}
+{% if settings.experience_quick_view %}<a data-control="secondary" class="product-card-quick" href="{{ card_product.url }}" data-premium-open="product" data-panel-title="{{ card_product.title | escape }}">{{ 'sensory.quick_view' | t }}<span aria-hidden="true">＋</span></a>{% endif %}
+</article>

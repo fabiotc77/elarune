@@ -1,0 +1,39 @@
+{%- comment -%}
+  Accessible numbered pagination.
+  Required: paginate.
+  Optional: nav_id (id for the nav element, used by collection-paging.js to hide or refresh the numbers).
+  Without paginate.parts (or in fixtures) a "current / total" indicator is shown instead of page numbers.
+{%- endcomment -%}
+{%- if paginate.pages > 1 -%}
+  {%- liquid
+    assign pagination_current = paginate.current_page | append: ''
+    assign pagination_prev_icon = '←'
+    assign pagination_next_icon = '→'
+    assign pagination_language = request.locale.iso_code | split: '-' | first
+    if pagination_language == 'ar' or pagination_language == 'he' or pagination_language == 'fa' or pagination_language == 'ur'
+      assign pagination_prev_icon = '→'
+      assign pagination_next_icon = '←'
+    endif
+  -%}
+  <nav class="pagination"{% if nav_id != blank %} id="{{ nav_id }}"{% endif %} aria-label="{{ 'general.pagination' | t }}">
+    {%- if paginate.previous -%}
+      <a class="pagination__step" href="{{ paginate.previous.url }}" rel="prev"><span aria-hidden="true">{{ pagination_prev_icon }}</span><span class="visually-hidden">{{ 'general.previous' | t }}</span></a>
+    {%- endif -%}
+    {%- if paginate.parts.size > 0 -%}
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}
+          <a href="{{ part.url }}" aria-label="{{ 'general.meta.page' | t: page: part.title }}">{{ part.title }}</a>
+        {%- elsif part.title == pagination_current -%}
+          <span aria-current="page" aria-label="{{ 'general.meta.page' | t: page: part.title }}">{{ part.title }}</span>
+        {%- else -%}
+          <span class="pagination__gap" aria-hidden="true">…</span>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      <span>{{ paginate.current_page }} / {{ paginate.pages }}</span>
+    {%- endif -%}
+    {%- if paginate.next -%}
+      <a class="pagination__step" href="{{ paginate.next.url }}" rel="next"><span aria-hidden="true">{{ pagination_next_icon }}</span><span class="visually-hidden">{{ 'general.next' | t }}</span></a>
+    {%- endif -%}
+  </nav>
+{%- endif -%}

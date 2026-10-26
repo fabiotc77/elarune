@@ -1,0 +1,38 @@
+{% liquid
+  assign pickup_locations = variant.store_availabilities | where: 'pick_up_enabled', true
+  assign pickup_count = 0
+  assign pickup_available = false
+%}
+{% capture pickup_cards %}
+  {% for availability in pickup_locations %}
+    {% if availability.location == blank or availability.location.name == blank %}{% continue %}{% endif %}
+    {% assign pickup_count = pickup_count | plus: 1 %}
+    {% if availability.available %}{% assign pickup_available = true %}{% endif %}
+    <li class="pickup-availability__location">
+      <h3><bdi>{{ availability.location.name | escape }}</bdi></h3>
+      <p class="pickup-availability__status">{% if availability.available %}{{ 'pickup.available' | t }}{% else %}{{ 'pickup.unavailable' | t }}{% endif %}</p>
+      {% if availability.available and availability.pick_up_time != blank %}<p class="pickup-availability__time">{{ availability.pick_up_time | escape }}</p>{% endif %}
+      {% if availability.location.address != blank %}<div class="pickup-availability__address">{{ availability.location.address | format_address }}</div>{% endif %}
+    </li>
+  {% endfor %}
+{% endcapture %}
+{% if variant != blank and pickup_count > 0 %}
+  {{ 'pickup-availability.css' | asset_url | stylesheet_tag }}
+  <div class="pickup-availability" data-pickup-variant="{{ variant.id }}">
+    <details>
+      <summary data-control="disclosure">
+        <span class="pickup-availability__summary">
+          <span class="pickup-availability__title">{{ 'pickup.title' | t }}</span>
+          <span class="pickup-availability__status">{% if pickup_available %}{{ 'pickup.available' | t }}{% else %}{{ 'pickup.unavailable' | t }}{% endif %}</span>
+        </span>
+      </summary>
+      <div class="pickup-availability__content">
+        {% unless product.has_only_default_variant %}<p class="pickup-availability__variant"><bdi>{{ variant.title | escape }}</bdi></p>{% endunless %}
+        <ul class="pickup-availability__locations" role="list" aria-label="{{ 'pickup.locations' | t | escape }}">{{ pickup_cards }}</ul>
+        <p class="pickup-availability__note">{{ 'pickup.note' | t }}</p>
+      </div>
+    </details>
+  </div>
+{% elsif request.design_mode %}
+  <p class="editor-note">{{ 'pickup.empty' | t }}</p>
+{% endif %}

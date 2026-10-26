@@ -1,0 +1,59 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "questions": {
+      "type": "collapsible-content",
+      "blocks": {
+        "choose": {
+          "type": "row",
+          "settings": {
+            "heading": "How do I choose the right product?",
+            "content": "<p>Describe how customers can find the products that suit them, for example by concern, texture or routine step.</p>"
+          }
+        },
+        "use": {
+          "type": "row",
+          "settings": {
+            "heading": "How should I use it?",
+            "content": "<p>Explain the order and frequency of use for your products. Replace this text with your own guidance.</p>"
+          }
+        },
+        "ingredients": {
+          "type": "row",
+          "settings": {
+            "heading": "Where can I find ingredient information?",
+            "content": "<p>Tell customers where to find full ingredient lists, for example on each product page.</p>"
+          }
+        },
+        "delivery": {
+          "type": "row",
+          "settings": {
+            "heading": "How long does delivery take?",
+            "content": "<p>Delivery options and costs are shown at checkout. Add your own shipping details here.</p>"
+          }
+        },
+        "returns": {
+          "type": "row",
+          "settings": {
+            "heading": "Can I return a product?",
+            "content": "<p>Describe how returns work in your store and link to your refund policy.</p>"
+          }
+        }
+      },
+      "block_order": ["choose", "use", "ingredients", "delivery", "returns"],
+      "settings": {
+        "heading": "Questions, <em>answered</em>",
+        "layout": "split",
+        "open_behavior": "single",
+        "open_first": true,
+        "icon_style": "plus",
+        "faq_schema": false,
+        "color_scheme": "porcelain"
+      }
+    }
+  },
+  "order": ["main", "questions"]
+}

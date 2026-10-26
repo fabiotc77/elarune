@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "settings": {
+        "show_discovery_media": true
+      }
+    },
+    "shipping_progress": {
+      "type": "free-shipping-progress",
+      "settings": {
+        "enabled": false
+      }
+    },
+    "recommendations": {
+      "type": "cart-upsell",
+      "settings": {
+        "heading": "Complete your daily edit.",
+        "products": [],
+        "experience_motion": "none"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "shipping_progress",
+    "recommendations"
+  ]
+}

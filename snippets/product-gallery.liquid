@@ -1,0 +1,99 @@
+{% doc %}
+  Product images, videos and native 3D models. Selected variant imagery stays first.
+  @param {product} product - Current product.
+  @param {variant} variant - Current selected variant.
+  @param {string} section_id - Owning section identity.
+  @param {string} [gallery_layout] - Gallery composition.
+  @param {boolean} [show_thumbnails] - Show image thumbnails.
+{% enddoc %}
+{% assign product_videos = product.media | where: 'media_type', 'video' %}
+{% if product_videos.size > 0 %}{{ 'product-video.css' | asset_url | stylesheet_tag }}{% endif %}
+{% assign external_videos = product.media | where: 'media_type', 'external_video' %}
+{% if external_videos.size > 0 %}
+  {{ 'product-external-video.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'product-external-video.js' | asset_url }}" type="module"></script>
+{% endif %}
+{% assign product_models = product.media | where: 'media_type', 'model' %}
+{% if product_models.size > 0 %}
+  {{ 'product-model.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'product-model.js' | asset_url }}" type="module"></script>
+{% endif %}
+{% assign product_images = product.media | where: 'media_type', 'image' %}
+{% assign image_zoom = false %}{% if product_images.size > 0 or variant.featured_image != blank %}{% assign image_zoom = true %}{% endif %}
+{% if image_zoom %}
+  {{ 'product-image-zoom.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'product-image-zoom.js' | asset_url }}" type="module"></script>
+  <elarune-image-zoom>
+{% endif %}
+{% if gallery_layout == 'editorial' %}{{ 'product-gallery-editorial.css' | asset_url | stylesheet_tag }}{% endif %}
+<premium-gallery{% if gallery_layout == 'editorial' %} data-editorial{% endif %}>
+{% if gallery_layout == 'editorial' %}<div class="editorial-gallery__heading"><span>{{ 'editorial_gallery.title' | t }}</span><span aria-hidden="true">{{ product.type | escape }}</span></div>{% endif %}
+<div class="product-gallery"{% if gallery_layout == 'editorial' %} tabindex="0" role="region" aria-label="{{ 'editorial_gallery.title' | t | escape }}"{% endif %} data-gallery="{{ gallery_layout | default: 'vertical' }}">
+  {% assign has_priority_media = false %}
+  {% assign priority_media_id = variant.featured_media.id | default: variant.featured_image.id %}
+  {% if variant.featured_image != blank %}
+    <a data-control="media" class="product-zoom-link" href="{{ variant.featured_image | image_url: width: 3000 }}" aria-label="{{ 'image_zoom.open' | t | escape }}: {{ variant.featured_image.alt | default: product.title | escape }}" data-zoom-image id="ProductMedia-{{ section_id }}-{{ priority_media_id }}" data-gallery-id="{{ priority_media_id }}">
+    {{ variant.featured_image | image_url: width: 1600 | image_tag: widths: '400, 700, 1000, 1600', sizes: '(min-width: 750px) 50vw, 100vw', preload: true }}
+    <span class="product-zoom-hint" aria-hidden="true">＋</span></a>
+    {% assign has_priority_media = true %}
+  {% endif %}
+  {% for media in product.media %}
+    {% if media.media_type == 'image' %}
+      {% if media.id == priority_media_id %}{% continue %}{% endif %}
+      <a data-control="media" class="product-zoom-link" href="{{ media | image_url: width: 3000 }}" aria-label="{{ 'image_zoom.open' | t | escape }}: {{ media.alt | default: product.title | escape }}" data-zoom-image id="ProductMedia-{{ section_id }}-{{ media.id }}" data-gallery-id="{{ media.id }}">
+      {% if has_priority_media %}
+        {{ media | image_url: width: 1600 | image_tag: widths: '400, 700, 1000, 1600', sizes: '(min-width: 750px) 50vw, 100vw', loading: 'lazy' }}
+      {% else %}
+        {{ media | image_url: width: 1600 | image_tag: widths: '400, 700, 1000, 1600', sizes: '(min-width: 750px) 50vw, 100vw', preload: true }}
+        {% assign has_priority_media = true %}
+      {% endif %}
+      <span class="product-zoom-hint" aria-hidden="true">＋</span></a>
+    {% elsif media.media_type == 'video' %}
+      {% if media.sources.size > 0 %}
+        {% assign video_label_id = 'ProductVideo-' | append: section_id | append: '-' | append: media.id %}
+        {% assign video_loading = 'eager' %}{% if has_priority_media %}{% assign video_loading = 'lazy' %}{% endif %}
+        <figure class="product-video">
+          {{ media | video_tag: image_size: '1000x', controls: true, autoplay: false, loop: false, muted: false, playsinline: true, preload: 'none', loading: video_loading, aria-labelledby: video_label_id }}
+          <figcaption id="{{ video_label_id }}">{{ media.alt | default: product.title | escape }}</figcaption>
+        </figure>
+        {% assign has_priority_media = true %}
+      {% elsif media.preview_image != blank %}
+        {{ media.preview_image | image_url: width: 1000 | image_tag: widths: '400, 700, 1000', sizes: '(min-width: 750px) 50vw, 100vw', loading: 'lazy' }}
+      {% endif %}
+    {% elsif media.media_type == 'model' %}
+      {% render 'product-model', media: media, product: product, section_id: section_id, has_priority_media: has_priority_media %}
+      {% if media.sources.size > 0 or media.preview_image != blank %}{% assign has_priority_media = true %}{% endif %}
+    {% elsif media.media_type == 'external_video' %}
+      {% render 'product-external-video', media: media, product: product, section_id: section_id, has_priority_media: has_priority_media %}
+      {% if media.external_id != blank %}
+        {% if media.host == 'youtube' or media.host == 'vimeo' %}{% assign has_priority_media = true %}{% endif %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  {% if product.media.size == 0 %}{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
+</div>
+{% if gallery_layout == 'editorial' %}
+  <div class="editorial-gallery__toolbar" data-gallery-toolbar hidden>
+    <span class="editorial-gallery__count" data-gallery-count aria-live="polite" aria-atomic="true"></span>
+    <span class="editorial-gallery__rule" aria-hidden="true"><span data-gallery-progress></span></span>
+    <div class="editorial-gallery__arrows">
+      <button type="button" data-gallery-prev aria-label="{{ 'general.previous' | t | escape }}"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m14 6-6 6 6 6M8 12h13"/></svg></button>
+      <button type="button" data-gallery-next aria-label="{{ 'general.next' | t | escape }}"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m10 6 6 6-6 6M16 12H3"/></svg></button>
+    </div>
+  </div>
+{% endif %}
+{% if product_images.size > 1 %}<nav{% unless show_thumbnails %} hidden{% endunless %} class="premium-gallery-thumbs" aria-label="{{ 'image_zoom.title' | t }}">{% for media in product_images %}<a href="{{ media.preview_image | default: media | image_url: width: 2000 }}" data-gallery-target="{{ media.id }}" aria-controls="ProductMedia-{{ section_id }}-{{ media.id }}" aria-label="{{ 'image_zoom.open' | t | escape }}: {{ media.alt | default: product.title | escape }}">{{ media.preview_image | default: media | image_url: width: 120 | image_tag: loading: 'lazy', alt: media.alt }}</a>{% endfor %}</nav>{% endif %}</premium-gallery>
+{% if gallery_layout == 'editorial' or show_thumbnails and product_images.size > 1 %}<script src="{{ 'premium-gallery.js' | asset_url }}" type="module"></script>{% endif %}
+{% if image_zoom %}
+  <dialog class="product-zoom-dialog" aria-labelledby="ImageZoomTitle-{{ section_id }}">
+    <div class="product-zoom-toolbar">
+      <h2 id="ImageZoomTitle-{{ section_id }}">{{ 'image_zoom.title' | t }}</h2>
+      <button data-control="secondary" type="button" class="button button--secondary" data-zoom-close autofocus>{{ 'image_zoom.close' | t }}</button>
+    </div>
+    <div class="product-zoom-media" data-zoom-media></div>
+    <p data-zoom-error role="status" hidden>{{ 'image_zoom.error' | t }}</p>
+    <a data-control="text" class="text-link" data-zoom-original>{{ 'image_zoom.original' | t }}</a>
+  </dialog>
+  </elarune-image-zoom>
+{% endif %}
+

@@ -1,0 +1,17 @@
+{% liquid
+  assign property_first = property.first | slice: 0
+  assign property_label = property.first
+  if item.product.gift_card?
+    case property.first
+      when 'Recipient email'
+        assign property_label = 'gift_recipient.email' | t
+      when 'Recipient name'
+        assign property_label = 'gift_recipient.name' | t
+      when 'Message'
+        assign property_label = 'gift_recipient.message' | t
+      when 'Send on'
+        assign property_label = 'gift_recipient.send_on' | t
+    endcase
+  endif
+%}
+{% if property.last != blank and property_first != '_' %}<p>{{ property_label | escape }}: {{ property.last | escape }}</p>{% endif %}

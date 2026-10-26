@@ -1,0 +1,58 @@
+{%- comment -%}
+  Stock Urgency & Batch Authenticity Passport
+  Progressive enhancement badge showing real-time allocation status and formulation provenance.
+{%- endcomment -%}
+
+{% liquid
+  assign low_threshold = block.settings.low_stock_threshold | default: 10
+  assign show_batch = false
+  if block.settings.show_batch_badge == true
+    assign show_batch = true
+  endif
+  assign show_pulse = block.settings.show_pulse
+  if show_pulse == nil
+    assign show_pulse = true
+  endif
+
+  assign inventory_qty = variant.inventory_quantity
+  assign batch_val = product.metafields.custom.batch.value
+%}
+
+<div class="product-inventory" data-product-inventory data-available="{{ variant.available }}" data-quantity="{{ inventory_qty }}">
+  <div class="inventory-pills-row">
+    {% unless variant.available %}
+      <span class="inventory-status-pill is-archive">
+        <span class="inventory-dot is-archive-dot" aria-hidden="true"></span>
+        <span class="inventory-status-text">{{ 'inventory.sold_out' | t }}</span>
+      </span>
+    {% else %}
+      {% if variant.inventory_management != blank and inventory_qty != blank and inventory_qty <= low_threshold and inventory_qty > 0 %}
+        <span class="inventory-status-pill is-urgent">
+          <span class="{% if show_pulse %}inventory-pulsar{% else %}inventory-dot is-urgent-dot{% endif %}" aria-hidden="true"></span>
+          <span class="inventory-status-text">
+            {% if inventory_qty <= 3 %}
+              {{ 'inventory.very_low_stock' | t: count: inventory_qty }}
+            {% else %}
+              {{ 'inventory.low_stock' | t: count: inventory_qty }}
+            {% endif %}
+          </span>
+        </span>
+      {% elsif variant.inventory_management == blank or inventory_qty > 0 %}
+        <span class="inventory-status-pill is-instock">
+          <span class="inventory-dot is-instock-dot" aria-hidden="true"></span>
+          <span class="inventory-status-text">{{ 'inventory.in_stock' | t }}</span>
+        </span>
+      {% endif %}
+    {% endunless %}
+
+    {% if show_batch and batch_val != blank %}
+      <span class="batch-authenticity-badge" title="{{ 'inventory.authenticity' | t | escape }}">
+        <svg class="batch-seal-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+        <span class="batch-passport-text">{{ 'inventory.batch_passport' | t: batch: batch_val }}</span>
+      </span>
+    {% endif %}
+  </div>
+</div>

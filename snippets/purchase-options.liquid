@@ -1,0 +1,51 @@
+{% doc %}
+  Native GET choices: each button applies one of this variant's actual allocations.
+  @param {product} product - Current product.
+  @param {variant} variant - Server-selected variant.
+  @param {selling_plan_allocation} [allocation] - Validated selected allocation.
+  @param {string} section_id - Section instance ID.
+{% enddoc %}
+{% if variant.selling_plan_allocations != blank %}
+  {{ 'purchase-options.css' | asset_url | stylesheet_tag }}
+  <form action="{{ product.url | escape }}#PurchaseOptions-{{ section_id }}" method="get" class="purchase-options" id="PurchaseOptions-{{ section_id }}">
+    <input type="hidden" name="variant" value="{{ variant.id }}">
+    <fieldset>
+      <legend>{{ 'purchase_options.title' | t }}</legend>
+      <p class="purchase-options__hint">{{ 'purchase_options.hint' | t }}</p>
+      <ul class="purchase-options__list" role="list">
+        {% unless variant.requires_selling_plan %}
+          <li class="purchase-options__card{% if allocation == nil %} is-selected{% endif %}">
+            <button data-control="choice" type="submit" name="selling_plan" value="" aria-pressed="{% if allocation == nil %}true{% else %}false{% endif %}" class="purchase-options__choice">
+              <span class="purchase-options__indicator" aria-hidden="true"></span>
+              <span>{{ 'purchase_options.one_time' | t }}</span>
+              <span class="purchase-options__amount">{{ variant.price | money }}</span>
+            </button>
+          </li>
+        {% endunless %}
+        {% for option in variant.selling_plan_allocations %}
+          <li class="purchase-options__card{% if allocation.selling_plan.id == option.selling_plan.id %} is-selected{% endif %}">
+            <button data-control="choice" type="submit" name="selling_plan" value="{{ option.selling_plan.id }}" aria-pressed="{% if allocation.selling_plan.id == option.selling_plan.id %}true{% else %}false{% endif %}" aria-describedby="PlanDetails-{{ section_id }}-{{ option.selling_plan.id }}" class="purchase-options__choice">
+              <span class="purchase-options__indicator" aria-hidden="true"></span>
+              <span>{{ option.selling_plan.name | escape }}</span>
+              <span class="purchase-options__amount">{{ option.price | money }}</span>
+            </button>
+            <div class="purchase-options__details" id="PlanDetails-{{ section_id }}-{{ option.selling_plan.id }}">
+              {% if option.selling_plan.description != blank %}<div class="rte">{{ option.selling_plan.description }}</div>{% endif %}
+              <dl>
+                {% if option.selling_plan.recurring_deliveries and option.per_delivery_price != nil %}<div><dt>{{ 'purchase_options.per_delivery' | t }}</dt><dd>{{ option.per_delivery_price | money }}</dd></div>{% endif %}
+                {% if option.checkout_charge_amount != nil and option.checkout_charge_amount != option.price %}<div><dt>{{ 'purchase_options.checkout' | t }}</dt><dd>{{ option.checkout_charge_amount | money }}</dd></div>{% endif %}
+              </dl>
+              {% assign initial_orders = option.selling_plan.price_adjustments.first.order_count %}
+              {% if option.price_adjustments.size > 1 and initial_orders != nil %}
+                {% assign later_price = option.price_adjustments[1].price | money %}
+                <p>{{ 'purchase_options.after_orders' | t: count: initial_orders, price: later_price }}</p>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </fieldset>
+  </form>
+{% elsif variant.requires_selling_plan %}
+  <p>{{ 'purchase_options.unavailable' | t }}</p>
+{% endif %}

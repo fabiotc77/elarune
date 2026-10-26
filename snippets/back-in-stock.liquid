@@ -1,0 +1,61 @@
+{%- comment -%}
+  Back-in-Stock / Allocation Waitlist Modal & Form
+  Couture priority allocation notice when a formulation variant is sold out.
+{%- endcomment -%}
+
+{% unless variant.available %}
+  <div class="product-back-in-stock" data-back-in-stock>
+    <button type="button" class="button button--secondary back-in-stock-trigger" data-notify-open aria-haspopup="dialog" aria-expanded="false" aria-controls="BackInStockModal-{{ section_id }}">
+      <svg class="notify-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect width="20" height="16" x="2" y="4" rx="2"/>
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+      </svg>
+      <span>{{ 'inventory.notify_me' | t }}</span>
+    </button>
+
+    <dialog id="BackInStockModal-{{ section_id }}" class="back-in-stock-dialog" aria-labelledby="BackInStockTitle-{{ section_id }}" data-notify-dialog>
+      <div class="back-in-stock-dialog__inner">
+        <button type="button" class="back-in-stock-close" data-notify-close aria-label="{{ 'image_zoom.close' | t }}">×</button>
+        
+        <div class="back-in-stock-eyebrow">
+          <span class="inventory-pulsar" aria-hidden="true"></span>
+          <span>{{ 'inventory.notify_eyebrow' | t }}</span>
+        </div>
+
+        <h3 id="BackInStockTitle-{{ section_id }}" class="back-in-stock-title">{{ 'inventory.notify_title' | t }}</h3>
+        <p class="back-in-stock-subtext">{{ 'inventory.notify_subtext' | t: product: product.title }}</p>
+
+        <div class="back-in-stock-variant-pill">
+          <span class="variant-pill-dot" aria-hidden="true"></span>
+          <span class="variant-pill-label">{{ product.title | escape }} · {{ variant.title | escape }}</span>
+        </div>
+
+        {% assign notify_form_id = 'BackInStockForm-' | append: section_id %}
+        {%- assign contact_action = routes.root_url | append: '/contact' | replace: '//', '/' -%}
+        <form method="post" action="{{ contact_action }}#{{ notify_form_id }}" id="{{ notify_form_id }}" class="back-in-stock-form" accept-charset="UTF-8" data-notify-form>
+          <input type="hidden" name="form_type" value="contact">
+          <input type="hidden" name="utf8" value="✓">
+          <input type="hidden" name="contact[tags]" value="back-in-stock, restock:{{ product.id }}, restock-variant:{{ variant.id }}, {{ product.handle }}">
+          <input type="hidden" name="contact[body]" value="{{ 'neutral.back_in_stock_request' | t: product: product.title, variant: variant.title }}">
+          
+          <div class="back-in-stock-fields" data-form-fields>
+            <label for="BackInStockEmail-{{ section_id }}" class="visually-hidden">{{ 'inventory.notify_email_label' | t }}</label>
+            <input id="BackInStockEmail-{{ section_id }}" type="email" name="contact[email]" required autocomplete="email" placeholder="{{ 'inventory.notify_email_placeholder' | t | escape }}" class="back-in-stock-input">
+            <button type="submit" class="button back-in-stock-submit" data-submit-btn>{{ 'inventory.notify_submit' | t }}</button>
+          </div>
+
+          <div class="back-in-stock-success is-hidden" data-notify-success aria-live="polite">
+            <svg class="success-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <p class="success-title">{{ 'inventory.notify_success_title' | t }}</p>
+            <p class="success-subtext">{{ 'inventory.notify_success_subtext' | t }}</p>
+          </div>
+
+          <p class="back-in-stock-reassurance" data-form-reassurance>{{ 'inventory.notify_reassurance' | t }}</p>
+        </form>
+      </div>
+    </dialog>
+  </div>
+{% endunless %}

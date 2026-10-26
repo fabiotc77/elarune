@@ -1,0 +1,25 @@
+{% doc %}
+  A progressively enhanced purchase shortcut for the existing native product form.
+  @param {product} product - The displayed product.
+  @param {variant} variant - The server-selected variant.
+  @param {string} section_id - Section instance ID.
+  @param {string} product_form_id - Existing product form ID.
+  @param {selling_plan_allocation} [allocation] - Validated selected purchase plan.
+  @param {boolean} [purchase_ready] - False when a required plan has not been chosen.
+{% enddoc %}
+{% if variant.available and purchase_ready != false %}
+  {{ 'sticky-product.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'sticky-product.js' | asset_url }}" defer></script>
+  <elarune-sticky-product data-submit-id="ProductSubmit-{{ section_id }}">
+    <div class="sticky-product-bar" role="region" aria-label="{{ product.title | escape }}" hidden>
+      <div class="sticky-product-info">
+        <span class="sticky-product-title">{{ product.title | escape }}</span>
+        {% unless product.has_only_default_variant %}<span class="sticky-product-variant">{{ variant.title | escape }}</span>{% endunless %}
+        {% if allocation %}<span class="sticky-product-variant">{{ allocation.selling_plan.name | escape }}</span>{% endif %}
+        {% assign purchase_price = allocation | default: variant %}
+        {% render 'price', target: purchase_price, unit_measurement: variant.unit_price_measurement %}
+      </div>
+      <button data-control="primary" class="button" type="submit" name="add" form="{{ product_form_id }}">{{ 'product.add' | t }}</button>
+    </div>
+  </elarune-sticky-product>
+{% endif %}

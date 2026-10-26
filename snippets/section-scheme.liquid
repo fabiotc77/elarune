@@ -1,0 +1,11 @@
+{%- comment -%}
+  Scopes the section's color scheme to its Shopify wrapper.
+  Usage: {% render 'section-scheme', section: section %} with a "color_scheme" setting in the section schema.
+  Control tokens are recomputed here because custom properties resolve where they are declared (:root).
+{%- endcomment -%}
+{%- assign scheme = section.settings.color_scheme -%}
+{%- if scheme != blank and scheme.settings.background != blank -%}
+  <style>
+    #shopify-section-{{ section.id }}{--color-bg:{{ scheme.settings.background }};--color-ink:{{ scheme.settings.text }};--color-accent:{{ scheme.settings.accent }};--color-on-accent:{{ scheme.settings.on_accent }};--color-muted:{{ scheme.settings.muted }};--color-line:{{ scheme.settings.line }};--color-hover:{{ scheme.settings.text }};--color-on-hover:{{ scheme.settings.background }};--control-fill:var(--color-accent);--control-on-fill:var(--color-on-accent);--control-paper:var(--color-bg);--control-ink:var(--color-ink);--control-line:color-mix(in srgb,var(--color-ink) 24%,var(--color-bg));--control-focus:var(--color-accent);background:{% if scheme.settings.background_gradient != blank %}{{ scheme.settings.background_gradient }}{% else %}var(--color-bg){% endif %};color:var(--color-ink)}
+  </style>
+{%- endif -%}

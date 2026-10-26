@@ -1,0 +1,321 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "vendor"
+        },
+        "title": {
+          "type": "title"
+        },
+        "price": {
+          "type": "price"
+        },
+        "inventory": {
+          "type": "inventory"
+        },
+        "volume_pricing": {
+          "type": "volume_pricing",
+          "settings": {
+            "heading": "Choose a quantity",
+            "subheading": "",
+            "tier1_label": "",
+            "tier2_label": "",
+            "tier2_badge": "",
+            "tier3_label": "",
+            "tier3_badge": ""
+          }
+        },
+        "description": {
+          "type": "description"
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "dynamic_checkout": true
+          }
+        },
+        "share": {
+          "type": "share"
+        },
+        "usage": {
+          "type": "accordion",
+          "settings": {
+            "heading": "How to use",
+            "content": "<p>Directions: See the directions for use in this product’s description or on its packaging.</p>"
+          }
+        },
+        "ingredients": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Ingredients",
+            "content": "<p>Ingredients: See the full ingredient list for this product.</p>"
+          }
+        },
+        "packaging": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Format and packaging",
+            "content": "<p>Packaging: See the product description for format, size and packaging details.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "inventory",
+        "volume_pricing",
+        "description",
+        "buy",
+        "share",
+        "usage",
+        "ingredients",
+        "packaging"
+      ],
+      "settings": {
+        "sticky_add_to_cart": true,
+        "experience_gallery": "editorial"
+      }
+    },
+    "before_after": {
+      "type": "before-after",
+      "settings": {
+        "heading": "A closer look.",
+        "context": "",
+        "disclaimer": ""
+      },
+      "disabled": true
+    },
+    "routine": {
+      "type": "routine-chapters",
+      "settings": {
+        "eyebrow": "THE DAILY RITUAL",
+        "heading": "A little rhythm. Morning to night.",
+        "text": "Two considered edits, three chapters each. Explore where this step belongs in your routine.",
+        "default_routine": "morning"
+      },
+      "blocks": {
+        "morning_1": {
+          "type": "step",
+          "settings": {
+            "heading": "Cleanse",
+            "product": "",
+            "period": "morning",
+            "text": "Begin the day with a cleanse, the first step of your routine."
+          }
+        },
+        "morning_2": {
+          "type": "step",
+          "settings": {
+            "heading": "Layer",
+            "product": "",
+            "period": "morning",
+            "text": "Layer a serum next, the quiet middle of the morning."
+          }
+        },
+        "morning_3": {
+          "type": "step",
+          "settings": {
+            "heading": "Moisturize",
+            "product": "",
+            "period": "morning",
+            "text": "Finish with a moisturizer to complete the morning routine."
+          }
+        },
+        "evening_1": {
+          "type": "step",
+          "settings": {
+            "heading": "Cleanse",
+            "product": "",
+            "period": "evening",
+            "text": "Close the day with an unhurried cleansing moment."
+          }
+        },
+        "evening_2": {
+          "type": "step",
+          "settings": {
+            "heading": "Layer",
+            "product": "",
+            "period": "evening",
+            "text": "Take a moment to layer your evening serum."
+          }
+        },
+        "evening_3": {
+          "type": "step",
+          "settings": {
+            "heading": "Moisturize",
+            "product": "",
+            "period": "evening",
+            "text": "End with a moisturizer, the last step of the evening."
+          }
+        }
+      },
+      "block_order": [
+        "morning_1",
+        "morning_2",
+        "morning_3",
+        "evening_1",
+        "evening_2",
+        "evening_3"
+      ]
+    },
+    "evidence": {
+      "type": "product-evidence",
+      "settings": {
+        "heading": "The details behind the care.",
+        "context": ""
+      },
+      "blocks": {
+        "hydration": {
+          "type": "evidence",
+          "settings": {
+            "value": "",
+            "heading": "Texture",
+            "description": "<p>Share a product detail you can support, such as how the texture feels as you apply it.</p>",
+            "method": ""
+          }
+        },
+        "renewal": {
+          "type": "evidence",
+          "settings": {
+            "value": "",
+            "heading": "Format",
+            "description": "<p>Describe the format and packaging, and the sizes you offer.</p>",
+            "method": ""
+          }
+        },
+        "biocompatible": {
+          "type": "evidence",
+          "settings": {
+            "value": "",
+            "heading": "Routine",
+            "description": "<p>Explain where this product belongs in a morning or evening routine.</p>",
+            "method": ""
+          }
+        }
+      },
+      "block_order": [
+        "hydration",
+        "renewal",
+        "biocompatible"
+      ],
+      "disabled": true
+    },
+    "comparison": {
+      "type": "product-comparison",
+      "settings": {
+        "heading": "Compare the range.",
+        "introduction": "Choose up to three products. Prices and availability come from your catalog.",
+        "product_1": "",
+        "product_2": "",
+        "product_3": ""
+      },
+      "blocks": {
+        "chapter": {
+          "type": "detail",
+          "settings": {
+            "title": "Ritual chapter",
+            "value_1": "",
+            "value_2": "",
+            "value_3": ""
+          }
+        },
+        "format": {
+          "type": "detail",
+          "settings": {
+            "title": "Format",
+            "value_1": "",
+            "value_2": "",
+            "value_3": ""
+          }
+        },
+        "pack": {
+          "type": "detail",
+          "settings": {
+            "title": "Packaging",
+            "value_1": "",
+            "value_2": "",
+            "value_3": ""
+          }
+        }
+      },
+      "block_order": [
+        "chapter",
+        "format",
+        "pack"
+      ]
+    },
+    "complementary": {
+      "type": "complementary-products",
+      "settings": {
+        "source": "recommendations",
+        "heading": "Complete your ritual.",
+        "introduction": "Pair with complementary chapters for an integrated morning and evening routine.",
+        "products": [],
+        "product_limit": 3
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "heading": "A little more clarity."
+      },
+      "blocks": {
+        "order": {
+          "type": "question",
+          "settings": {
+            "question": "In what order should I apply these products?",
+            "answer": "<p>A simple guide is to follow texture: start with the lightest product, such as a cleanser or serum, and finish with the richest cream. Check each product page for its own directions.</p>"
+          }
+        },
+        "sensitive": {
+          "type": "question",
+          "settings": {
+            "question": "Is this formula suitable for reactive or sensitive skin?",
+            "answer": "<p>Every skin is different. Read the full ingredient list on each product page and patch test a new product before adding it to your routine.</p>"
+          }
+        },
+        "set": {
+          "type": "question",
+          "settings": {
+            "question": "Are these products sold as a set or individually?",
+            "answer": "<p>Each product is sold separately. Open a product to choose its options and add it to your cart.</p>"
+          }
+        },
+        "recycle": {
+          "type": "question",
+          "settings": {
+            "question": "How do I recycle the packaging?",
+            "answer": "<p>Check the recycling marks on each component and follow your local recycling guidance. Separate pumps and droppers from glass where you can.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "order",
+        "sensitive",
+        "set",
+        "recycle"
+      ]
+    },
+    "recommendations": {
+      "type": "related-products",
+      "settings": {
+        "heading": "Explore more from the collection",
+        "source": "discovery",
+        "product_limit": 4
+      }
+    }
+  },
+  "order": [
+    "main",
+    "before_after",
+    "routine",
+    "evidence",
+    "comparison",
+    "complementary",
+    "faq",
+    "recommendations"
+  ]
+}

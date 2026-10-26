@@ -1,0 +1,9 @@
+{% liquid
+  assign promo_image = block.settings.image | default: block.settings.product.featured_image | default: block.settings.collection.featured_image
+  assign promo_url = block.settings.link | default: block.settings.product.url | default: block.settings.collection.url
+  assign promo_title = block.settings.heading | default: block.settings.product.title | default: block.settings.collection.title
+%}
+{% if promo_url != blank %}<a class="header-promotion" href="{{ promo_url }}">{% else %}<div class="header-promotion">{% endif %}
+  {% if promo_image != blank %}<span class="header-promotion-media">{{ promo_image | image_url: width: 700 | image_tag: widths: '180, 300, 500, 700', sizes: '(max-width: 1023px) 160px, 260px', loading: 'lazy' }}</span>{% endif %}
+  <span class="header-promotion-title">{{ promo_title | escape }}{% if promo_url != blank %}<span aria-hidden="true">↗</span>{% endif %}</span>
+{% if promo_url != blank %}</a>{% else %}</div>{% endif %}

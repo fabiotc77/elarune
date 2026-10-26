@@ -1,0 +1,95 @@
+{% layout none %}
+{% liquid
+  assign direction = 'ltr'
+  assign language_code = request.locale.iso_code | split: '-' | first
+  if language_code == 'ar' or language_code == 'he' or language_code == 'fa' or language_code == 'ur'
+    assign direction = 'rtl'
+  endif
+  assign redeemable = false
+  if gift_card != blank and gift_card.enabled and gift_card.expired == false and gift_card.balance > 0
+    assign redeemable = true
+  endif
+  assign store_url = shop.url | append: routes.root_url
+%}
+<!doctype html>
+<html data-control-language="elarune" lang="{{ request.locale.iso_code | escape }}" dir="{{ direction }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="referrer" content="no-referrer">
+    <title>{{ 'gift_card.title' | t | escape }} — {{ shop.name | escape }}</title>
+    {{ content_for_header }}
+    {{ 'gift-card.css' | asset_url | stylesheet_tag }}
+    {% style %}
+      :root { --gift-bg: {{ settings.color_background }}; --gift-ink: {{ settings.color_text }}; --gift-accent: {{ settings.color_accent }}; --color-bg:var(--gift-bg); --color-ink:var(--gift-ink); --color-accent:var(--gift-accent); --color-on-accent:{{ settings.color_on_accent }}; --color-line:{{ settings.color_line }}; --color-muted:{{ settings.color_muted }}; --color-hover:{{ settings.color_hover }}; --color-on-hover:{{ settings.color_on_hover }}; }
+    {% endstyle %}
+    {% if gift_card != blank and gift_card.qr_identifier != blank %}
+      <script id="GiftCardQrLibrary" src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+    {% endif %}
+    <script src="{{ 'gift-card.js' | asset_url }}" type="module"></script>
+    {{ 'control-language.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body class="gift-page">
+    <main class="gift-page__main">
+      <header class="gift-page__header">
+        <a class="gift-page__brand" href="{{ store_url | escape }}">{{ shop.name | escape }}</a>
+        <h1>{{ 'gift_card.title' | t }}</h1>
+      </header>
+      {% if gift_card != blank %}
+        <elarune-gift-card class="gift-card">
+          <div class="gift-card__value">
+            <dl>
+              <dt>{{ 'gift_card.balance' | t }}</dt>
+              <dd class="gift-card__balance">{{ gift_card.balance | money_with_currency }}</dd>
+              {% if gift_card.initial_value != gift_card.balance %}
+                <dt>{{ 'gift_card.initial_value' | t }}</dt>
+                <dd class="gift-card__initial">{{ gift_card.initial_value | money_with_currency }}</dd>
+              {% endif %}
+            </dl>
+          </div>
+          <div class="gift-card__details">
+            {% if gift_card.send_on != blank %}
+              {% assign scheduled_date = gift_card.send_on | date: '%Y-%m-%d' %}
+              <p class="gift-card__expiry">{{ 'gift_recipient.scheduled' | t: date: scheduled_date }}</p>
+            {% endif %}
+            {% unless gift_card.enabled %}
+              <p class="gift-card__state">{{ 'gift_card.disabled' | t }}</p>
+            {% elsif gift_card.expired %}
+              <p class="gift-card__state">{{ 'gift_card.expired' | t }}</p>
+            {% elsif gift_card.balance == 0 %}
+              <p class="gift-card__state">{{ 'gift_card.empty_balance' | t }}</p>
+            {% endunless %}
+            {% if gift_card.expires_on != blank %}
+              {% assign expiry_date = gift_card.expires_on | date: '%Y-%m-%d' %}
+              <p class="gift-card__expiry">{% if gift_card.expired %}{{ 'gift_card.expired_on' | t: date: expiry_date }}{% else %}{{ 'gift_card.expires_on' | t: date: expiry_date }}{% endif %}</p>
+            {% endif %}
+            {% if gift_card.code != blank %}
+              <h2 id="GiftCardCodeLabel">{{ 'gift_card.code' | t }}</h2>
+              <code id="GiftCardCode" class="gift-card__code" dir="ltr" aria-labelledby="GiftCardCodeLabel">{{ gift_card.code | format_code | escape }}</code>
+              {% if redeemable %}<p>{{ 'gift_card.instruction' | t }}</p>{% endif %}
+              <button data-control="primary" class="gift-card__button" type="button" data-copy hidden>{{ 'gift_card.copy' | t }}</button>
+              <p class="gift-card__feedback" role="status" aria-live="polite" aria-atomic="true" data-copy-status data-success="{{ 'gift_card.copied' | t | escape }}" data-failure="{{ 'gift_card.copy_failed' | t | escape }}"></p>
+            {% endif %}
+            {% if gift_card.qr_identifier != blank %}
+              <div class="gift-card__qr" data-qr-identifier="{{ gift_card.qr_identifier | escape }}" aria-hidden="true" hidden></div>
+            {% endif %}
+            {% if gift_card.message != blank %}
+              <div class="gift-card__message">
+                <h2>{{ 'gift_card.message' | t }}</h2>
+                <p>{{ gift_card.message | escape | newline_to_br }}</p>
+              </div>
+            {% endif %}
+            <div class="gift-card__actions">
+              {% if redeemable and gift_card.pass_url != blank %}<a data-control="text" class="gift-card__link" href="{{ gift_card.pass_url | escape }}" rel="noreferrer">{{ 'gift_card.wallet' | t }}</a>{% endif %}
+              <button data-control="text" class="gift-card__link" type="button" data-print hidden>{{ 'gift_card.print' | t }}</button>
+            </div>
+          </div>
+        </elarune-gift-card>
+      {% else %}
+        <p class="gift-page__unavailable">{{ 'gift_card.unavailable' | t }}</p>
+      {% endif %}
+      <footer class="gift-page__footer"><a data-control="text" class="gift-card__link" href="{{ store_url | escape }}">{{ 'gift_card.shop' | t }}</a></footer>
+    </main>
+  </body>
+</html>

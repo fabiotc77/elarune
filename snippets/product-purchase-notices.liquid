@@ -1,0 +1,4 @@
+{% if cart.taxes_included %}<p class="muted">{{ 'product_purchase_notices.taxes_included' | t }}</p>{% endif %}
+{% if cart.duties_included %}<p class="muted">{{ 'product_purchase_notices.duties_included' | t }}</p>{% endif %}
+{%- comment -%}A gift card is delivered by email, so the shipping policy is not relevant to it.{%- endcomment -%}
+{% if shop.shipping_policy.body != blank and product.gift_card? != true %}<p><a href="{{ shop.shipping_policy.url }}">{{ 'product_purchase_notices.shipping_policy' | t }}</a></p>{% endif %}

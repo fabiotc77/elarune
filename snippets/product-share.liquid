@@ -1,0 +1,65 @@
+{{ 'product-share.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-share.js' | asset_url }}" type="module"></script>
+{%- assign share_url = product.url | prepend: request.origin -%}
+{%- assign share_title = product.title -%}
+<product-share class="product-share" data-url="{{ share_url | escape }}" data-title="{{ share_title | escape }}" data-copied-label="{{ 'product.link_copied' | t | escape }}">
+  <details class="product-share__disclosure" id="ProductShare-{{ section_id }}">
+    <summary class="product-share__trigger" data-control="disclosure" aria-haspopup="dialog">
+      <svg class="product-share__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+        <circle cx="18" cy="5" r="3"/>
+        <circle cx="6" cy="12" r="3"/>
+        <circle cx="18" cy="19" r="3"/>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+      </svg>
+      <span class="product-share__trigger-text">{% if block.settings.heading != blank %}{{ block.settings.heading | escape }}{% else %}{{ 'product.share' | t }}{% endif %}</span>
+    </summary>
+    <div class="product-share__popover" role="dialog" aria-label="{{ 'product.share_product' | t | escape }}">
+      <div class="product-share__header">
+        <span class="product-share__title">{{ 'product.share_product' | t }}</span>
+        <button type="button" class="product-share__close-btn" data-share-close aria-label="{{ 'product.close_share' | t | escape }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="product-share__copy-row">
+        <input type="text" class="product-share__input" value="{{ share_url | escape }}" readonly aria-label="{{ 'product.copy_link' | t | escape }}" data-share-input>
+        <button type="button" class="product-share__copy-action" data-share-copy aria-label="{{ 'product.copy_link' | t | escape }}">
+          <span class="product-share__copy-state product-share__copy-state--default">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            <span>{{ 'product.copy_link' | t }}</span>
+          </span>
+          <span class="product-share__copy-state product-share__copy-state--success" hidden>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>{{ 'product.link_copied' | t }}</span>
+          </span>
+        </button>
+      </div>
+      <div class="product-share__grid" role="list">
+        <a href="https://api.whatsapp.com/send?text={{ share_title | url_encode }}%20{{ share_url | url_encode }}" class="product-share__link product-share__link--whatsapp" target="_blank" rel="noopener noreferrer" aria-label="{{ 'product.share_on' | t: platform: 'WhatsApp' | escape }}" role="listitem">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.7A8.5 8.5 0 1 1 20.5 11.5Z"/><path d="m8 7 2 3-1 1c1 2 2 3 4 4l1-1 3 1c-1 4-6 1-8-1S5 8 8 7Z"/></svg>
+          <span>{{ 'product.share_whatsapp' | t }}</span>
+        </a>
+        <a href="https://twitter.com/intent/tweet?text={{ share_title | url_encode }}&url={{ share_url | url_encode }}" class="product-share__link product-share__link--x" target="_blank" rel="noopener noreferrer" aria-label="{{ 'product.share_on' | t: platform: 'X' | escape }}" role="listitem">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="m4 3 16 18h-4L4 3h4l12 18M20 3 4 21"/></svg>
+          <span>X</span>
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ share_url | url_encode }}" class="product-share__link product-share__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="{{ 'product.share_on' | t: platform: 'Facebook' | escape }}" role="listitem">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M14 21v-8h3l.5-4H14V7c0-1 .5-2 2-2h2V2h-3c-4 0-5 3-5 5v2H7v4h3v8"/></svg>
+          <span>{{ 'product.share_facebook' | t }}</span>
+        </a>
+        {% if product.featured_image != blank %}
+          {% assign image_url = product.featured_image | image_url: width: 1200 | prepend: 'https:' %}
+          <a href="https://pinterest.com/pin/create/button/?url={{ share_url | url_encode }}&media={{ image_url | url_encode }}&description={{ share_title | url_encode }}" class="product-share__link product-share__link--pinterest" target="_blank" rel="noopener noreferrer" aria-label="{{ 'product.share_on' | t: platform: 'Pinterest' | escape }}" role="listitem">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="m9 21 3-12m-1 7c7 3 11-10 3-12C4 1 1 15 7 17m5-8c3-3 6 4 2 6-3 2-5-2-3-5"/></svg>
+            <span>{{ 'product.share_pinterest' | t }}</span>
+          </a>
+        {% endif %}
+        <a href="mailto:?subject={{ share_title | url_encode }}&body={{ share_url | url_encode }}" class="product-share__link product-share__link--email" aria-label="{{ 'product.share_on' | t: platform: 'Email' | escape }}" role="listitem">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>{{ 'product.share_email' | t }}</span>
+        </a>
+      </div>
+      <div class="product-share__live-feedback visually-hidden" aria-live="polite" data-share-feedback></div>
+    </div>
+  </details>
+</product-share>

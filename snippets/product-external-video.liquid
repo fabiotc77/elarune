@@ -1,0 +1,34 @@
+{% doc %}
+  User-initiated YouTube/Vimeo player with a native direct link fallback.
+  @param {external_video} media - Current Shopify external video.
+  @param {product} product - Current product, for the title fallback.
+  @param {string} section_id - Owning section identity.
+  @param {boolean} has_priority_media - Whether earlier gallery media has priority.
+{% enddoc %}
+{% if media.host == 'youtube' or media.host == 'vimeo' %}
+  {% if media.external_id != blank %}
+    {% assign video_title = media.alt | default: product.title %}
+    {% assign video_url = media | external_video_url: autoplay: '0', loop: '0', controls: '1', playsinline: '1' %}
+    {% assign video_id = 'ExternalVideo-' | append: section_id | append: '-' | append: media.id %}
+    {% assign video_ratio = media.aspect_ratio | default: 1.777778 %}
+    {% if video_ratio <= 0 %}{% assign video_ratio = 1.777778 %}{% endif %}
+    {% assign poster_loading = 'eager' %}{% if has_priority_media %}{% assign poster_loading = 'lazy' %}{% endif %}
+    <elarune-external-video>
+      <figure class="product-external-video">
+        <button data-control="text" type="button" class="product-external-video__close text-link" data-external-close hidden>{{ 'external_video.close' | t }}</button>
+        <div class="product-external-video__stage" style="--video-ratio: {{ video_ratio }}">
+          <a href="{{ video_url | escape }}" class="product-external-video__open" aria-describedby="{{ video_id }}-title" data-external-open>
+            {% if media.preview_image != blank %}
+              {{ media.preview_image | image_url: width: 1000 | image_tag: widths: '400, 700, 1000', sizes: '(min-width: 750px) 50vw, 100vw', loading: poster_loading, alt: '' }}
+            {% endif %}
+            <span class="product-external-video__action"><span aria-hidden="true">▷</span> {{ 'external_video.watch' | t }}</span>
+          </a>
+          <div id="{{ video_id }}-player" class="product-external-video__player" data-external-player hidden></div>
+        </div>
+        <figcaption id="{{ video_id }}-title">{{ video_title | escape }}</figcaption>
+        <a data-control="text" class="product-external-video__direct text-link" href="{{ video_url | escape }}">{{ 'external_video.direct' | t }}</a>
+        <template data-external-template>{{ media | external_video_url: autoplay: '0', loop: '0', controls: '1', playsinline: '1' | external_video_tag: title: video_title, loading: 'lazy' }}</template>
+      </figure>
+    </elarune-external-video>
+  {% endif %}
+{% endif %}

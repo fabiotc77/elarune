@@ -1,0 +1,154 @@
+{
+  "sections": {
+    "campaign": {
+      "type": "premium-campaign",
+      "settings": {
+        "heading": "The daily campaign",
+        "mode": "full",
+        "height": "large",
+        "position": "center_left",
+        "mobile_position": "bottom_left",
+        "overlay_opacity": 45,
+        "autoplay": false,
+        "duration": 600,
+        "experience_motion": "rise"
+      },
+      "blocks": {
+        "daily": {
+          "type": "slide",
+          "settings": {
+            "image": "",
+            "eyebrow": "THE DAILY COLLECTION",
+            "heading": "A moment. Entirely yours.",
+            "text": "A considered collection, from first drop to final layer.",
+            "link": "shopify://collections/all",
+            "label": "Explore the collection"
+          }
+        },
+        "texture": {
+          "type": "slide",
+          "settings": {
+            "image": "",
+            "eyebrow": "A STUDY IN TEXTURE",
+            "heading": "The beauty of a small ritual.",
+            "text": "Look closer at the texture, then discover the collection.",
+            "link": "shopify://collections/all",
+            "label": "Discover your essentials"
+          }
+        }
+      },
+      "block_order": [
+        "daily",
+        "texture"
+      ]
+    },
+    "essentials": {
+      "type": "editorial-rail",
+      "settings": {
+        "eyebrow": "THE DAILY EDIT",
+        "heading": "Your daily essentials.",
+        "kind": "products",
+        "ratio": "portrait",
+        "experience_width": "wide"
+      },
+      "blocks": {
+        "product_0": {
+          "type": "item",
+          "settings": {
+            "product": ""
+          }
+        },
+        "product_1": {
+          "type": "item",
+          "settings": {
+            "product": ""
+          }
+        },
+        "product_2": {
+          "type": "item",
+          "settings": {
+            "product": ""
+          }
+        },
+        "product_3": {
+          "type": "item",
+          "settings": {
+            "product": ""
+          }
+        },
+        "product_4": {
+          "type": "item",
+          "settings": {
+            "product": ""
+          }
+        },
+        "product_5": {
+          "type": "item",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "product_0",
+        "product_1",
+        "product_2",
+        "product_3",
+        "product_4",
+        "product_5"
+      ]
+    },
+    "story": {
+      "type": "shoppable-editorial",
+      "settings": {
+        "eyebrow": "A CLOSER LOOK",
+        "heading": "Explore the daily collection.",
+        "text": "Open a product to select your size and add it to your bag.",
+        "image": "",
+        "experience_width": "wide"
+      },
+      "blocks": {
+        "product_0": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "x": 33,
+            "y": 48,
+            "mobile_x": 33,
+            "mobile_y": 48
+          }
+        },
+        "product_1": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "x": 50,
+            "y": 62,
+            "mobile_x": 50,
+            "mobile_y": 62
+          }
+        },
+        "product_2": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "x": 73,
+            "y": 70,
+            "mobile_x": 73,
+            "mobile_y": 70
+          }
+        }
+      },
+      "block_order": [
+        "product_0",
+        "product_1",
+        "product_2"
+      ]
+    }
+  },
+  "order": [
+    "campaign",
+    "essentials",
+    "story"
+  ]
+}

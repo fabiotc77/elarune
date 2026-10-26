@@ -1,0 +1,264 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "sticky_add_to_cart": true,
+        "experience_gallery": "editorial"
+      },
+      "blocks": {
+        "vendor": {
+          "type": "vendor"
+        },
+        "title": {
+          "type": "title"
+        },
+        "description": {
+          "type": "description"
+        },
+        "price": {
+          "type": "price"
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "dynamic_checkout": true
+          }
+        },
+        "usage": {
+          "type": "accordion",
+          "settings": {
+            "heading": "How to use",
+            "content": "<p>Describe where this product sits in a routine and how much to use. Keep the guidance short: two or three sentences is usually enough.</p>"
+          }
+        },
+        "ingredients": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Ingredients",
+            "content": "<p>Add the full ingredient list here, in the order required by the markets you sell in.</p>"
+          }
+        },
+        "packaging": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Format and packaging",
+            "content": "<p>Describe the format, the container and the sizes offered. Sizes and prices come from the product options above.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "description",
+        "price",
+        "buy",
+        "usage",
+        "ingredients",
+        "packaging"
+      ]
+    },
+    "story": {
+      "type": "brand-story",
+      "settings": {
+        "image": "",
+        "eyebrow": "THE STORY",
+        "heading": "Where this product comes from.",
+        "text": "<p>Use this space for the short story behind the product: the idea, the format, the choices you made. Add an image on the left to give it weight.</p>",
+        "background": "#45212B",
+        "text_color": "#FAF8F5",
+        "link": "shopify://collections/all",
+        "link_label": "Shop the collection"
+      },
+      "blocks": {
+        "format": {
+          "type": "detail",
+          "settings": {
+            "label": "Format",
+            "value": "Add the format"
+          }
+        },
+        "chapter": {
+          "type": "detail",
+          "settings": {
+            "label": "Step",
+            "value": "Add the routine step"
+          }
+        }
+      },
+      "block_order": [
+        "format",
+        "chapter"
+      ]
+    },
+    "routine": {
+      "type": "routine-chapters",
+      "settings": {
+        "eyebrow": "THE ROUTINE",
+        "heading": "Morning and evening, step by step.",
+        "text": "Pick a product for each step. Empty steps are hidden on the storefront.",
+        "default_routine": "morning"
+      },
+      "blocks": {
+        "morning_1": {
+          "type": "step",
+          "settings": {
+            "heading": "Cleanse",
+            "product": "",
+            "period": "morning",
+            "text": "Add a short line about this step, then choose the product it points to."
+          }
+        },
+        "morning_2": {
+          "type": "step",
+          "settings": {
+            "heading": "Treat",
+            "product": "",
+            "period": "morning",
+            "text": "Add a short line about this step, then choose the product it points to."
+          }
+        },
+        "morning_3": {
+          "type": "step",
+          "settings": {
+            "heading": "Moisturize",
+            "product": "",
+            "period": "morning",
+            "text": "Add a short line about this step, then choose the product it points to."
+          }
+        },
+        "evening_1": {
+          "type": "step",
+          "settings": {
+            "heading": "Cleanse",
+            "product": "",
+            "period": "evening",
+            "text": "Add a short line about this step, then choose the product it points to."
+          }
+        },
+        "evening_2": {
+          "type": "step",
+          "settings": {
+            "heading": "Treat",
+            "product": "",
+            "period": "evening",
+            "text": "Add a short line about this step, then choose the product it points to."
+          }
+        },
+        "evening_3": {
+          "type": "step",
+          "settings": {
+            "heading": "Moisturize",
+            "product": "",
+            "period": "evening",
+            "text": "Add a short line about this step, then choose the product it points to."
+          }
+        }
+      },
+      "block_order": [
+        "morning_1",
+        "morning_2",
+        "morning_3",
+        "evening_1",
+        "evening_2",
+        "evening_3"
+      ]
+    },
+    "comparison": {
+      "type": "product-comparison",
+      "settings": {
+        "heading": "Compare the range.",
+        "introduction": "Choose up to three products. Prices and availability come from your catalog.",
+        "product_1": "",
+        "product_2": "",
+        "product_3": ""
+      },
+      "blocks": {
+        "chapter": {
+          "type": "detail",
+          "settings": {
+            "title": "Ritual chapter",
+            "value_1": "",
+            "value_2": "",
+            "value_3": ""
+          }
+        },
+        "format": {
+          "type": "detail",
+          "settings": {
+            "title": "Format",
+            "value_1": "",
+            "value_2": "",
+            "value_3": ""
+          }
+        },
+        "pack": {
+          "type": "detail",
+          "settings": {
+            "title": "Packaging",
+            "value_1": "",
+            "value_2": "",
+            "value_3": ""
+          }
+        }
+      },
+      "block_order": [
+        "chapter",
+        "format",
+        "pack"
+      ]
+    },
+    "complementary": {
+      "type": "complementary-products",
+      "settings": {
+        "source": "recommendations",
+        "heading": "Goes well with",
+        "introduction": "",
+        "products": [],
+        "product_limit": 2
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "heading": "Frequently asked"
+      },
+      "blocks": {
+        "sizes": {
+          "type": "question",
+          "settings": {
+            "question": "How do I choose a size?",
+            "answer": "<p>Choose a size in the product options above. The price and the add-to-cart button update with your selection.</p>"
+          }
+        },
+        "set": {
+          "type": "question",
+          "settings": {
+            "question": "Are these sold as a set?",
+            "answer": "<p>Each product is sold separately. Open a product to choose its options.</p>"
+          }
+        },
+        "guide": {
+          "type": "question",
+          "settings": {
+            "question": "How do I get in touch?",
+            "answer": "<p>Use the contact page to reach the team with a question about an order or a product.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "sizes",
+        "set",
+        "guide"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "story",
+    "routine",
+    "comparison",
+    "complementary",
+    "faq"
+  ]
+}

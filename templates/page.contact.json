@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-contact",
+      "settings": { "show_phone": false }
+    }
+  },
+  "order": ["main"]
+}

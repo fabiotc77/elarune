@@ -1,0 +1,37 @@
+{% liquid
+  assign line_can_update = true
+  assign line_can_remove = true
+  if item.instructions.can_update_quantity == false
+    assign line_can_update = false
+  endif
+  if item.instructions.can_remove == false
+    assign line_can_remove = false
+  endif
+  assign quantity_step = item.variant.quantity_rule.increment | default: 1
+  assign native_min = item.variant.quantity_rule.min | default: 1
+  assign quantity_min = 0
+  if native_min > 1
+    assign quantity_min = native_min
+  endif
+  unless line_can_remove
+    assign quantity_min = native_min | at_least: quantity_step
+  endunless
+  assign line_label = item.product.title
+  unless item.product.has_only_default_variant
+    if item.variant.title != blank
+      assign line_label = line_label | append: ' — ' | append: item.variant.title
+    endif
+  endunless
+%}
+{% if line_can_update %}
+  <label for="Quantity-{{ item.index | plus: 1 }}">{{ 'product.quantity' | t }}</label><quantity-stepper data-increase="{{ 'premium.increase' | t | escape }}" data-decrease="{{ 'premium.decrease' | t | escape }}"><input data-control="quantity" id="Quantity-{{ item.index | plus: 1 }}" type="number" name="updates[]" value="{{ item.quantity }}" required min="{{ quantity_min }}" step="{{ quantity_step }}"{% if item.variant.quantity_rule.max != blank %} max="{{ item.variant.quantity_rule.max }}"{% endif %} aria-label="{{ 'product.quantity' | t | escape }}: {{ line_label | escape }}"></quantity-stepper>
+{% else %}
+  <input type="hidden" name="updates[]" value="{{ item.quantity }}">
+  <p class="cart-line-quantity"><span>{{ 'product.quantity' | t }}</span> <bdi>{{ item.quantity }}</bdi></p>
+  <p class="cart-line-instruction">{{ 'cart_relationship.quantity_fixed' | t }}</p>
+{% endif %}
+{% if line_can_remove %}
+  <a data-control="text" class="text-link" data-cart-remove href="{{ item.url_to_remove | escape }}" aria-label="{{ 'cart.remove' | t | escape }}: {{ line_label | escape }}">{{ 'cart.remove' | t }}</a>
+{% else %}
+  <p class="cart-line-instruction">{{ 'cart_relationship.remove_fixed' | t }}</p>
+{% endif %}

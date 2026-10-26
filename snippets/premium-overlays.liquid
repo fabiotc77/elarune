@@ -1,0 +1,11 @@
+{% if settings.experience_quick_view or settings.experience_cart_drawer or settings.experience_search_drawer %}
+<premium-overlays data-details="{{ 'premium.details' | t | escape }}" data-view-product="{{ 'product_comparison.view_product' | t | escape }}" data-quick-view="{{ 'sensory.quick_view' | t | escape }}" data-adding="{{ 'cart_upsell.adding' | t | escape }}" data-added="{{ 'sensory.added' | t | escape }}" data-uncertain="{{ 'cart_upsell.uncertain' | t | escape }}" data-review="{{ 'cart_feedback.review' | t | escape }}" data-cart-url="{{ routes.cart_url }}" data-search-url="{{ routes.search_url }}" data-cart-module="{{ 'cart-page.js' | asset_url }}" data-product-module="{{ 'product-submit.js' | asset_url }}" data-search-module="{{ 'predictive-search.js' | asset_url }}" data-loading="{{ 'premium.loading' | t | escape }}" data-error="{{ 'premium.unavailable' | t | escape }}">
+ <dialog class="premium-panel" aria-labelledby="PremiumPanelTitle">
+  <div class="premium-panel-bar"><h2 id="PremiumPanelTitle">{{ 'sensory.quick_view' | t }}</h2><button data-control="icon" class="premium-panel-close" type="button" data-panel-close aria-label="{{ 'image_zoom.close' | t }}">×</button></div>
+  <p class="premium-panel-status" role="status" aria-live="polite"></p>
+  <div class="premium-panel-content"></div>
+  <a data-control="text" class="premium-panel-fallback text-link" data-panel-fallback href="{{ routes.cart_url }}">{{ 'cart_feedback.review' | t }}</a>
+ </dialog>
+</premium-overlays>
+<script src="{{ 'premium-overlays.js' | asset_url }}" type="module"></script>
+{% endif %}
